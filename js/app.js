@@ -35,7 +35,7 @@ Ext.onReady( function(){
 	// Menu tree panel
 	widgets.menuTree = Ext.create( 'Ext.tree.Panel', {
         id: 'tree-panel',
-        title: 'Навигация',
+        title: 'РќР°РІРёРіР°С†РёСЏ',
         region: 'north',
         split: true,
         height: 360,

@@ -2,7 +2,7 @@
 	text: 'Root',
 	children: [
 	{
-		text:'Успеваемость',
+		text:'РЈСЃРїРµРІР°РµРјРѕСЃС‚СЊ',
 		expanded: true,
 		children:[
 			{
@@ -18,7 +18,7 @@
 		]
 	},
 	{
-		text:'Учебная нагрузка',
+		text:'РЈС‡РµР±РЅР°СЏ РЅР°РіСЂСѓР·РєР°',
 		children:[
 			{
 				text:'Center',
@@ -28,7 +28,7 @@
 		]
 	},
 	{
-		text:'Настройки',
+		text:'РќР°СЃС‚СЂРѕР№РєРё',
 		children:[{
 			text:'Absolute Layout Form',
 			id:'abs-form',
