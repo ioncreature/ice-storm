@@ -1,0 +1,42 @@
+{
+	text: 'Root',
+	children: [
+	{
+		text:'Успеваемость',
+		expanded: true,
+		children:[
+			{
+				text:'Absolute',
+				id:'absolute',
+				leaf:true
+			},
+			{
+				text:'Accordion',
+				id:'accordion',
+				leaf:true
+			}
+		]
+	},
+	{
+		text:'Учебная нагрузка',
+		children:[
+			{
+				text:'Center',
+				id:'center',
+				leaf:true
+			}
+		]
+	},
+	{
+		text:'Настройки',
+		children:[{
+			text:'Absolute Layout Form',
+			id:'abs-form',
+			leaf:true
+		},{
+			text:'Tabs with Nested Layouts',
+			id:'tabs-nested-layouts',
+			leaf:true
+		}]
+	}]
+}
