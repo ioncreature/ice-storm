@@ -13,16 +13,9 @@ class ACL{
 	
 	
 	public function __construct( $user_id, $driver_name = 'ACL_MySQL_Driver' ){
-		$user_id = (int) $user_id;
-		if ( ! $user_id )
-			throw new ACL_Exception( "ACL::__constuct : User id is 0, must be >= 1" );
+		$this->init( $user_id, $driver_name );
 		
-		$this->driver = new $driver_name;
-		$this->driver_name = $driver_name;
-		
-		$this->permissions_info = $this->driver->get_all_permissions();
-		$user_p = $this->driver->get_user_permissions();
-		
+		// Получаем групповые разрешения
 		$groups = $driver->get_groups( $user_id );
 		$groups_p = array();
 		foreach ( $groups as $group_id ){
@@ -30,10 +23,23 @@ class ACL{
 			$groups_p = $this->merge( $groups_p, $p );
 		}
 		
+		// Получаем пользовательские разрешения
+		$user_p = $this->driver->get_user_permissions();
 		$this->permissions = $this->merge( $user_p, $groups_p );
 		foreach ( $this->permissions_info as $key => $value )
 			if ( ! isset($this->permissions[$key]) )
 				$this->permissions[$key] = false;
+	}
+	
+	
+	protected function init( $user_id, $driver_name ){
+		$user_id = (int) $user_id;
+		if ( ! $user_id )
+			throw new ACL_Exception( "ACL::__constuct : User id is 0, must be >= 1" );
+		
+		$this->driver = new $driver_name;
+		$this->driver_name = $driver_name;
+		$this->permissions_info = $this->driver->get_all_permissions();
 	}
 	
 	
@@ -67,9 +73,22 @@ class ACL{
 }
 
 
+/**
+ * Класс для полного доступа 
+ */
+class ACL_Admin extends ACL{
+
+	public function __construct( $user_id, $driver_name = 'ACL_MySQL_Driver' ){
+		$this->init( $user_id, $driver_name );
+		
+		// устанавливаем все возможные разрешения в 'allow'
+		foreach ( $this->permissions_info as $key => $value )
+			$this->permissions[$key] = true;
+	}
+}
+
 
 abstract class ACL_Driver {
-	
 	
 	// Возвращает все разрешения
 	// массив вида: array( <perm_code_name>: <perm_full_name>, ... )
