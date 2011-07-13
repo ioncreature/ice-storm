@@ -8,7 +8,7 @@ class ACL{
 	
 	protected $permissions = array();
 	protected $permissions_info = array();
-	protected $driver_name = 'ACL_MySQL_Driver';
+	protected $driver_name;
 	protected $driver = false;
 	
 	
@@ -20,7 +20,7 @@ class ACL{
 		$this->driver = new $driver_name;
 		$this->driver_name = $driver_name;
 		
-		$this->$permissions_info = $this->driver->get_all_permissions();
+		$this->permissions_info = $this->driver->get_all_permissions();
 		$user_p = $this->driver->get_user_permissions();
 		
 		$groups = $driver->get_groups( $user_id );
@@ -71,24 +71,24 @@ class ACL{
 abstract class ACL_Driver {
 	
 	
-	// Возвращает все разрешения
-	// массив вида: array( <perm_code_name>: <perm_full_name>, ... )
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ СЂР°Р·СЂРµС€РµРЅРёСЏ
+	// РјР°СЃСЃРёРІ РІРёРґР°: array( <perm_code_name>: <perm_full_name>, ... )
 	abstract public function get_all_permissions();
 	
-	// Возвращает все права доступа пользователя
-	// массив вида: array( <perm_code_name>: true|false, ... )
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ РїСЂР°РІР° РґРѕСЃС‚СѓРїР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+	// РјР°СЃСЃРёРІ РІРёРґР°: array( <perm_code_name>: true|false, ... )
 	abstract public function get_user_permissions( $user_id );
 	
-	// Возвращает все права доступа группы
-	// массив вида: array( <perm_code_name>: true|false, ... )
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ РїСЂР°РІР° РґРѕСЃС‚СѓРїР° РіСЂСѓРїРїС‹
+	// РјР°СЃСЃРёРІ РІРёРґР°: array( <perm_code_name>: true|false, ... )
 	abstract public function get_group_permissions( $group_id );
 	
-	// Возвращает все группы в которые входит $user_id
-	// массив вида: array( <group1_id>, <group2_id>, ... )
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ РіСЂСѓРїРїС‹ РІ РєРѕС‚РѕСЂС‹Рµ РІС…РѕРґРёС‚ $user_id
+	// РјР°СЃСЃРёРІ РІРёРґР°: array( <group1_id>, <group2_id>, ... )
 	abstract public function get_groups( $user_id );
 	
-	// Возвращает всех пользователей, которые входят в $group_id
-	// массив вида: array( <user1_id>, <user2_id>, ... )
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№, РєРѕС‚РѕСЂС‹Рµ РІС…РѕРґСЏС‚ РІ $group_id
+	// РјР°СЃСЃРёРІ РІРёРґР°: array( <user1_id>, <user2_id>, ... )
 	abstract public function get_users( $group_id );
 }
 
@@ -103,7 +103,7 @@ class ACL_MySQL_Driver extends ACL_Driver{
 	}
 	
 	
-	// Возвращает массив вида: array( <perm_code_name>: <perm_full_name> )
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РјР°СЃСЃРёРІ РІРёРґР°: array( <perm_code_name>: <perm_full_name> )
 	public function get_all_permissions(){
 		$all = $this->db->query( "SELECT * FROM auth_permissions" );
 		$perm = array();
@@ -113,7 +113,7 @@ class ACL_MySQL_Driver extends ACL_Driver{
 	}
 	
 	
-	// Возвращает все права доступа пользователя
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ РїСЂР°РІР° РґРѕСЃС‚СѓРїР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 	public function get_user_permissions( $user_id ){
 		$user_id = (int) $user_id;
 		$user_p = $this->db->query("
@@ -138,7 +138,7 @@ class ACL_MySQL_Driver extends ACL_Driver{
 	}
 	
 	
-	// Возвращает все права доступа группы
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ РїСЂР°РІР° РґРѕСЃС‚СѓРїР° РіСЂСѓРїРїС‹
 	public function get_group_permissions( $group_id ){
 		$group_id = (int) $group_id;
 		$group_p = $this->db->query("
@@ -163,7 +163,7 @@ class ACL_MySQL_Driver extends ACL_Driver{
 	}
 	
 	
-	// Возвращает все группы в которые входит $user_id
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ РіСЂСѓРїРїС‹ РІ РєРѕС‚РѕСЂС‹Рµ РІС…РѕРґРёС‚ $user_id
 	public function get_groups( $user_id ){
 		$user_id = (int) $user_id;
 		$groups = $this->db->query("
@@ -182,7 +182,7 @@ class ACL_MySQL_Driver extends ACL_Driver{
 	}
 	
 	
-	// Возвращает всех пользователей, которые входят в $group_id
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№, РєРѕС‚РѕСЂС‹Рµ РІС…РѕРґСЏС‚ РІ $group_id
 	public function get_users( $group_id ){
 		$group_id = (int) $group_id;
 		$users = $this->db->query("
