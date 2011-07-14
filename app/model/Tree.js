@@ -5,16 +5,16 @@ Ext.define( 'IceStorm.store.Tree', {
 		text: 'Ext JS',
 		children: [
 			{
-				text:'Успеваемость',
+				text:'РЈСЃРїРµРІР°РµРјРѕСЃС‚СЊ',
 				expanded: true,
 				children:[
 					{
-						text:'Тратата',
+						text:'РўСЂР°С‚Р°С‚Р°',
 						id:'absolute',
 						leaf:true
 					},
 					{
-						text:'Тутуту',
+						text:'РўСѓС‚СѓС‚Сѓ',
 						id:'accordion',
 						leaf:true
 					}
