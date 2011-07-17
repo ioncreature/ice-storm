@@ -5,7 +5,8 @@
  */
 Ext.define('IceStorm.view.Viewport', {
 	extend: 'Ext.container.Viewport',
-	requires: [
+	requires: [	
+		'IceStorm.view.auth.Panel'
 	],
 
 	id: 'viewport',
@@ -19,15 +20,22 @@ Ext.define('IceStorm.view.Viewport', {
 				id: 'header',
 				region: 'north',
 				html: 'hello!',
+				layout: 'border',
 				style: {
 					margin: '6px 6px 4px 6px',
 					backgroundColor: '#FFF'
 				},
-				height: 40
+				height: 40,
+				items: [
+					{
+						xtype: 'loginpanel',
+						region: 'east'
+					}
+				]
 			},
 			{
 				region: 'west',
-				id: 'layout-browser',
+				id: 'right-container',
 				border: false,
 				split:true,
 				margins: '2 0 6 6',
@@ -35,19 +43,32 @@ Ext.define('IceStorm.view.Viewport', {
 				minSize: 100,
 				maxSize: 500,
 				items: [
-					menuTree
+					{
+						id: 'tree-panel',
+						// store: 'IceStorm.store.Tree',
+						store: 'menuTree',
+						title: 'Навигация',
+						split: true,
+						height: 360,
+						minSize: 150,
+						rootVisible: false,
+						autoScroll: true,
+						height: '100%'
+					}
 				]
-			}, 
+			},
 			{
 				id: 'content-panel',
+				xtype: 'panel',
 				region: 'center',
-				layout: 'card',
+				layout: 'auto',
 				margins: '2 6 6 0',
 				activeItem: 0,
+				html: 'hello',
 				border: false
 			}
 		];
-
 		this.callParent(arguments);
-	}
+	},
+	renderTo: document.body
 });

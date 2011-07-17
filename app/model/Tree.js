@@ -1,6 +1,7 @@
 // Menu tree store
 Ext.define( 'IceStorm.store.Tree', {
 	extend: 'Ext.data.TreeStore',
+	storeId: 'menuTree',
 	root: {
 		text: 'Ext JS',
 		children: [
