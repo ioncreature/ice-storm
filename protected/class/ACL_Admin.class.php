@@ -1,7 +1,7 @@
 <?php
 /*
 	Admin access list
-	Êëàññ äëÿ ïîëíîãî äîñòóïà - Àööêèé Îäìèí
+	ĞšĞ»Ğ°ÑÑ Ğ´Ğ»Ñ Ğ¿Ğ¾Ğ»Ğ½Ğ¾Ğ³Ğ¾ Ğ´Ğ¾ÑÑ‚ÑƒĞ¿Ğ° - ĞÑ†Ñ†ĞºĞ¸Ğ¹ ĞĞ´Ğ¼Ğ¸Ğ½
 	Marenin Alex
 	July 2011
 */
@@ -13,10 +13,10 @@ class ACL_Admin extends ACL{
 	}
 	
 	protected function set_access_list(){
-		// ïîäêëş÷àåì äğàéâåğ
+		// Ğ¿Ğ¾Ğ´ĞºĞ»ÑÑ‡Ğ°ĞµĞ¼ Ğ´Ñ€Ğ°Ğ¹Ğ²ĞµÑ€
 		$driver = new $this->driver_name;
 		
-		// óñòàíàâëèâàåì âñå ğàçğåøåíèÿ â true
+		// ÑƒÑÑ‚Ğ°Ğ½Ğ°Ğ²Ğ»Ğ¸Ğ²Ğ°ĞµĞ¼ Ğ²ÑĞµ Ñ€Ğ°Ğ·Ñ€ĞµÑˆĞµĞ½Ğ¸Ñ Ğ² true
 		$all_permissions = $driver->get_all_permissions();
 		foreach ( $all_permissions as $key => $name )
 			$this->permissions[$key] = true;

@@ -29,7 +29,7 @@ class ACL{
 		$driver = new $this->driver_name;
 		
 		if ( ! $this->user_id )
-			throw new ACL_Exception( "ACL::__constuct : User id is 0, must be >= 1" );
+			throw new ACL_Exception( "ACL::set_access_list : User id is 0, must be >= 1" );
 		
 		// Получаем групповые разрешения
 		$groups = $driver->get_groups( $this->user_id );
@@ -69,7 +69,6 @@ class ACL{
 	
 	
 	public function __wakeup(){
-		// $this->driver = new $this->driver_name;
 	}
 }
 ?>

@@ -7,27 +7,27 @@
 */
 abstract class ACL_Driver {
 	
-	// Возвращает все разрешения
-	// массив вида: array( <perm_code_name>: <perm_full_name>, ... )
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ СЂР°Р·СЂРµС€РµРЅРёСЏ
+	// РјР°СЃСЃРёРІ РІРёРґР°: array( <perm_code_name>: <perm_full_name>, ... )
 	abstract public function get_all_permissions();
 	
-	// Возвращает все права доступа пользователя
-	// массив вида: array( <perm_code_name>: true|false, ... )
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ РїСЂР°РІР° РґРѕСЃС‚СѓРїР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+	// РјР°СЃСЃРёРІ РІРёРґР°: array( <perm_code_name>: true|false, ... )
 	abstract public function get_user_permissions( $user_id );
 	
-	// Возвращает все права доступа группы
-	// массив вида: array( <perm_code_name>: true|false, ... )
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ РїСЂР°РІР° РґРѕСЃС‚СѓРїР° РіСЂСѓРїРїС‹
+	// РјР°СЃСЃРёРІ РІРёРґР°: array( <perm_code_name>: true|false, ... )
 	abstract public function get_group_permissions( $group_id );
 	
-	// Возвращает все группы в которые входит $user_id
-	// массив вида: array( <group1_id>, <group2_id>, ... )
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ РіСЂСѓРїРїС‹ РІ РєРѕС‚РѕСЂС‹Рµ РІС…РѕРґРёС‚ $user_id
+	// РјР°СЃСЃРёРІ РІРёРґР°: array( <group1_id>, <group2_id>, ... )
 	abstract public function get_groups( $user_id );
 	
-	// Возвращает всех пользователей, которые входят в $group_id
-	// массив вида: array( <user1_id>, <user2_id>, ... )
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№, РєРѕС‚РѕСЂС‹Рµ РІС…РѕРґСЏС‚ РІ $group_id
+	// РјР°СЃСЃРёРІ РІРёРґР°: array( <user1_id>, <user2_id>, ... )
 	abstract public function get_users( $group_id );
 	
-	// Возвращает идентификатор группы
+	// Р’РѕР·РІСЂР°С‰Р°РµС‚ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РіСЂСѓРїРїС‹
 	abstract public function get_group_by_name( $group_name );
 }
 ?>

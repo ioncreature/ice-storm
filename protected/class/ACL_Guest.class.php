@@ -1,7 +1,7 @@
 <?php
 /*
 	Guest access list
-	Êëàññ äëÿ ãîñòåâîãî äîñòóïà
+	ĞšĞ»Ğ°ÑÑ Ğ´Ğ»Ñ Ğ³Ğ¾ÑÑ‚ĞµĞ²Ğ¾Ğ³Ğ¾ Ğ´Ğ¾ÑÑ‚ÑƒĞ¿Ğ°
 	Marenin Alex
 	July 2011
 */
@@ -13,7 +13,7 @@ class ACL_Guest extends ACL{
 	}
 	
 	protected function set_access_list(){
-		// ïîäêëş÷àåì äğàéâåğ
+		// Ğ¿Ğ¾Ğ´ĞºĞ»ÑÑ‡Ğ°ĞµĞ¼ Ğ´Ñ€Ğ°Ğ¹Ğ²ĞµÑ€
 		$driver = new $this->driver_name;
 		
 		$guest_group = $driver->get_group_by_name( 'guest' );
