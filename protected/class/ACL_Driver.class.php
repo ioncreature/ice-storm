@@ -29,5 +29,23 @@ abstract class ACL_Driver {
 	
 	// Возвращает идентификатор группы
 	abstract public function get_group_by_name( $group_name );
+	
+	
+	// раздел для РАЗРЕШЕНИЙ
+	
+	// Добавляет новое правило
+	// Возвращает true|false
+	abstract public function add_permission( $name, $description );
+	
+	
+	// USER/GROUP BIND section
+	
+	// Добавляет пользователя в группу
+	// Возвращает true|false
+	abstract public function bind_user_group( $user_id, $group_id );
+	
+	// Убирает пользователя из группы
+	// Возвращает true|false
+	abstract public function unbind_user_group( $user_id, $group_id );
 }
 ?>
