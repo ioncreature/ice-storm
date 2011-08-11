@@ -7,6 +7,9 @@
 */
 class ACL_MySQL_Driver extends ACL_Driver{
 	
+	// Singleton
+	protected static $instance = null;
+	
 	protected $db = false;
 	
 	public function __construct(){
@@ -120,6 +123,40 @@ class ACL_MySQL_Driver extends ACL_Driver{
 	}
 	
 	
+	// Возвращает список групп, в которых находится пользователь
+	// @returns array( 'group_id' => 'group_name', ... )
+	public function get_user_groups( $user_id ){
+		$user_id = (int) $user_id;
+		
+		$this->db->query("	
+			SELECT 
+				auth_users_groups.group_id,
+				auth_groups.code_name as name
+			FROM 
+				auth_users_groups
+				LEFT JOIN auth_groups ON auth_groups.id = auth_users_groups.group_id
+			WHERE user_id = '$user_id'
+		");
+		$out = array();
+		while ( $group = $this->db->fetch() )
+			$out[ (int) $group['group_id'] ] = $group['name'];
+		
+		return count( $out ) ? $out : false;
+	}
+	
+	
+	// Возвращает список идентификаторов пользователей, входящих в группу $group_id
+	// @returns array( Int user1_id, ... )
+	public function get_group_users( $group_id ){
+		$group_id = (int) $group_id;
+		
+		$this->db->query( "SELECT user_id FROM auth_users_groups WHERE group_id = '$group_id'" );
+		$out = array();
+		while ( $user = $this->db->fetch() )
+			$out[] = (int) $user['user_id'];
+	}
+	
+	
 	
 	// раздел для РАЗРЕШЕНИЙ
 	
@@ -181,6 +218,24 @@ class ACL_MySQL_Driver extends ACL_Driver{
 			LIMIT 1
 		");
 		return true;
+	}
+	
+	
+	// Проверка есть ли пользователь в группе
+	// Возвращает true|false
+	public function user_in_group( $user_id, $group_id ){
+		$user_id = (int) $user_id;
+		$group_id = (int) $group_id;
+		
+		$q = $this->db->fetch_query("
+			SELECT id 
+			FROM auth_users_groups
+			WHERE 
+				group_id = '$group_id' and
+				user_id = '$user_id'
+			LIMIT 1
+		");
+		return !!$q;
 	}
 }
 

@@ -7,6 +7,14 @@
 */
 abstract class ACL_Driver {
 	
+	// Singleton
+	protected static $instance = null;
+    public static function getInstance() {
+        if ( static::$instance == null )
+            static::$instance = new static;
+        return static::$instance;
+    }
+	
 	// Возвращает все разрешения
 	// массив вида: array( <perm_code_name>: <perm_full_name>, ... )
 	abstract public function get_all_permissions();
@@ -30,6 +38,15 @@ abstract class ACL_Driver {
 	// Возвращает идентификатор группы
 	abstract public function get_group_by_name( $group_name );
 	
+	// Возвращает список групп, в которых находится пользователь
+	// @returns array( 'group_id' => 'group_name', ... )
+	abstract public function get_user_groups( $user_id );
+	
+	// Возвращает список идентификаторов пользователей, входящих в группу $group_id
+	// @returns array( Int user1_id, ... )
+	abstract public function get_group_users( $group_id );
+	
+	
 	
 	// раздел для РАЗРЕШЕНИЙ
 	
@@ -47,5 +64,14 @@ abstract class ACL_Driver {
 	// Убирает пользователя из группы
 	// Возвращает true|false
 	abstract public function unbind_user_group( $user_id, $group_id );
+	
+	
+	
+	// Проверка есть ли пользователь в группе
+	// Возвращает true|false
+	abstract public function user_in_group( $user_id, $group_id );
+	
+	
+	
 }
 ?>

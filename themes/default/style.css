@@ -19,16 +19,7 @@ body {
 /* HEADER */
 div#header {
 	margin: 6px 6px 6px 6px;
-	height: 60px;
-	background-color: #BEC;
-}
-
-
-/* LEFTPANEL */
-div#leftpanel {
-	margin: 0px 0px 6px 6px;
-	width: 250px;
-	float: left;
+	padding: 6px;
 	background-color: #BEC;
 }
 
@@ -36,6 +27,13 @@ div#leftpanel {
 /* CONTENT BODY */
 div#body {
 	margin: 0px 6px 6px 6px;
-	float: right;
+	padding: 6px;
+	background-color: #BEC;
+}
+
+/* FOOTER */
+div#footer {
+	margin: 0px 6px 6px 6px;
+	padding: 6px;
 	background-color: #BEC;
 }
