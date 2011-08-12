@@ -2,8 +2,8 @@
 # Host:                         localhost
 # Server version:               5.1.51-community
 # Server OS:                    Win32
-# HeidiSQL version:             6.0.0.3889
-# Date/time:                    2011-07-18 01:23:53
+# HeidiSQL version:             6.0.0.3916
+# Date/time:                    2011-08-13 03:48:46
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -19,13 +19,17 @@ USE `ice-storm`;
 # Dumping structure for table ice-storm.auth_groups
 CREATE TABLE IF NOT EXISTS `auth_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(80) NOT NULL,
+  `code_name` varchar(50) NOT NULL,
+  `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-# Dumping data for table ice-storm.auth_groups: ~0 rows (approximately)
+# Dumping data for table ice-storm.auth_groups: ~2 rows (approximately)
 /*!40000 ALTER TABLE `auth_groups` DISABLE KEYS */;
+INSERT INTO `auth_groups` (`id`, `code_name`, `name`) VALUES
+	(1, 'admin', 'Administrators'),
+	(2, 'guest', 'Guests');
 /*!40000 ALTER TABLE `auth_groups` ENABLE KEYS */;
 
 
@@ -47,8 +51,8 @@ CREATE TABLE IF NOT EXISTS `auth_group_permissions` (
 # Dumping structure for table ice-storm.auth_permissions
 CREATE TABLE IF NOT EXISTS `auth_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `codename` varchar(100) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `description` varchar(100) NOT NULL,
   `resource_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -65,13 +69,16 @@ CREATE TABLE IF NOT EXISTS `auth_users` (
   `login` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `email` varchar(75) NOT NULL DEFAULT '',
+  `active` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
   UNIQUE KEY `human_id` (`human_id`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-# Dumping data for table ice-storm.auth_users: ~0 rows (approximately)
+# Dumping data for table ice-storm.auth_users: ~1 rows (approximately)
 /*!40000 ALTER TABLE `auth_users` DISABLE KEYS */;
+INSERT INTO `auth_users` (`id`, `human_id`, `login`, `password`, `email`, `active`) VALUES
+	(1, 0, 'admin', '5f5abc0e7c47e396b5a3bc7a8d17104d', 'great_muchacho@mail.ru', 'yes');
 /*!40000 ALTER TABLE `auth_users` ENABLE KEYS */;
 
 
@@ -214,6 +221,7 @@ CREATE TABLE IF NOT EXISTS `edu_lessons` (
   `theme_id` int(11) DEFAULT NULL,
   `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `hours` int(11) NOT NULL DEFAULT '1',
+  `homework` varchar(300) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -251,9 +259,9 @@ CREATE TABLE IF NOT EXISTS `edu_mark_absent_types` (
   `name` varchar(40) NOT NULL,
   `shortname` varchar(5) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Типы отсутствия на занятии';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Типы отсутствия на занятии';
 
-# Dumping data for table ice-storm.edu_mark_absent_types: ~2 rows (approximately)
+# Dumping data for table ice-storm.edu_mark_absent_types: ~5 rows (approximately)
 /*!40000 ALTER TABLE `edu_mark_absent_types` DISABLE KEYS */;
 INSERT INTO `edu_mark_absent_types` (`id`, `name`, `shortname`) VALUES
 	(1, 'Пропуск по неуважительной причине', 'н'),
@@ -262,6 +270,18 @@ INSERT INTO `edu_mark_absent_types` (`id`, `name`, `shortname`) VALUES
 	(4, 'Спортивные соревнования', 'спорт'),
 	(5, 'Другое', 'др');
 /*!40000 ALTER TABLE `edu_mark_absent_types` ENABLE KEYS */;
+
+
+# Dumping structure for table ice-storm.edu_mark_note
+CREATE TABLE IF NOT EXISTS `edu_mark_note` (
+  `mark_id` int(11) NOT NULL,
+  `note` varchar(300) NOT NULL,
+  PRIMARY KEY (`mark_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# Dumping data for table ice-storm.edu_mark_note: ~0 rows (approximately)
+/*!40000 ALTER TABLE `edu_mark_note` DISABLE KEYS */;
+/*!40000 ALTER TABLE `edu_mark_note` ENABLE KEYS */;
 
 
 # Dumping structure for table ice-storm.edu_students
