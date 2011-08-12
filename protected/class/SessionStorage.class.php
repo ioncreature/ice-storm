@@ -14,7 +14,7 @@ class SessionStorage implements ISession{
 	// Singleton
 	// Hold an instance of the class
     private static $instance;
-	public static function getInstance( $sid = false, $renew = true ){
+	public static function get_instance( $sid = false, $renew = true ){
 		if ( !isset(self::$instance) ){
             $c = __CLASS__;
             self::$instance = new $c( $sid, $renew );

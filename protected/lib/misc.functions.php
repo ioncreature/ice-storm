@@ -1,11 +1,4 @@
 <?php
-
-// Хеш-функция
-function mega_hash( $word ){
-	return md5( md5( $word ) . 'salt' );
-}
-
-
 // форматирование денег
 function formatnum($num, $type = 'money') {
 	switch($type) {
@@ -26,30 +19,28 @@ function formatnum($num, $type = 'money') {
 }
 
 
+function redirect( $path ){
+	header( 'Location: '. $path );
+	die;
+}
+
+
 // форматирование дат
 function formatdate($date, $format = "datetime", $toint = true) {
 	if ( $toint ) 
 		$date = strtotime($date);
-		
+	
+	$en_month = array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
+	$ru_month = array('января','февраля','марта','апреля','мая','июня','июля',
+				'августа','сентября','октября','ноября','декабря');
+	
 	switch ( $format ){
 		case "datetime":
 			return date("d.m.Y H:i:s", $date);
-			break;
-		
 		case "dateMtime":
-			return str_replace(
-			array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'),
-			array('января','февраля','марта','апреля','мая','июня','июля',
-				'августа','сентября','октября','ноября','декабря'),
-				date("j M Y в H:i", $date));
-				
+			return str_replace( $en_month, $ru_month, date("j M Y в H:i", $date) );
 		case "dateM":
-			return str_replace(
-			array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'),
-			array('января','февраля','марта','апреля','мая','июня','июля',
-				'августа','сентября','октября','ноября','декабря'),
-				date("j M Y", $date));
-		break;
+			return str_replace( $en_month, $ru_month, date("j M Y", $date));
 	}
 }
 

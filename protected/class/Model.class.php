@@ -13,45 +13,56 @@ abstract class Model{
 	protected $primary_key = 'id';
 	
 	protected $data = array();
-	protected $orig_data = null;
+	protected $orig_data = array();
 	protected $modified = false;
-	protected $new = true;
-	
+	protected $exists = false;
 	protected $db = null;
 	
-	
-	public __construct( $object_id = false ){
-		if ( $object_id !== false ){
+	public function __construct( $object_id = false ){
+		if ( $object_id !== false )
 			$this->get_by_id( $object_id );
-		}
 		else {
 			foreach ( $this->fields as $f )
-				$this->orig_data[$f] = null;
+				$this->orig_data[$f] = false;
 			$this->data = $this->orig_data;
 		}
 	}
 	
-	protected db_connect(){
+	
+	protected function db_connect(){
 		if ( $this->db === null )
 			$this->db = Fabric::get( 'db' );
 	}
 	
-	public __set( $key, $value ){
+	
+	public function __set( $key, $value ){
 		if ( isset($this->data[$key]) and ($this->data[$key] !== $value) )
 			$this->modified = true;
 		$this->data[$key] = $value;
 	}
 	
 	
-	public __get( $key ){
+	public function __get( $key ){
 		return isset($this->data[$key]) ? $this->data[$key] : false;
 	}
 	
 	
-	public __toString(){
-		if ( $this->new )
+	public function __toString(){
+		if ( ! $this->exists )
 			return 'Empty '. $this->model_name;
 		return var_export( $this->data, true );
+	}
+	
+	
+	public function __sleep(){
+		return array( 'data', 'orig_data', 'exists', 'table', 'fields', 'model_name', 'primary_key' );
+	}
+	
+	public function __wakeup(){
+	}
+	
+	public function exists(){
+		return $this->exists;
 	}
 	
 	
@@ -64,7 +75,7 @@ abstract class Model{
 		");
 		if ( $this->orig_data ){
 			$this->data = $this->orig_data;
-			$this->new = false;
+			$this->exists = true;
 			return true; 
 		}
 		
@@ -76,12 +87,15 @@ abstract class Model{
 	public function save(){
 		if ( !$this->modified )
 			return false;
-		
 		$this->db_connect();
 		
 		// Добавляем новую запись
-		if ( $this->new ){
-			$this->data[ $this->primary_key ] = $this->db->insert( $this->table, $this->data );
+		if ( ! $this->exists ){
+			$this->before_create();
+			$data = array_diff_key( $this->data, array($this->primary_key => true) );
+			$this->data[ $this->primary_key ] = $this->db->insert( $this->table, $data );
+			$this->exists = true;
+			die( $this->data[ $this->primary_key ]);
 			return $this->data[ $this->primary_key ];
 		}
 		
@@ -99,9 +113,17 @@ abstract class Model{
 		");
 		return $this->orig_data[ $this->primary_key ];
 	}
-
+	
+	
+	public function load( $data ){
+		$this->exists = true;
+		$this->data = $data;
+		$this->orig_data = $data;
+		return true;
+	}
+	
+	
+	protected function before_save(){
+	}
 }
-
-
-
 ?>

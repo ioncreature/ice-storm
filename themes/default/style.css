@@ -1,18 +1,18 @@
 html {
-	height: 100%;
 	min-width: 920px;
-}
-html * {
 	margin: 0px;
 	padding: 0px;
-	overflow: hidden;
 }
+/* html * {
+	margin: 0px;
+	padding: 0px;
+} */
 body {
-	height: 100%;
-	width: 100%;
+	display: block;
+	margin: 0px;
+	padding: 0px;
 	background: #f4f9fF;
 	font-size: 14px;
-	float: left;
 }
 
 
@@ -36,4 +36,26 @@ div#footer {
 	margin: 0px 6px 6px 6px;
 	padding: 6px;
 	background-color: #BEC;
+}
+
+
+/* MESSAGES */
+div.error {
+	border: 1px solid #C55;
+	background-color: #EBB;
+	margin: 10px 0px 5px 0px;
+	padding: 3px;
+	border-radius: 4px;
+}
+div.success {	
+	border: 1px solid #5C5;
+	background-color: #BEB;
+	margin: 10px 0px 5px 0px;
+	padding: 3px;
+	border-radius: 4px;
+}
+
+
+label{
+	display:block;
 }

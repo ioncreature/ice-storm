@@ -3,21 +3,16 @@
 	test module
 */
 
+
 //
-// ВЫВОД
-admintop();
+// Р’Р«Р’РћР”
+top();
 echo '<pre>';
-
-
-// ACL_User test
-// $user = new ACL_User( Auth::get_user_id() );
-// var_export($user);
-
 echo var_export( Auth::$acl, true);
 echo '</pre>';
 
-// Определяем текущую страницу
-$r = RequestParser::getInstance();
+// РћРїСЂРµРґРµР»СЏРµРј С‚РµРєСѓС‰СѓСЋ СЃС‚СЂР°РЅРёС†Сѓ
+$r = RequestParser::get_instance();
 $current_page = $r->is_int(1) ? $r->to_int(1) : 1;
 paginator(array(
 	'page_current' => $current_page,
@@ -26,4 +21,4 @@ paginator(array(
 ));
 ?>
 <p>Hello! This is a test page.</p>
-<?= adminbottom() ?>
+<?= bottom() ?>

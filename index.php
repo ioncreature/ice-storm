@@ -12,12 +12,12 @@ function __autoload( $name ){
 
 try {
 	// проверка авторизации
-	$a = Auth::getInstance();
+	$a = Auth::get_instance();
 	$db = Fabric::get( 'db' );
 	$acl = Auth::$acl;
 	
 	// обрабортка запроса
-	$r = RequestParser::getInstance();
+	$r = RequestParser::get_instance();
 	define( "APP_HASH", $r->getHash() );	
 	
 
@@ -28,14 +28,18 @@ try {
 	switch ( $r->get(0) ){
 		case "logout":
 			$a->logout();
-			header( 'Location: '. WEBURL );
-			die;
-			
+			redirect( WEBURL );
+		
+		case "register":
+			include "protected/modules/register.module.php";
+			break;
+		
+		// тестовая страница
 		case 'test':
 			include "protected/modules/test.module.php";
 			break;
 		
-		// По умолчанию - главная страница
+		// по умолчанию - главная страница
 		case "index":
 		default:
 			include "protected/modules/index.module.php";
@@ -55,5 +59,4 @@ catch ( SQLException $e ){
 catch ( Exception $e ){
 	echo "Неизвестная ошибка: ". $e->getMessage();
 }
-
 ?>

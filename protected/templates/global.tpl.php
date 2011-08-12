@@ -30,7 +30,6 @@ function top(){
 function bottom(){?>
 </div>
 <!-- FOOTER -->
-<!-- <div id="footer"></div> -->
 <?php $db = Fabric::get( 'db' ); ?>
 <!-- MySQL time: <?=$db->get_time()?> / <?=$db->get_query_count()?> -->
 </body></html>
@@ -59,8 +58,9 @@ function auth_form(){?>
 	<?php else: ?>
 	<form id="auth" method="POST" action="<?= WEBURL ?>">
 		<input type="text" name="login" value="" placeholder="Ваш логин" />
-		<input type="password" name="pass" value="" placeholder="Пароль" />
+		<input type="password" name="password" value="" placeholder="Пароль" />
 		<input type="submit" class="submit" value="Войти" />
+		<a href="<?= WEBURL .'register' ?>">регистрация</a>
 	</form>
 	<?php endif;
 }

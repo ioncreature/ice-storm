@@ -11,11 +11,12 @@ class Auth{
 	// класс для разграничения прав доступа
 	public		static $acl = false;	
 	protected	static $logged = false;
-	protected	static $user_id = false;
+	protected	static $user = null;
+	
 	
 	// Singleton
 	private static $instance = null;
-	public static function getInstance(){
+	public static function get_instance(){
         if ( static::$instance == null )
             static::$instance = new self;
         return static::$instance;
@@ -23,12 +24,12 @@ class Auth{
 	
 	
 	public function __construct(){
-		$this->session = SessionStorage::getInstance();
+		$this->session = SessionStorage::get_instance();
 		
 		// Проверяем, авторизован ли юзер
-		if ( isset($this->session->id, $this->session->acl )){
+		if ( isset($this->session->user, $this->session->acl) ){
 			static::$logged = true;
-			static::$user_id = (int) $this->session->user_id;
+			static::$user = unserialize( $this->session->user );
 			static::$acl = unserialize( $this->session->acl );
 		}
 		// иначе делаем его "гостем"
@@ -37,59 +38,42 @@ class Auth{
 				static::$acl = unserialize( $this->session->acl_guest );
 			else{
 				static::$acl = new ACL_Guest();
-				$this->session->acl_guest = serialize(static::$acl);
+				$this->session->acl_guest = serialize( static::$acl );
 			}
 		}
 	}
-
+	
 	
 	public function logout(){
 		if ( static::$logged ){
-			unset( $this->session->user_id, $this->session->acl );
+			unset( $this->session->user, $this->session->acl, $this->acl_guest );
 			static::$logged = false;
 		}
 	}
 	
 	
 	public function login( $login, $pass ){
-		$db = Fabric::get( 'db' );
-		$login = $db->safe( $login );
-		$pass = $this->hash( $pass );
-		
-		$user = $db->fetch_query("
-			SELECT * 
-			FROM auth_users
-			WHERE 
-				login = '$login' and
-				password = '$pass'
-			LIMIT 1
-		");
-		
-		if ( $user['active'] === '0' )
-			throw new Exception('Пользователь не активирован');
-		
-		if ( $user ){
+		$user = new UserModel;
+		$user->get_by_login_password( $login, $pass );
+		if ( $user->exists() ){
 			static::$logged = true;
-			static::$user_id = (int) $user['id'];
-			static::$acl = new ACL( static::$user_id );
-			$this->session->user_id = (int) $user['id'];
+			static::$user = $user;
+			static::$acl = new ACL( $user->id );
+			$this->session->user = serialize( static::$user );
 			$this->session->acl = serialize( static::$acl );
-			unset($this->session->acl_guest);
+			unset( $this->session->acl_guest );
 		}
-		
 		return static::$logged;
 	}
 	
-	
-	protected function hash( $val ){
-		return md5( sha1( $val ));
-	}
 	
 	public static function is_logged(){
 		return static::$logged;
 	}
-	public static function get_user_id(){
-		return static::$user_id;
-	}	
+	
+	
+	public static function get_user(){
+		return static::$user;
+	}
 }
 ?>

@@ -6,7 +6,7 @@ if ( isset($_SERVER['ENV']) and $_SERVER['ENV'] == "muchacho_home" ){
 	define( 'DB_HOST',		"localhost" );
 	define( 'DB_USER',		"root" );
 	define( 'DB_PASSWORD',	"root" );
-	define( 'DB_NAME',		"videoboom" );
+	define( 'DB_NAME',		"ice-storm" );
 	define( 'DB_CHARSET',	true );
 	
 	// Mongo
@@ -14,7 +14,7 @@ if ( isset($_SERVER['ENV']) and $_SERVER['ENV'] == "muchacho_home" ){
 	define( 'MONGO_PORT', 27017 );
 	define( 'MONGO_USER', "" );
 	define( 'MONGO_PASSWORD', "" );
-	define( 'MONGO_NAME', "videoboom" );
+	define( 'MONGO_NAME', "ice-storm" );
 	
 	// Memcached
 	define( "MMC_HOST", "localhost" );

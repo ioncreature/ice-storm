@@ -53,7 +53,8 @@ class DB_MySQL2 implements ISQL_DB{
 	
 	// DB close connection
 	protected function close(){
-		mysqli_close( $this->db_id );
+		if ( $this->connected )
+			mysqli_close( $this->db_id );
 		$this->connected = false;
 	}
 	
