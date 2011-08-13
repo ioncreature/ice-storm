@@ -5,7 +5,6 @@
 	2011
 */
 
-// Класс для работы с юзером
 class UserModel extends Model{
 	
 	protected $table = 'auth_users';

@@ -18,7 +18,7 @@ try {
 	
 	// обрабортка запроса
 	$r = RequestParser::get_instance();
-	define( "APP_HASH", $r->getHash() );	
+	define( "APP_HASH", $r->get_hash() );	
 	
 
 	// -------

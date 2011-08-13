@@ -2,6 +2,8 @@
 /*
 	test module
 */
+$r = RequestParser::get_instance();
+$db = Fabric::get('db');
 
 
 //
@@ -12,7 +14,6 @@ echo var_export( Auth::$acl, true);
 echo '</pre>';
 
 // Определяем текущую страницу
-$r = RequestParser::get_instance();
 $current_page = $r->is_int(1) ? $r->to_int(1) : 1;
 paginator(array(
 	'page_current' => $current_page,

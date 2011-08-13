@@ -29,12 +29,13 @@ class RequestParser {
 	// MAGIC METHODS ------------------------------------
 	public function __construct(){
 		//сохраняем hash
-		$this->hash = $this->getURI();
+		$this->hash = $this->get_uri();
 		//заносим данные запроса внутрь экземпляра класса
 		foreach ( $_REQUEST as $key => $value ){
 			$this->request_data[ $key ] = $value;
 		}
 		$this->method = strtolower( $_SERVER['REQUEST_METHOD'] );
+		$this->actions = $this->get_actions( $this->hash );
 	}
 	
 	public function __toString(){
@@ -58,19 +59,14 @@ class RequestParser {
 		unset( $this->request_data[$key] );
 	}
 	//MAGIC METHODS ------------------------------------
-
-	
-	
 	
 	
 	// создает переменную $hash, хранящую URI
-	protected function getURI() {
-		if ( isset($_GET['hash']) ) {
+	protected function get_uri() {
+		if ( isset($_GET['hash']) )	// Для Вконтакте
 			$hash = $_GET['hash'];
-		}
-		else if ( mb_substr($_SERVER['REQUEST_URI'], 0, 2, "utf-8") === "/?" ){
+		else if ( mb_substr($_SERVER['REQUEST_URI'], 0, 2, "utf-8") === "/?" )
 			$hash = "";
-		}
 		else {
 			// Убираем из хеша идентификатор сессии
 			$hash = substr($_SERVER['REQUEST_URI'], 1);
@@ -82,75 +78,23 @@ class RequestParser {
 	}
 	
 	
-	//
-	public function debug(){
-		return var_export( $this->request_data, true );
-	}
-	
-	
-	//Возвращает URI запроса
-	public function getHash(){
+	// Возвращает URI запроса
+	public function get_hash(){
 		return str_replace("?", "", $this->hash);
 	}
 	
-	
-	//отдает все данные запроса (аналог массива $_REQUEST)
-	public function getRequestParam(){
-		return $this->request_data;
-	}
 	
 	// проверка request method
 	public function is_get(){
 		return $this->method === 'get';
 	}
+	
+	
 	// проверка request method
 	public function is_post(){
 		return $this->method === 'post';
 	}
 
-	
-	
-	// ----------------------------------
-	// Методы для работы с путями(Router)
-	// ----------------------------------
-	/**
-	* Maps a pattern to a callable.
-	*/
-    public function request( $pattern, $to, $method = null ){
-		$requirements = array();
-
-		if ( $method )
-			$requirements['_method'] = $method;
-
-		$route = new Route($pattern, array('_controller' => $to), $requirements);
-		$controller = new Controller($route);
-		$this['controllers']->add($controller);
-
-		return $controller;
-	} 
-	
-	/**
-	* Maps a GET request to a callable.
-	*
-	* @param string $pattern Matched route pattern
-	* @param mixed $to Callback that returns the response when matched
-	*/
-	public function on_get( $pattern, $to ){
-		return $this->request($pattern, $to, 'GET');
-	}
-
-    /**
-	* Maps a POST request to a callable.
-	*
-	* @param string $pattern Matched route pattern
-	* @param mixed $to Callback that returns the response when matched
-	*/
-	public function on_post( $pattern, $to ){
-		return $this->request($pattern, $to, 'POST');
-	}
-	
-	
-	
 	
 	
 	// ------------------------------
@@ -159,36 +103,21 @@ class RequestParser {
 
 	/*	Возвращает массив действий - т.е. если $hash равен "/create/img/?text=someText"
 		то в массиве действий будет - array( 'create', 'img' )
-		@param hash -	если false, то парсится глобальный хеш (RequestParser::hash),
-						иначе парсится введенный хэш
 	*/
-	public function getActions( $hash = false ){
-		
-		// если уже есть данные о действиях, возвращаем их
-		if ( isset($this->actions) and ($hash === false) )
-			return $this->actions;
-		
-		if ( $hash === false )
-			$uri = $this->hash;
-		else
-			$uri = $hash;
-			
+	public function get_actions( $hash ){
+
 		// удаляю "?" и всё что после
-		$pos = mb_strpos( $uri, '?' );
+		$pos = mb_strpos( $hash, '?' );
 		if ( $pos !== false )
-			$uri = mb_substr( $uri, 0, $pos );
+			$hash = mb_substr( $hash, 0, $pos );
 		
 		// парсим текст
-		$act = explode( '/', $uri );
+		$act = explode( '/', $hash );
 		$actions = array();
 		if ( count($act) != 0 ){
 			foreach ( $act as $val )
 				if ( $val !== '' )
 					$actions[] = $val;
-			
-			// сохраняем данные парсинга
-			if ( $hash === false )
-				$this->actions = $actions;
 		}
 		return $actions;
 	}
@@ -196,8 +125,6 @@ class RequestParser {
 	
 	// проверка на существование действия
 	public function is_set( $index ){
-		if ( $this->actions === null )
-			$this->getActions();
 		return isset($this->actions[$index]);
 	}
 	
@@ -225,7 +152,7 @@ class RequestParser {
 	}
 	
 	
-	// Алиас для  RequestParser::is_number()
+	// Алиас для RequestParser::is_number()
 	public function is_int( $index ){
 		return $this->is_number( $index );
 	}
@@ -243,5 +170,19 @@ class RequestParser {
 		return ( $this->is_set($index) ? $this->actions[$index] : '' );
 	}
 	
+	
+	/*
+	*	@return true or false
+	*/
+	public function equal( $route ){
+		$actions = $this->get_actions( $route );
+		// var_export($actions);
+		foreach ( $actions as $i => $val )
+			if ( $actions[$i] === '::int' and $this->is_int($i) )
+				continue;
+			elseif ( !$this->is_equal($i, $actions[$i]) )
+				return false;
+		return true;
+	}
 }
 ?>

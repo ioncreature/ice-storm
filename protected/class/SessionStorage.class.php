@@ -1,6 +1,9 @@
-<?
-// Класс хранилища
-// Использование сессий для хранения данных
+<?php
+/*	Класс для хранения сессий
+	Marenin Alex
+	2011	
+*/
+
 class SessionStorage implements ISession{
 	// данные сессии
 	protected $data = array();
