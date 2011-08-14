@@ -3,7 +3,7 @@
 # Server version:               5.1.51-community
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3916
-# Date/time:                    2011-08-13 03:48:46
+# Date/time:                    2011-08-14 15:18:50
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -45,6 +45,8 @@ CREATE TABLE IF NOT EXISTS `auth_group_permissions` (
 
 # Dumping data for table ice-storm.auth_group_permissions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
+INSERT INTO `auth_group_permissions` (`id`, `group_id`, `permission_id`, `type`) VALUES
+	(1, 1, 1, 'allow');
 /*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
 
 
@@ -53,11 +55,10 @@ CREATE TABLE IF NOT EXISTS `auth_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` varchar(100) NOT NULL,
-  `resource_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-# Dumping data for table ice-storm.auth_permissions: ~0 rows (approximately)
+# Dumping data for table ice-storm.auth_permissions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `auth_permissions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `auth_permissions` ENABLE KEYS */;
 
@@ -78,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `auth_users` (
 # Dumping data for table ice-storm.auth_users: ~1 rows (approximately)
 /*!40000 ALTER TABLE `auth_users` DISABLE KEYS */;
 INSERT INTO `auth_users` (`id`, `human_id`, `login`, `password`, `email`, `active`) VALUES
-	(1, 0, 'admin', '5f5abc0e7c47e396b5a3bc7a8d17104d', 'great_muchacho@mail.ru', 'yes');
+	(1, 0, 'admin', 'daf2ef34c542b65052514474e4b3e120', 'great_muchacho@mail.ru', 'yes');
 /*!40000 ALTER TABLE `auth_users` ENABLE KEYS */;
 
 
@@ -93,6 +94,8 @@ CREATE TABLE IF NOT EXISTS `auth_users_groups` (
 
 # Dumping data for table ice-storm.auth_users_groups: ~0 rows (approximately)
 /*!40000 ALTER TABLE `auth_users_groups` DISABLE KEYS */;
+INSERT INTO `auth_users_groups` (`id`, `user_id`, `group_id`) VALUES
+	(1, 1, 1);
 /*!40000 ALTER TABLE `auth_users_groups` ENABLE KEYS */;
 
 
