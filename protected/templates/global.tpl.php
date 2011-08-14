@@ -20,7 +20,11 @@ function top(){
     <!-- <script type="text/javascript" src="js/app.js"></script> -->
 </head>
 <body>
-<?= menu() ?>
+<div id="header">
+	<span class="logo"><a href="<?= WEBURL ?>" title="Ice Storm">Ice Storm</a></span>
+	<?= menu() ?>
+	<?= auth_form() ?>
+</div>
 <div id="body">
 <?php
 }
@@ -39,15 +43,18 @@ function bottom(){?>
 
 function menu(){?>
 	<!-- TOP MENU -->
-	<div id="header">
-		<h1><a href="<?= WEBURL ?>" title="IceStorm">IceStorm</a></h1>
-		<ul class="top_menu">
-			<li><a href="<?= WEBURL ?>">Главная</a></li>
-			<li><a href="<?= WEBURL .'test' ?>">Test</a></li>
-			<li><a href="<?= WEBURL .'acl/groups' ?>">ACL groups</a></li>
-		</ul>
-		<?= auth_form() ?>
-	</div>
+	<ul class="h_menu">
+		<li><a href="<?= WEBURL ?>">Главная</a></li>
+		<li><span class="a">Разграничение доступа</span>
+			<ul class="v_menu">
+				<li><a href="<?= WEBURL .'acl/groups' ?>">Группы</a></li>
+				<li><a href="<?= WEBURL .'acl/users' ?>">Пользователи</a></li>
+				<li><a href="<?= WEBURL .'acl/groups' ?>">Группы/Пользователи</a></li>
+			</ul>
+		</li>
+		<li></li>
+		<li><a href="<?= WEBURL .'test' ?>">Тест</a></li>
+	</ul>
 	<?
 }
 
@@ -55,13 +62,14 @@ function menu(){?>
 function auth_form(){?>
 	<?php if ( Auth::is_logged() ): ?>
 	<form id="auth" method="POST" action="<?= WEBURL .'logout' ?>">
+		<a href="<?= WEBURL . 'logout'?>" title="exit"><?= Auth::get_user()->login ?></a>
 		<input type="submit" name="logout" value="Выход" />
 	</form>
 	<?php else: ?>
 	<form id="auth" method="POST" action="<?= WEBURL ?>">
 		<input type="text" name="login" value="" placeholder="Ваш логин" />
 		<input type="password" name="password" value="" placeholder="Пароль" />
-		<input type="submit" class="submit" value="Войти" />
+		<input type="submit" class="submit" value="Войти" /><br />
 		<a href="<?= WEBURL .'register' ?>">регистрация</a>
 	</form>
 	<?php endif;

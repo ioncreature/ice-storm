@@ -1,5 +1,4 @@
 html {
-	min-width: 920px;
 	margin: 0px;
 	padding: 0px;
 }
@@ -12,23 +11,122 @@ body {
 	margin: 0px;
 	padding: 0px;
 	background: #f4f9fF;
+	min-width: 920px;
+	background-color: #E0F0FF;
+	/* background-color: #DDE; */
 	font-size: 14px;
+	font-family: Verdana, Arial, sans;
 }
+
+a {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+
 
 
 /* HEADER */
 div#header {
-	margin: 6px 6px 6px 6px;
+	margin: 0px 0px 25px 0px;
 	padding: 6px;
-	background-color: #BEC;
+	height: 60px;
+	color: white;
+	background-color: #247;
+	border-bottom: 2px solid #BCD;
+	z-index: 50;
+}
+div#header a {
+	color: #E0F0FF;
+}
+div#header > span.logo {
+	display: block;
+	float: left;
+	font-size: 24px;
+	margin: 15px 50px 15px 15px;
+	font-weight: bold;
+}
+div#header > ul.h_menu{
+	margin: 0px auto;
+	margin-top: 20px;
+}
+div#header > form#auth {
+	float: right;
+}
+form#auth input[type=text], 
+form#auth input[type=password] {
+	width: 90px;
+}
+/* HEADER */
+
+
+
+/* ГОРИЗОНТАЛЬНОЕ МЕНЮ */
+/* ВЕРТИКАЛЬНОЕ МЕНЮ */
+ul.h_menu, ul.v_menu {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+	list-style-position: inside;
+	display: inline-block;	
+	color: #E0F0FF;
+}
+ul.h_menu a, ul.v_menu a {
+	color: #E0F0FF;
+}
+
+ul.h_menu > li {
+	float: left;
+	padding: 0px;
+	margin: 0px;
+}
+ul.h_menu li > a, ul.h_menu li > span.a {
+	display: block;
+	padding: 8px 10px;
+}
+ul.h_menu > li:hover {
+	background-color: #555;
+}
+ul.h_menu > li > a:hover,
+ul.h_menu > li > span.a:hover {
+	background-color: #374;
+}
+ul.h_menu > li > ul.v_menu {
+	display: none;
+}
+ul.h_menu > li:hover > ul.v_menu {
+	background-color: #555;
+	position: relative;
+	top: 0;
+	left: 0;
+	display: block;
+	z-index: 100;
+}
+ul.h_menu > li:hover > ul.v_menu li:hover{
+	background-color: #273;
+}
+ul.v_menu > li {
+	display: block;
+}
+
+
+h1, h2, h3{
+	margin: 10px 0px;
 }
 
 
 /* CONTENT BODY */
 div#body {
 	margin: 0px 6px 6px 6px;
-	padding: 6px;
-	background-color: #BEC;
+	padding: 12px;
+	background-color: #FFFFFF;
+	width: 80%;
+	max-width: 1200px;
+	margin: 30px auto;
+	border-radius: 10px;
+	border: 2px solid #ACD;
+	z-index: 0;
 }
 
 /* FOOTER */
@@ -56,6 +154,34 @@ div.success {
 }
 
 
-label{
+label {
 	display:block;
 }
+a {
+	color: #676767;
+}
+
+
+/* PAGINATOR */
+div.paginator{
+	overflow: hidden;
+}
+div.paginator a{
+	float: left;
+	display: inline-block;
+	padding: 2px 3px;
+	margin: 0;
+}
+div.paginator a:hover{
+	background-color: #E0EFFF;
+}
+div.paginator span.current{
+	float: left;
+	display: inline-block;
+	background-color: #79B;
+	cursor: default;
+	color: white;
+	padding: 2px 3px;
+	margin: 0;
+}
+/* PAGINATOR */

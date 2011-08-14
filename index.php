@@ -30,7 +30,9 @@ try {
 			switch ($r->get(1)){
 				case "groups":
 					include "protected/modules/acl/groups.module.php";
-					break;	
+					break;
+				default:
+					redirect( WEBURL );
 			}
 			break;
 		

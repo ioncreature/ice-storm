@@ -29,5 +29,6 @@ top();
 <?php endif; ?>
 
 
-hello!
+<h2>Главная страница</h2>
+<p>hello!</p>
 <?= bottom() ?>
