@@ -33,7 +33,7 @@ if ( isset($_SERVER['ENV']) and $_SERVER['ENV'] == "muchacho_home" ){
 
 
 // DEVELOPER - MARINAT
-if ( isset($_SERVER['ENV']) and $_SERVER['ENV'] == "marinat" ){
+elseif ( isset($_SERVER['ENV']) and $_SERVER['ENV'] == "marinat" ){
 	// Database
 	define( 'DB_HOST',		"localhost" );
 	define( 'DB_USER',		"root" );

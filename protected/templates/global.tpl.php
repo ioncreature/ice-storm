@@ -43,6 +43,8 @@ function menu(){?>
 		<h1><a href="<?= WEBURL ?>" title="IceStorm">IceStorm</a></h1>
 		<ul class="top_menu">
 			<li><a href="<?= WEBURL ?>">Главная</a></li>
+			<li><a href="<?= WEBURL .'test' ?>">Test</a></li>
+			<li><a href="<?= WEBURL .'acl/groups' ?>">ACL groups</a></li>
 		</ul>
 		<?= auth_form() ?>
 	</div>
