@@ -89,9 +89,9 @@ abstract class Model{
 			return false;
 		$this->db_connect();
 		
+		$this->before_save();
 		// Добавляем новую запись
 		if ( ! $this->exists ){
-			$this->before_create();
 			$data = array_diff_key( $this->data, array($this->primary_key => true) );
 			$this->data[ $this->primary_key ] = $this->db->insert( $this->table, $data );
 			$this->exists = true;
@@ -106,11 +106,12 @@ abstract class Model{
 				$set .= "`$key` = '". $this->db->safe( $this->data[$key] ) ."',";
 		$set = substr( $set, 0, -1 );
 		
-		$this->db->query("
-			UPDATE {$this->table_name} 
-			SET $set 
-			WHERE `{$this->primary_key}` = '". $this->db->safe( $this->orig_data[ $this->primary_key ]) ."'
-		");
+		if ( $set )
+			$this->db->query("
+				UPDATE {$this->table} 
+				SET $set 
+				WHERE `{$this->primary_key}` = '". $this->db->safe( $this->orig_data[ $this->primary_key ]) ."'
+			");
 		return $this->orig_data[ $this->primary_key ];
 	}
 	
@@ -124,6 +125,11 @@ abstract class Model{
 	
 	
 	protected function before_save(){
+	}
+	
+	
+	public function is_changed( $key ){
+		return $this->data[$key] !== $this->orig_data[$key];
 	}
 }
 ?>

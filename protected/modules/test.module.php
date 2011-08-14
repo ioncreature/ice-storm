@@ -4,13 +4,18 @@
 */
 $r = RequestParser::get_instance();
 $db = Fabric::get('db');
-
-
+$a = Auth::get_instance();
+$acl = Auth::$acl;
+$u = $a->get_user();
+// $u = new UserModel(1);
+// $u->password  = 'siski';
+// $u->save();
 //
 // ВЫВОД
 top();
 echo '<pre>';
 echo var_export( Auth::$acl, true);
+// echo var_export( $u, true);
 echo '</pre>';
 
 // Определяем текущую страницу

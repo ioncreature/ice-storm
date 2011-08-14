@@ -20,9 +20,9 @@ class RequestParser {
 	// Singleton
 	private static $instance = null;
     public static function get_instance() {
-        if( self::$instance == null )
-            self::$instance = new self;
-        return self::$instance;
+        if( static::$instance == null )
+            static::$instance = new static;
+        return static::$instance;
     }
 	
 

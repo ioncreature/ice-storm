@@ -30,8 +30,9 @@ class UserModel extends Model{
 			return false;
 	}
 	
-	protected function before_create(){
-		$this->password = $this->hash($this->data['password']);
+	protected function before_save(){
+		if ( $this->is_changed('password') )
+			$this->password = $this->hash($this->data['password']);
 	}
 	
 	protected function hash( $val ){
