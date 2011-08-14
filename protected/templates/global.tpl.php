@@ -4,24 +4,25 @@ function top(){
 <!DOCTYPE html>
 <html>
 <head>
-	<title>icestorm</title>
+	<title>Ice Storm</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="icon" type="image/png" href="/theme/viboom/favicon.png" />
-	<link rel="stylesheet" href="/themes/default/style.css?<?=rand(0,999)?>" />
+	<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"> 
+	<link rel="stylesheet" href="/themes/default/style.css?<?=rand(0,999999)?>" />
 	
 	<!-- Libraries -->
-    <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
-	<script type="text/javascript" src="js/json2.js"></script> 
-    <script type="text/javascript" src="js/underscore.js"></script>
-    <script type="text/javascript" src="js/backbone.js"></script>
-    <script type="text/javascript" src="js/mustache.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/json2.js"></script> 
+    <script type="text/javascript" src="/js/underscore.js"></script>
+    <script type="text/javascript" src="/js/backbone.js"></script>
+    <script type="text/javascript" src="/js/mustache.js"></script>
 
 	<!-- Application -->
     <!-- <script type="text/javascript" src="js/app.js"></script> -->
 </head>
 <body>
 <div id="header">
-	<span class="logo"><a href="<?= WEBURL ?>" title="Ice Storm">Ice Storm</a></span>
+	<span class="logo"><a href="<?= WEBURL ?>">Ice Storm</a></span>
 	<?= menu() ?>
 	<?= auth_form() ?>
 </div>
@@ -45,6 +46,20 @@ function menu(){?>
 	<!-- TOP MENU -->
 	<ul class="h_menu">
 		<li><a href="<?= WEBURL ?>">Главная</a></li>
+		<li><span class="a">Оценки и статистика</span>
+			<ul class="v_menu">
+				<li><a href="<?= WEBURL .'edu/marks' ?>">Оценки</a></li>
+				<li><a href="<?= WEBURL .'edu/statistics' ?>">Статистика</a></li>
+			</ul>
+		</li>
+		<li><span class="a">Структура и учебные планы</span>
+			<ul class="v_menu">
+				<li><a href="<?= WEBURL .'edu/courses' ?>">Учебные курсы</a></li>
+				<li><a href="<?= WEBURL .'edu/curriculums' ?>">Учебные планы</a></li>
+				<li><a href="<?= WEBURL .'edu/groups' ?>">Учебные группы</a></li>
+				<li><a href="<?= WEBURL .'org/departments' ?>">Подразделения</a></li>
+			</ul>
+		</li>
 		<li><span class="a">Разграничение доступа</span>
 			<ul class="v_menu">
 				<li><a href="<?= WEBURL .'acl/groups' ?>">Группы</a></li>
@@ -53,7 +68,7 @@ function menu(){?>
 			</ul>
 		</li>
 		<li></li>
-		<li><a href="<?= WEBURL .'test' ?>">Тест</a></li>
+		<li><a href="<?= WEBURL .'test' ?>">Тестовый модуль</a></li>
 	</ul>
 	<?
 }

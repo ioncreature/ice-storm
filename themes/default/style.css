@@ -11,11 +11,11 @@ body {
 	margin: 0px;
 	padding: 0px;
 	background: #f4f9fF;
-	min-width: 920px;
+	min-width: 960px;
 	background-color: #E0F0FF;
-	/* background-color: #DDE; */
 	font-size: 14px;
 	font-family: Verdana, Arial, sans;
+	color: #333;
 }
 
 a {
@@ -32,7 +32,6 @@ div#header {
 	margin: 0px 0px 25px 0px;
 	padding: 6px;
 	height: 60px;
-	color: white;
 	background-color: #247;
 	border-bottom: 2px solid #BCD;
 	z-index: 50;
@@ -47,9 +46,14 @@ div#header > span.logo {
 	margin: 15px 50px 15px 15px;
 	font-weight: bold;
 }
+div#header > span.logo a { color: #B0C5E0; }
+div#header > span.logo a:hover { 
+	color: #EFF8FF;
+	text-decoration: none;
+}
 div#header > ul.h_menu{
 	margin: 0px auto;
-	margin-top: 20px;
+	margin-top: 15px;
 }
 div#header > form#auth {
 	float: right;
@@ -86,7 +90,7 @@ ul.h_menu li > a, ul.h_menu li > span.a {
 	padding: 8px 10px;
 }
 ul.h_menu > li:hover {
-	background-color: #555;
+	background-color: #5a5043;
 }
 ul.h_menu > li > a:hover,
 ul.h_menu > li > span.a:hover {
@@ -96,7 +100,7 @@ ul.h_menu > li > ul.v_menu {
 	display: none;
 }
 ul.h_menu > li:hover > ul.v_menu {
-	background-color: #555;
+	background-color: #5a5043;
 	position: relative;
 	top: 0;
 	left: 0;
@@ -185,3 +189,43 @@ div.paginator span.current{
 	margin: 0;
 }
 /* PAGINATOR */
+
+
+
+/* COMMON TABLE */
+table.common{
+	width:100%;
+	border-collapse: collapse;
+	border: 3px solid #BBB;
+}
+table.common tr th{
+	color: #357;
+	text-align: center;
+	background-color: #EDEDED;
+	padding: 6px 3px;
+}
+table.common tr td{
+	padding: 5px;
+	text-align: center;
+}
+table.common tr td.left		{ text-align: left; }
+table.common tr td.center	{ text-align: center; }
+table.common tr td.right	{ text-align: right; }
+table.common tr:hover td{
+	background-color: #b6e6b6 !important;
+}
+table.common tr.odd td{
+	background-color: #E7F0F7;
+}
+table.common tr.highlight1 td{ background-color: #DED; }
+table.common tr.highlight2 td{ background-color: #DDD; }
+
+table.common tr.header td, 
+table.common tr.header th{
+	color: #357;
+	font-weight: bold;
+	background-color: #DDD;
+}
+/* COMMON TABLE */
+
+
