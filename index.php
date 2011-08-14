@@ -26,6 +26,14 @@ try {
 	// -------
 	include "protected/templates/global.tpl.php";
 	switch ( $r->get(0) ){
+		case "acl":
+			switch ($r->get(1)){
+				case "groups":
+					include "protected/modules/acl/groups.module.php";
+					break;	
+			}
+			break;
+		
 		case "logout":
 			$a->logout();
 			redirect( WEBURL );

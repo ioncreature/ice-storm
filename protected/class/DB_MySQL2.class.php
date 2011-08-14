@@ -44,7 +44,7 @@ class DB_MySQL2 implements ISQL_DB{
 		if ( $this->connected )
 			$this->close();
 		if ( !$this->db_id = @mysqli_connect( $host, $user, $pass, $name ) )
-			throw new SQLException( 'Ошибка при подключении к БД: '. mysqli_error() );
+			throw new SQLException( 'Ошибка при подключении к БД' );
 		$this->connected = true;
 		$this->query( "SET NAMES 'UTF8'" );
 	}
