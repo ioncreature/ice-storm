@@ -7,14 +7,6 @@
 */
 abstract class ACL_Driver {
 	
-	// Singleton
-	protected static $instance = null;
-    public static function getInstance() {
-        if ( static::$instance == null )
-            static::$instance = new static;
-        return static::$instance;
-    }
-	
 	// Возвращает все разрешения
 	// массив вида: array( <perm_code_name>: <perm_full_name>, ... )
 	abstract public function get_all_permissions();
