@@ -45,7 +45,9 @@ function bottom(){?>
 function menu(){?>
 	<!-- TOP MENU -->
 	<ul class="h_menu">
+		<!--
 		<li><a href="<?= WEBURL ?>">Главная</a></li>
+		-->
 		<li><span class="a">Оценки и статистика</span>
 			<ul class="v_menu">
 				<li><a href="<?= WEBURL .'edu/marks' ?>">Оценки</a></li>
@@ -54,9 +56,10 @@ function menu(){?>
 		</li>
 		<li><span class="a">Структура и учебные планы</span>
 			<ul class="v_menu">
-				<li><a href="<?= WEBURL .'edu/courses' ?>">Учебные курсы</a></li>
 				<li><a href="<?= WEBURL .'edu/curriculums' ?>">Учебные планы</a></li>
+				<li><a href="<?= WEBURL .'edu/courses' ?>">Учебные курсы</a></li>
 				<li><a href="<?= WEBURL .'edu/groups' ?>">Учебные группы</a></li>
+				<li><a href="<?= WEBURL .'edu/students' ?>">Обучающиесявв</a></li>
 				<li><a href="<?= WEBURL .'org/departments' ?>">Подразделения</a></li>
 			</ul>
 		</li>
@@ -67,8 +70,9 @@ function menu(){?>
 				<li><a href="<?= WEBURL .'acl/groups' ?>">Группы/Пользователи</a></li>
 			</ul>
 		</li>
-		<li></li>
+		<!--
 		<li><a href="<?= WEBURL .'test' ?>">Тестовый модуль</a></li>
+		-->
 	</ul>
 	<?
 }
@@ -83,9 +87,9 @@ function auth_form(){?>
 	<?php else: ?>
 	<form id="auth" method="POST" action="<?= WEBURL ?>">
 		<input type="text" name="login" value="" placeholder="Ваш логин" />
-		<input type="password" name="password" value="" placeholder="Пароль" />
-		<input type="submit" class="submit" value="Войти" /><br />
-		<a href="<?= WEBURL .'register' ?>">регистрация</a>
+		<input type="password" name="password" value="" placeholder="Пароль" /><br />
+		<input type="submit" class="submit" value="Войти" />
+		<a href="<?= WEBURL .'register' ?>" style="float:right;">регистрация</a>
 	</form>
 	<?php endif;
 }

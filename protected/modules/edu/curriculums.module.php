@@ -58,8 +58,8 @@ top();
 <h2>Добавить учебный план</h2>
 <div id="c_container">
 	<form method="POST" action="<?= WEBURL .'edu/curriculums/add' ?>">
-		<label>Название курса<br />
-			<input type="text" name="name" placeholder="Введите название курса" style="width: 300px" />
+		<label>Название плана<br />
+			<input type="text" name="name" placeholder="Введите название плана" style="width: 300px" />
 		</label><br />
 		<label>Количество семестров<br />
 			<input type="text" name="count" placeholder="Введите количество семестров" style="width: 300px" />

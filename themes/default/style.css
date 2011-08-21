@@ -11,7 +11,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 	background: #f4f9fF;
-	min-width: 960px;
+	min-width: 980px;
 	background-color: #E0F0FF;
 	font-size: 14px;
 	font-family: Verdana, Arial, sans;
@@ -42,8 +42,8 @@ div#header a {
 div#header > span.logo {
 	display: block;
 	float: left;
-	font-size: 24px;
-	margin: 15px 50px 15px 15px;
+	font-size: 26px;
+	margin: 13px 40px 15px 15px;
 	font-weight: bold;
 }
 div#header > span.logo a { color: #B0C5E0; }
@@ -227,5 +227,3 @@ table.common tr.header th{
 	background-color: #DDD;
 }
 /* COMMON TABLE */
-
-
