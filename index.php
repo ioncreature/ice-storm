@@ -47,6 +47,9 @@ try {
 				case "curriculums":
 					include "protected/modules/edu/curriculums.module.php";
 					break;
+				case "courses":
+					include "protected/modules/edu/courses.module.php";
+					break;
 				default:
 					redirect( WEBURL );
 			}
