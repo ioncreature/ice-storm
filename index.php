@@ -33,6 +33,9 @@ try {
 				case "groups":
 					include "protected/modules/acl/groups.module.php";
 					break;
+				case "users":
+					include "protected/modules/acl/users.module.php";
+					break;
 				default:
 					redirect( WEBURL );
 			}
