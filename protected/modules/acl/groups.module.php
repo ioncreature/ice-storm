@@ -36,15 +36,26 @@ top();
 		<td><?= $g['name'] ?></td>
 		<?php foreach ( $perms as $p ): ?>
 			<?php if ( isset($gp[$p['id']]) ): ?>
-				<td>true</td>
+				<td><input type="checkbox" name="gp_checkbox" checked="checked" value="<?= $p['id'] .','. $g['id'] ?>"/><br></td>
 			<?php else: ?>
-				<td>false</td>
+				<td><input type="checkbox" name="gp_checkbox" value="<?= $p['id'] .','. $g['id'] ?>"/><br></td>
 			<?php endif; ?>	
 		<?php endforeach; ?>
 	</tr>
 	<?php endforeach; ?>
 </table>
 
-
+<script type="text/javascript">
+  $(document).ready(function(){
+	$("input:checkbox").bind('click', function(){
+		var index = $("input:checkbox").index(this);
+		var arr =  ($(this).val().split(','));		
+		if ($(this).is(':checked')) 			
+			$.post("/acl/insert", { col: arr[0], row: arr[1], stat: "allow" } );
+		else 
+			$.post("/acl/insert", { col: arr[0], row: arr[1], stat: "deny" } );
+	});	
+  });
+</script>
 
 <?= bottom() ?>
