@@ -38,7 +38,7 @@ if ( isset( $r->permission_id, $r->user_id, $r->stat ) ){
 	die( json_encode( array( 'status' => true )));
 }
 
-// список групп
+// список пользователей
 $users = $db->query("
 	SELECT * 
 	FROM

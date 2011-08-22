@@ -75,7 +75,7 @@ function menu(){?>
 			<ul class="v_menu">
 				<li><a href="<?= WEBURL .'acl/groups' ?>">Группы</a></li>
 				<li><a href="<?= WEBURL .'acl/users' ?>">Пользователи</a></li>
-				<li><a href="<?= WEBURL .'acl/groups' ?>">Группы/Пользователи</a></li>
+				<li><a href="<?= WEBURL .'acl/usersingroups' ?>">Группы/Пользователи</a></li>
 			</ul>
 		</li>
 		<!--
