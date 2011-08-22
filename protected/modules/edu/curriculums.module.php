@@ -59,11 +59,11 @@ top();
 <div id="c_container">
 	<form method="POST" action="<?= WEBURL .'edu/curriculums/add' ?>">
 		<label>Название плана<br />
-			<input type="text" name="name" placeholder="Введите название плана" style="width: 300px" />
+			<input type="text" name="name" placeholder="название плана" style="width: 350px" />
 		</label><br />
 		<label>Количество семестров<br />
-			<input type="text" name="count" placeholder="Введите количество семестров" style="width: 300px" />
-		</label>
+			<input type="text" name="count" placeholder="количество семестров" style="width: 350px" />
+		</label><br />
 		<input type="submit" value="Добавить" />
 	</form>
 	<div class="error" style="display:none;"></div>

@@ -8,6 +8,7 @@
 $r = RequestParser::get_instance();
 $db = Fabric::get('db');
 $i = 0;
+$error = '';
 
 $name = '';
 $shortname = '';
@@ -20,7 +21,6 @@ if ( $r->equal('edu/courses/add') and isset($r->name, $r->shortname, $r->terms, 
 	$terms = (int) $r->terms;
 	$hours = (int) $r->hours;
 	try{
-		
 		if ( !($name and $shortname and $terms and $hours) )
 			throw new Exception('Указаны не все данные');
 		
@@ -83,7 +83,9 @@ top();
 <?php endif; ?>
 
 
-<!-- FORM -->
+<!-- ДОБАВИТЬ УЧЕБНЫЙ КУРС -->
+<h2>Добавить учебный курс</h2>
+<style type="text/css">#c_container input[type=text]{ width: 300px; }</style>
 <div id="c_container">
 	<form method="POST" action="<?= WEBURL .'edu/courses/add' ?>">
 		<label>Полное название курса<br />
@@ -105,18 +107,24 @@ top();
 <script type="text/javascript">
 	$( '#c_container > form' ).submit( function(){
 		var name = $( 'input[name=name]', this ).val();
+		var shortname = $( 'input[name=shortname]', this ).val();
 		var terms = $( 'input[name=terms]', this ).val();
 		var hours = $( 'input[name=hours]', this ).val();
 		var error = '';
 		if ( name.length < 8 )
 			error += 'Слишком короткое название учебного курса<br />';
-		if ( Number(count) <= 0 || Number(count) > 100 )
+		if ( shortname.length < 2 )
+			error += 'Введите корректное краткое название курса<br />';
+		if ( Number(terms) <= 0 || Number(terms) > 100 )
 			error += 'Некорректное значение в поле "Количество семестров"<br />';
+		if ( Number(hours) <= 0 || Number(terms) > 10000 )
+			error += 'Некорректное значение в поле "Количество часов"<br />';
 		if ( error.length > 0 ){
 			$( 'div.error' ).html( error );
 			$( 'div.error' ).show();
 			return false;
 		}
+		return false;
 	});
 </script>
 <br />
@@ -133,7 +141,10 @@ top();
 	</tr>
 	<?php foreach ( $courses as $c ): ?>
 	<tr <?= $i++ % 2 === 1 ? 'class="odd"' : '' ?>>
-		<td class="left"><?= nl2br( htmlspecialchars($c['name']) ) ?></td>
+		<td class="left"><a href="<?= WEBURL .'edu/course/'.$c['id'] ?>">
+			<?= nl2br( htmlspecialchars($c['name']) ) ?>
+			</a>
+		</td>
 		<td><?= $c['stages'] ?></td>
 		<td><?= $c['hours'] ?></td>
 	</tr>

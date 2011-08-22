@@ -12,6 +12,9 @@ function top(){
 	
 	<!-- Libraries -->
     <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="/js/jstree/jquery.jstree.js"></script> 
+	<link rel="stylesheet" href="/js/jstree/default/style.css" />
+	<script type="text/javascript" src="/js/jquery.hotkeys.js"></script> 
 	<script type="text/javascript" src="/js/json2.js"></script> 
     <script type="text/javascript" src="/js/underscore.js"></script>
     <script type="text/javascript" src="/js/backbone.js"></script>
@@ -54,12 +57,17 @@ function menu(){?>
 				<li><a href="<?= WEBURL .'edu/statistics' ?>">Статистика</a></li>
 			</ul>
 		</li>
-		<li><span class="a">Структура и учебные планы</span>
+		<li><span class="a">Учебный процесс</span>
 			<ul class="v_menu">
 				<li><a href="<?= WEBURL .'edu/curriculums' ?>">Учебные планы</a></li>
 				<li><a href="<?= WEBURL .'edu/courses' ?>">Учебные курсы</a></li>
-				<li><a href="<?= WEBURL .'edu/groups' ?>">Учебные группы</a></li>
-				<li><a href="<?= WEBURL .'edu/students' ?>">Обучающиесявв</a></li>
+				<li><a href="<?= WEBURL .'edu/groups' ?>">Группы</a></li>
+				<li><a href="<?= WEBURL .'edu/students' ?>">Студенты</a></li>
+			</ul>
+		</li>
+		<li><span class="a">Структура учреждения</span>
+			<ul class="v_menu">
+				<li><a href="<?= WEBURL .'org/staff' ?>">Сотрудники</a></li>
 				<li><a href="<?= WEBURL .'org/departments' ?>">Подразделения</a></li>
 			</ul>
 		</li>

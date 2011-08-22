@@ -38,7 +38,7 @@ try {
 			}
 			break;
 		
-		// Структура и учебные планы
+		// Учебный процесс
 		case "edu":
 			switch ($r->get(1)){
 				case "curriculums":
@@ -51,6 +51,19 @@ try {
 					redirect( WEBURL );
 			}
 			break;
+		
+		
+		// Структура учреждения
+		case "org":
+			switch ($r->get(1)){
+				case "departments":
+					include "protected/modules/org/departments.module.php";
+					break;
+				default:
+					redirect( WEBURL );
+			}
+			break;
+		
 		
 		case "logout":
 			$a->logout();
