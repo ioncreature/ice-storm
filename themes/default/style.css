@@ -247,4 +247,9 @@ table.common tr.header th{
 #departments_tree {
 	border: 1px solid grey;
 	border-radius: 5px;
+	font-size: 14px;
+}
+#departments_tree li{
+	margin-top: 5px;
+	margin-bottom: 5px;
 }

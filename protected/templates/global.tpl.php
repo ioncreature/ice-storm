@@ -12,8 +12,8 @@ function top(){
 	
 	<!-- Libraries -->
     <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+	
 	<script type="text/javascript" src="/js/jstree/jquery.jstree.js"></script> 
-	<link rel="stylesheet" href="/js/jstree/default/style.css" />
 	<script type="text/javascript" src="/js/jquery.hotkeys.js"></script> 
 	<script type="text/javascript" src="/js/json2.js"></script> 
     <script type="text/javascript" src="/js/underscore.js"></script>
