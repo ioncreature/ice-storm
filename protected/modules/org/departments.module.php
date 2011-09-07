@@ -69,6 +69,29 @@ elseif ( $r->equal('org/departments/move') and isset($r->id, $r->to) ){
 }
 
 
+// удаление подразделения
+elseif ( $r->equal('org/departments/remove') and isset($r->id) ){
+	$id = (int) $r->id;
+	$db->start();
+	$dep = $db->fetch_query("SELECT * FROM org_departments WHERE id = '$id'");
+	if ( $dep ){
+		$parent_id = (int) $dep['parent_id'];
+		$db->query("
+			UPDATE org_departments 
+			SET parent_id = '$parent_id' 
+			WHERE parent_id = '$id'
+		");
+		$db->query("
+			DELETE FROM org_departments 
+			WHERE id = '$id'
+			LIMIT 1
+		");
+	}
+	$db->commit();
+	die( json_encode( array( 'status' => true )));
+}
+
+
 // первоначальное состояние дерева
 $departments = $db->query("SELECT * FROM org_departments WHERE parent_id = '0'");
 $out = array();
@@ -130,7 +153,22 @@ $("#departments_tree")
 		},
 		
 		contextmenu: {
-			items
+			items: {
+				remove: {
+					label: "Удалить"
+				},
+				create: {
+					label: "Создать"
+				},
+				rename: {
+					label: "Переименовать",
+					_disabled: true
+				},
+				ccp: {
+					label: "Редактировать",
+					_disabled: true
+				}
+			}
 		},
 		dnd: {},
 		crrm: {},
@@ -138,7 +176,7 @@ $("#departments_tree")
 	})
 	
 	.bind( 'create.jstree', function( e, data ){
-		console.log('create.jstree: ' + data.rslt.name);
+		console.log('create.jstree: ' + data.rslt.name);	
 		$.ajax({
 			url: '<?= WEBURL .'org/departments/add' ?>',
 			type: 'POST',
@@ -167,16 +205,26 @@ $("#departments_tree")
 				data : { 
 					id: $(data.rslt.o[i]).attr( 'department_id' ),
 					to: data.rslt.cr === -1 ? 1 : data.rslt.np.attr( 'department_id' )
-				},
-				success : function( r ){
-					if ( !r.status ){
-						$.jstree.rollback(data.rlbk);
-						console.log('move error');
-					}
 				}
 			});
 		});
-	});;
+	})
+	.bind("remove.jstree", function( e, data ){
+		data.rslt.obj.each( function(){
+			$.ajax({
+				async : false,
+				type: 'POST',
+				url: '<?= WEBURL .'org/departments/remove' ?>',
+				data : { 
+					"id" : $(this).attr('department_id')
+				}, 
+				success : function( r ){
+					if ( !r.status )
+						data.inst.refresh();
+				}
+			});
+		});
+	});
 </script>
 
 
