@@ -48,6 +48,27 @@ elseif ( $r->equal('org/departments/add') and isset($r->id, $r->title) ){
 }
 
 
+// перемещение нода в дереве
+elseif ( $r->equal('org/departments/move') and isset($r->id, $r->to) ){
+	$dep_id = (int) $r->id;
+	$to_id = (int) $r->to;
+	$db->start();
+	$deps = $db->query("SELECT * FROM org_departments WHERE id IN ('$dep_id','$to_id')");
+	if ( count($deps) === 2 ){
+		$db->query("
+			UPDATE org_departments
+			SET
+				parent_id = '$to_id'
+			WHERE
+				id = '$dep_id'
+			LIMIT 1
+		");
+	}
+	$db->commit();
+	die( json_encode( array( 'status' => count($deps) === 2 )));
+}
+
+
 // первоначальное состояние дерева
 $departments = $db->query("SELECT * FROM org_departments WHERE parent_id = '0'");
 $out = array();
@@ -83,7 +104,7 @@ top();
 <div id="departments_tree"></div>
 <script type="text/javascript">
 $("#departments_tree")
-	.bind("before.jstree", function ( e, data ){
+	.bind("before.jstree", function( e, data ){
 		// console.log('before.jstree fired', data);
 	})
 	.jstree({ 
@@ -102,40 +123,60 @@ $("#departments_tree")
 			ajax : {
 				url : "<?= WEBURL .'org/departments/get' ?>",
 				type: 'POST',
-				data : function ( elem ){
+				data : function( elem ){
 					return { department_id: $(elem).attr('department_id') }
 				}
 			}
 		},
 		
+		contextmenu: {
+			items
+		},
 		dnd: {},
 		crrm: {},
-		contextmenu: {},		
 		core: {}
 	})
 	
-	.bind("create.jstree", function (e, data) {
+	.bind( 'create.jstree', function( e, data ){
 		console.log('create.jstree: ' + data.rslt.name);
 		$.ajax({
 			url: '<?= WEBURL .'org/departments/add' ?>',
 			type: 'POST',
 			data: {
-				"id" : data.rslt.parent.attr("department_id"), 
-				"position" : data.rslt.position,
-				"title" : data.rslt.name,
-				"type" : data.rslt.obj.attr("rel")
+				id: data.rslt.parent.attr( 'department_id' ),
+				title: data.rslt.name,
+				type: data.rslt.obj.attr( 'rel' )
 			},
 			dataType: 'json',
 			success: function(){
 				if ( r.status )
-					$(data.rslt.obj).attr("department_id", r.id);
+					$(data.rslt.obj).attr( 'department_id', r.id);
 				else {
 					$.jstree.rollback(data.rlbk);
 					alert( 'Подразделение с таким именем уже существует' );
 				}
 			}
 		});
-	});
+	})
+	.bind( 'move_node.jstree', function( e, data ){
+		data.rslt.o.each( function( i ){
+			$.ajax({
+				url: '<?= WEBURL .'org/departments/move' ?>',
+				async: false,
+				type: 'POST',
+				data : { 
+					id: $(data.rslt.o[i]).attr( 'department_id' ),
+					to: data.rslt.cr === -1 ? 1 : data.rslt.np.attr( 'department_id' )
+				},
+				success : function( r ){
+					if ( !r.status ){
+						$.jstree.rollback(data.rlbk);
+						console.log('move error');
+					}
+				}
+			});
+		});
+	});;
 </script>
 
 
