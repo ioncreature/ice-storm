@@ -53,6 +53,9 @@ try {
 				case "courses":
 					include "protected/modules/edu/courses.module.php";
 					break;
+				case "course":
+					include "protected/modules/edu/course_themes.module.php";
+					break;
 				default:
 					redirect( WEBURL );
 			}

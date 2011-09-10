@@ -18,7 +18,11 @@ function top(){
 	<script type="text/javascript" src="/js/json2.js"></script> 
     <script type="text/javascript" src="/js/underscore.js"></script>
     <script type="text/javascript" src="/js/backbone.js"></script>
-    <script type="text/javascript" src="/js/mustache.js"></script>
+    <!--
+	<script type="text/javascript" src="/js/mustache.js"></script>
+	-->
+    <script type="text/javascript" src="/js/ICanHaz.js"></script>
+    <script type="text/javascript" src="/js/jquery.form.js"></script>
 
 	<!-- Application -->
     <!-- <script type="text/javascript" src="js/app.js"></script> -->
@@ -51,13 +55,14 @@ function menu(){?>
 		<!--
 		<li><a href="<?= WEBURL ?>">Главная</a></li>
 		-->
-		<li><span class="a">Оценки и статистика</span>
+		<li><span class="a">Учебный процесс</span>
 			<ul class="v_menu">
 				<li><a href="<?= WEBURL .'edu/marks' ?>">Оценки</a></li>
 				<li><a href="<?= WEBURL .'edu/statistics' ?>">Статистика</a></li>
+				<li><a href="<?= WEBURL .'edu/schedule' ?>">Расписание</a></li>
 			</ul>
 		</li>
-		<li><span class="a">Учебный процесс</span>
+		<li><span class="a">Организация учебы</span>
 			<ul class="v_menu">
 				<li><a href="<?= WEBURL .'edu/curriculums' ?>">Учебные планы</a></li>
 				<li><a href="<?= WEBURL .'edu/courses' ?>">Учебные курсы</a></li>

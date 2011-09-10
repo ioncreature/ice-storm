@@ -1,4 +1,4 @@
-//     Backbone.js 0.5.2
+//     Backbone.js 0.5.3
 //     (c) 2010 Jeremy Ashkenas, DocumentCloud Inc.
 //     Backbone may be freely distributed under the MIT license.
 //     For all details and documentation:
@@ -25,14 +25,14 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  Backbone.VERSION = '0.5.2';
+  Backbone.VERSION = '0.5.3';
 
   // Require Underscore, if we're on the server, and it's not already present.
   var _ = root._;
   if (!_ && (typeof require !== 'undefined')) _ = require('underscore')._;
 
-  // For Backbone's purposes, jQuery or Zepto owns the `$` variable.
-  var $ = root.jQuery || root.Zepto;
+  // For Backbone's purposes, jQuery, Zepto, or Ender owns the `$` variable.
+  var $ = root.jQuery || root.Zepto || root.ender;
 
   // Runs Backbone.js in *noConflict* mode, returning the `Backbone` variable
   // to its previous owner. Returns a reference to this Backbone object.
@@ -41,7 +41,7 @@
     return this;
   };
 
-  // Turn on `emulateHTTP` to use support legacy HTTP servers. Setting this option will
+  // Turn on `emulateHTTP` to support legacy HTTP servers. Setting this option will
   // fake `"PUT"` and `"DELETE"` requests via the `_method` parameter and set a
   // `X-Http-Method-Override` header.
   Backbone.emulateHTTP = false;
@@ -641,7 +641,7 @@
   var methods = ['forEach', 'each', 'map', 'reduce', 'reduceRight', 'find', 'detect',
     'filter', 'select', 'reject', 'every', 'all', 'some', 'any', 'include',
     'contains', 'invoke', 'max', 'min', 'sortBy', 'sortedIndex', 'toArray', 'size',
-    'first', 'rest', 'last', 'without', 'indexOf', 'lastIndexOf', 'isEmpty'];
+    'first', 'rest', 'last', 'without', 'indexOf', 'lastIndexOf', 'isEmpty', 'groupBy'];
 
   // Mix in each Underscore method as a proxy to `Collection#models`.
   _.each(methods, function(method) {
@@ -766,7 +766,7 @@
           fragment = window.location.hash;
         }
       }
-      return fragment.replace(hashStrip, '');
+      return decodeURIComponent(fragment.replace(hashStrip, ''));
     },
 
     // Start the hash change handling, returning `true` if the current URL matches
@@ -812,7 +812,10 @@
         this.fragment = loc.hash.replace(hashStrip, '');
         window.history.replaceState({}, document.title, loc.protocol + '//' + loc.host + this.options.root + this.fragment);
       }
-      return this.loadUrl();
+
+      if (!this.options.silent) {
+        return this.loadUrl();
+      }
     },
 
     // Add a route to be tested when the fragment changes. Routes added later may
@@ -933,7 +936,7 @@
       return el;
     },
 
-    // Set callbacks, where `this.callbacks` is a hash of
+    // Set callbacks, where `this.events` is a hash of
     //
     // *{"event selector": "callback"}*
     //
@@ -949,6 +952,7 @@
     // not `change`, `submit`, and `reset` in Internet Explorer.
     delegateEvents : function(events) {
       if (!(events || (events = this.events))) return;
+      if (_.isFunction(events)) events = events.call(this);
       $(this.el).unbind('.delegateEvents' + this.cid);
       for (var key in events) {
         var method = this[events[key]];
@@ -980,7 +984,7 @@
     // Ensure that the View has a DOM element to render into.
     // If `this.el` is a string, pass it through `$()`, take the first
     // matching element, and re-assign it to `el`. Otherwise, create
-    // an element from the `id`, `className` and `tagName` proeprties.
+    // an element from the `id`, `className` and `tagName` properties.
     _ensureElement : function() {
       if (!this.el) {
         var attrs = this.attributes || {};
@@ -1070,7 +1074,7 @@
     }
 
     // Don't process data on a non-GET request.
-    if (params.type !== 'GET') {
+    if (params.type !== 'GET' && !Backbone.emulateJSON) {
       params.processData = false;
     }
 

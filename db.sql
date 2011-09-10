@@ -3,7 +3,7 @@
 # Server version:               5.1.51-community - MySQL Community Server (GPL)
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3933
-# Date/time:                    2011-08-22 21:26:45
+# Date/time:                    2011-09-11 02:03:34
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS `auth_group_permissions` (
   `type` enum('allow','deny') NOT NULL DEFAULT 'allow' COMMENT '''deny'' has a greater priority than an ''allow''',
   PRIMARY KEY (`id`),
   UNIQUE KEY `group_id` (`group_id`,`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-# Dumping data for table ice-storm.auth_group_permissions: ~1 rows (approximately)
+# Dumping data for table ice-storm.auth_group_permissions: ~3 rows (approximately)
 /*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
 INSERT INTO `auth_group_permissions` (`id`, `group_id`, `permission_id`, `type`) VALUES
 	(1, 1, 1, 'allow'),
@@ -175,13 +175,22 @@ CREATE TABLE IF NOT EXISTS `edu_course_themes` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `course_id` int(11) NOT NULL,
   `stage_id` int(11) NOT NULL DEFAULT '1' COMMENT 'Этап учебного курса',
-  `name` varchar(200) NOT NULL,
+  `name` varchar(300) NOT NULL,
   `hours` int(11) NOT NULL DEFAULT '1' COMMENT 'Продолжительность темы',
+  `order` int(10) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Темы из учебных курсов';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='Темы из учебных курсов';
 
-# Dumping data for table ice-storm.edu_course_themes: ~0 rows (approximately)
+# Dumping data for table ice-storm.edu_course_themes: ~7 rows (approximately)
 /*!40000 ALTER TABLE `edu_course_themes` DISABLE KEYS */;
+INSERT INTO `edu_course_themes` (`id`, `course_id`, `stage_id`, `name`, `hours`, `order`) VALUES
+	(1, 1, 1, 'Алфавит', 4, 1),
+	(2, 1, 1, 'Слоги', 2, 2),
+	(6, 1, 1, 'Гласные', 2, 3),
+	(7, 1, 1, 'Согласные буквы', 4, 4),
+	(8, 1, 1, 'Слова', 4, 5),
+	(9, 1, 2, 'Предложения', 6, 1),
+	(10, 1, 2, 'Сложные предложения', 10, 2);
 /*!40000 ALTER TABLE `edu_course_themes` ENABLE KEYS */;
 
 
@@ -359,18 +368,19 @@ CREATE TABLE IF NOT EXISTS `org_departments` (
   `name` varchar(150) NOT NULL,
   `state` enum('active','inactive') NOT NULL DEFAULT 'active',
   `parent_id` int(10) DEFAULT NULL,
-  `type` enum('edu','org') NOT NULL DEFAULT 'org',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `edit_date` timestamp NULL DEFAULT NULL,
   `close_date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-# Dumping data for table ice-storm.org_departments: ~2 rows (approximately)
+# Dumping data for table ice-storm.org_departments: ~4 rows (approximately)
 /*!40000 ALTER TABLE `org_departments` DISABLE KEYS */;
-INSERT INTO `org_departments` (`id`, `name`, `state`, `parent_id`, `type`, `create_date`, `edit_date`, `close_date`) VALUES
-	(1, 'Институт ПМИ', 'active', 0, 'edu', '2011-08-22 01:14:25', NULL, NULL),
-	(2, 'Институт ГП', 'active', 0, 'edu', '2011-08-22 01:15:14', NULL, NULL);
+INSERT INTO `org_departments` (`id`, `name`, `state`, `parent_id`, `create_date`, `edit_date`, `close_date`) VALUES
+	(1, 'Институт ПМИ', 'active', 0, '2011-08-22 01:14:25', NULL, NULL),
+	(2, 'Институт ГП', 'active', 0, '2011-08-22 01:15:14', NULL, NULL),
+	(3, 'Факультет ПМИ', 'active', 1, '2011-08-22 21:32:06', NULL, NULL),
+	(4, 'Факультет АСУ', 'active', 1, '2011-08-22 21:32:23', NULL, NULL);
 /*!40000 ALTER TABLE `org_departments` ENABLE KEYS */;
 
 
@@ -380,7 +390,11 @@ CREATE TABLE IF NOT EXISTS `org_humans` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `fio` varchar(100) NOT NULL,
   `birth_date` date DEFAULT NULL,
+  `photo` varchar(150) DEFAULT NULL,
   `phone_number` varchar(50) NOT NULL DEFAULT '',
+  `email` varchar(150) NOT NULL DEFAULT '',
+  `skype` varchar(60) NOT NULL DEFAULT '',
+  `icq` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
