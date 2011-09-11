@@ -23,6 +23,7 @@ if ( isset($_SERVER['ENV']) and $_SERVER['ENV'] == "muchacho_home" ){
 	// Paths
 	define( 'WEBURL', 'http://ice/' );
 	define( 'DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] .'/' );
+	define( 'TEMPLATES_PATH', $_SERVER['DOCUMENT_ROOT'] .'/protected/templates/' );
 	
 	define( 'ADMIN_EMAIL', 'admin@icestorm.ru' );
 	

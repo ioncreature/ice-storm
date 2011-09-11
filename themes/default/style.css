@@ -260,7 +260,5 @@ div.loader {
 	display: none;
 	width: 16px;
 	height: 16px;
-	background: transparent url(fbloader.gif) top left no-repeat;
+	background: transparent url(fbloader.gif) center left no-repeat;
 }
-
-

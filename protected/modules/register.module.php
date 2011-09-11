@@ -38,7 +38,7 @@ if ( $r->is_equal(1, 'success') and $r->is_int(2) ){
 //
 // ВЫВОД
 //
-top();
+Template::top();
 ?>
 
 <h2>Регистрация</h2>
@@ -96,4 +96,4 @@ top();
 	});
 </script>
 
-<?= bottom() ?>
+<?= Template::bottom() ?>

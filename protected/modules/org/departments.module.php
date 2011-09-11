@@ -110,7 +110,8 @@ $out = json_encode( array( $out ));
 //
 // ВЫВОД
 //
-top();
+Template::add_js( '/js/jstree/jquery.jstree.js' );
+Template::top();
 ?>
 <h2>Подразделения</h2>
 
@@ -228,4 +229,4 @@ $("#departments_tree")
 </script>
 
 
-<?= bottom() ?>
+<?php Template::bottom(); ?>

@@ -38,19 +38,16 @@ if ( isset( $r->user_id, $r->group_id, $r->stat ) ){
 }
 
 // список групп
-$groups = $db->query("
-	SELECT * 
-	FROM
-		auth_groups
-");
+$groups = $db->query("SELECT * FROM auth_groups");
 
 // список пользователей
-$users = $db->query("
-	SELECT * 
-	FROM
-		auth_users
-");
-top();
+$users = $db->query("SELECT * FROM auth_users");
+
+
+//
+// ВЫВОД
+//
+Template::top();
 ?>
 
 <table>
@@ -98,4 +95,4 @@ top();
 	});
 </script>
 
-<?= bottom() ?>
+<?= Template::bottom() ?>

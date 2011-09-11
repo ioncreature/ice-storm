@@ -1,44 +1,4 @@
 <?php
-function top(){
-?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Ice Storm</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
-	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"> 
-	<link rel="stylesheet" href="/themes/default/style.css?<?=rand(0,999999)?>" />
-	
-	<!-- Libraries -->
-    <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
-	
-	<script type="text/javascript" src="/js/jstree/jquery.jstree.js"></script> 
-	<script type="text/javascript" src="/js/jquery.hotkeys.js"></script> 
-	<script type="text/javascript" src="/js/json2.js"></script> 
-    <script type="text/javascript" src="/js/underscore.js"></script>
-    <script type="text/javascript" src="/js/backbone.js"></script>
-    <!--
-	<script type="text/javascript" src="/js/mustache.js"></script>
-	-->
-    <script type="text/javascript" src="/js/ICanHaz.js"></script>
-    <script type="text/javascript" src="/js/jquery.form.js"></script>
-
-	<!-- Application -->
-    <!-- <script type="text/javascript" src="js/app.js"></script> -->
-</head>
-<body>
-<div id="header">
-	<span class="logo"><a href="<?= WEBURL ?>">Ice Storm</a></span>
-	<?= menu() ?>
-	<?= auth_form() ?>
-</div>
-<div id="body">
-<?php
-}
-
-
-
 function bottom(){?>
 </div>
 <!-- FOOTER -->

@@ -20,7 +20,7 @@ if ( $r->equal('edu/curriculums/add') and isset($r->name, $r->count) ){
 		
 		$curr = $db->fetch_query( "SELECT * FROM edu_curriculums WHERE name = '". $db->safe($name) ."'" );
 		if ( $curr )
-			throw new Exception( 'Вы ввели некорректные данные для созжания нового учебного плана' );
+			throw new Exception( 'Вы ввели некорректные данные для создания нового учебного плана' );
 	
 		$db->insert( 'edu_curriculums', array(
 			'state' => 'active',
@@ -34,18 +34,13 @@ if ( $r->equal('edu/curriculums/add') and isset($r->name, $r->count) ){
 	}
 }
 
-
 // Список учебных планов
-$curriculums = $db->query("
-	SELECT *
-	FROM edu_curriculums
-");
-
+$curriculums = $db->query("SELECT * FROM edu_curriculums");
 
 //
 // ВЫВОД
 //
-top();
+Template::top();
 ?>
 
 <!-- СООБЩЕНИЕ ОБ ОШИБКЕ -->
@@ -104,4 +99,5 @@ top();
 		<tr><td colspan="2"><b>Учебных планов пока нет</b></td></tr>
 	<?php endif; ?>
 </table>
-<?= bottom() ?>
+
+<?= Template::bottom() ?>

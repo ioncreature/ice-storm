@@ -74,7 +74,7 @@ $courses = $db->query("
 //
 // ВЫВОД
 //
-top();
+Template::top();
 ?>
 
 <!-- СООБЩЕНИЕ ОБ ОШИБКЕ -->
@@ -155,4 +155,4 @@ top();
 </table>
 
 
-<?= bottom() ?>
+<?= Template::bottom() ?>

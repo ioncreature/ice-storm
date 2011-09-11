@@ -1,6 +1,13 @@
 <?php
+/*
+	ACL
+	Groups permissions
+	2011
+	Kurmashev Rinat, Marenin Alex
+*/
 $r = RequestParser::get_instance();
 $db = Fabric::get('db');
+
 
 if ( isset( $r->permission_id, $r->group_id, $r->stat ) ){
 	$permission_id = (int) $r->permission_id;
@@ -39,19 +46,15 @@ if ( isset( $r->permission_id, $r->group_id, $r->stat ) ){
 }
 
 // список групп
-$groups = $db->query("
-	SELECT * 
-	FROM
-		auth_groups
-");
+$groups = $db->query("SELECT * FROM auth_groups");
 
 // список разрешений
-$perms = $db->query("
-	SELECT * 
-	FROM
-		auth_permissions
-");
-top();
+$perms = $db->query("SELECT * FROM auth_permissions");
+
+//
+// ВЫВОД
+//
+Template::top();
 ?>
 
 <table>
@@ -99,4 +102,4 @@ top();
 	});
 </script>
 
-<?= bottom() ?>
+<?= Template::bottom() ?>

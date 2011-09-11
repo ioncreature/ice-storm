@@ -15,7 +15,6 @@ usleep( 750*1000 );
 if ( !$r->is_int(2) )
 	redirect( WEBURL );
 $cid = $r->to_int(2);
-
 $course = $db->fetch_query("SELECT * FROM edu_courses WHERE id = '$cid' LIMIT 1");
 
 // запрос всех семестров и тем
@@ -128,7 +127,10 @@ elseif ( $r->equal('edu/course/::int/edit_theme') and isset($r->name, $r->hours,
 //
 // ВЫВОД
 //
-top();
+Template::add_js( '/js/jquery.hotkeys.js' );
+Template::add_js( '/js/ui/jquery-ui.js' );
+Template::add_css( '/js/ui/jquery-ui.css' );
+Template::top();
 ?>
 <h2>Темы учебного курса "<?= htmlspecialchars($course['name']) ?>"</h2>
 
@@ -177,22 +179,29 @@ $( document ).ready( function(){
 		var form = $( ich.t_form_edit_theme(param) );
 		$(this).hide();
 		$(this).after( form );
+		$('input[name=name]', form).focus();
 		var remove_form = function(){
 			$(form).remove();
 			$(self).show();
 		};
 		$( 'input[type=button]', form ).click( remove_form );
+		$('input, select', form).bind( 'keydown', 'esc', remove_form );
 		
 		$('form', form).ajaxForm({
 			type: 'POST',
 			dataType: 'json',
 			beforeSubmit: function( args, fe ){
-				var name = $( 'input[name=name]', fe ).val();
-				var hours = $( 'input[name=hours]', fe ).val();
-				if ( name.length < 4 || name === param.name )
-					return;
-				if ( Number(hours) < 0 || Number(hours) > 50 || $.trim(hours) === param.hours )
-					return;
+				var name = $.trim( $( 'input[name=name]', fe ).val() );
+				var hours = $.trim( $( 'input[name=hours]', fe ).val() );
+				if ( name.length < 4 )
+					return false;
+				if ( Number(hours) < 0 || Number(hours) > 50 )
+					return false;
+				if ( name === param.name && hours === param.hours )
+					return false;
+				$('div.loader', fe).css( 'display', 'inline-block' );
+				// $('div.loader', fe).show();
+				// console.log($('div.loader', fe));
 			},
 			success: function( data ){
 				if ( data.status ){
@@ -203,6 +212,7 @@ $( document ).ready( function(){
 					$(self).remove();
 				}
 				else {
+					$('div.loader', form).hide();
 					remove_form();
 					alert( 'Произошла ошибка' );
 				}
@@ -213,6 +223,8 @@ $( document ).ready( function(){
 	
 	// Создание темы
 	var add_theme = function(){	
+		var self = this;
+		
 		// предотвращаем повторное создание формы
 		var parent = this.parentNode;
 		if ( $('.add_theme_form', parent).length > 0 ){
@@ -229,9 +241,15 @@ $( document ).ready( function(){
 			'course_id': cid
 		}));
 		$(this).after( form );
-		$( 'input[type=button]', form ).click( function(){
-			$(form).remove();
-		});
+		$(this).hide();
+		$( 'input[name=name]', form ).focus();
+		
+		var remove_form = function(){ 
+			$(form).remove(); 
+			$(self).show();
+		};
+		$( 'input[type=button]', form ).click( remove_form );
+		$( 'input, select', form ).bind( 'keydown', 'esc', remove_form );
 		
 		$( form ).ajaxForm({
 			type: 'POST',
@@ -251,8 +269,10 @@ $( document ).ready( function(){
 				console.log( data );
 				
 				if ( data.status ){
-					$(parent).append( ich.t_theme(data) );
-					$(form).remove();
+					var theme = $( ich.t_theme(data) );
+					$(parent).append( theme );
+					$(theme).dblclick( edit_theme );
+					remove_form();
 				}
 				else {
 					alert('Произошла ошибка');
@@ -283,8 +303,8 @@ $( document ).ready( function(){
 	{{#stages}}
 	<li stageid="{{id}}">
 		<h3>{{stage_name}} {{order}} семестр</h3>
-		<ul class="course_stage" stageid="{{id}}">
 		<button class="add_theme" stageid="{{id}}" courseid="{{course_id}}">Добавить учебную тему</button>
+		<ul class="course_stage" stageid="{{id}}">
 		{{#themes}}
 			{{>t_theme}}
 		{{/themes}}
@@ -295,8 +315,7 @@ $( document ).ready( function(){
 </script>
 
 <script type="text/html" id="t_theme" class="partial">
-	<li class="theme" themeid="{{id}}" courseid="{{course_id}}" stageid="{{stage_id}}" themename="{{name}}" hours="{{hours}}">
-		<span class="order">{{order}}</span>
+	<li class="theme" themeid="{{id}}" courseid="{{course_id}}" stageid="{{stage_id}}" themename="{{name}}" hours="{{hours}}" order="{{order}}">
 		<span class="name">{{name}}</span>
 		<span class="hours">{{hours}} ч.</span>
 	</li>

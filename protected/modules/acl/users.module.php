@@ -1,4 +1,9 @@
 <?php
+/*
+	ACL 
+	Users and groups
+	2011
+*/
 $r = RequestParser::get_instance();
 $db = Fabric::get('db');
 
@@ -39,19 +44,16 @@ if ( isset( $r->permission_id, $r->user_id, $r->stat ) ){
 }
 
 // список пользователей
-$users = $db->query("
-	SELECT * 
-	FROM
-		auth_users
-");
+$users = $db->query("SELECT * FROM auth_users");
 
 // список разрешений
-$perms = $db->query("
-	SELECT * 
-	FROM
-		auth_permissions
-");
-top();
+$perms = $db->query("SELECT * FROM auth_permissions");
+
+
+//
+// ВЫВОД
+//
+Template::top();
 ?>
 
 <table>
@@ -99,4 +101,4 @@ top();
 	});
 </script>
 
-<?= bottom() ?>
+<?= Template::bottom() ?>
