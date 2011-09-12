@@ -123,6 +123,72 @@ elseif ( $r->equal('edu/course/::int/edit_theme') and isset($r->name, $r->hours,
 	)));
 }
 
+elseif ( $r->equal('edu/course/::int/move') and isset($r->order, $r->theme_id, $r->course_id, $r->stage_id ) ){
+	$tid = (int) $r->theme_id;
+	$cid = (int) $r->course_id;
+	$sid = (int) $r->stage_id;
+	$order = (int) $r->order;
+	
+	$db->start();
+	$theme = $db->fetch_query("
+		SELECT *
+		FROM edu_course_themes
+		WHERE id = '$tid'
+		LIMIT 1
+	");
+	if ( $theme ){
+		$old_order = (int) $theme['order'];
+		if ( $old_order === $order ){
+			$db->commit();
+			die( json_encode( array( 'status' => true )));
+		}
+		elseif ( $old_order > $order ){
+			$db->query("
+				UPDATE edu_course_themes
+				SET
+					`order` = `order` + 1
+				WHERE
+					stage_id = '$sid' and
+					`order` >= '$order' and
+					`order` <= '$old_order' 
+			");
+			$db->query("
+				UPDATE edu_course_themes
+				SET `order` = '$order'
+				WHERE
+					id = '$tid'
+				LIMIT 1
+			");
+			$db->commit();
+			die( json_encode( array( 'status' => true )));
+		}
+		elseif ( $old_order < $order ){
+			$db->query("
+				UPDATE edu_course_themes
+				SET
+					`order` = `order` - 1
+				WHERE
+					stage_id = '$sid' and
+					`order` >= '$old_order' and
+					`order` <= '$order' 
+			");
+			$db->query("
+				UPDATE edu_course_themes
+				SET `order` = '$order'
+				WHERE
+					id = '$tid'
+				LIMIT 1
+			");
+			$db->commit();
+			die( json_encode( array( 'status' => true )));
+		}
+	}
+	else {
+		$db->rollback();
+		die( json_encode( array( 'status' => false )));
+	}
+}
+
 
 //
 // ВЫВОД
@@ -136,9 +202,9 @@ Template::top();
 
 
 <!-- СПИСОК СЕМЕСТРОВ В КУРСЕ -->
-<ul id="course_stages">
-<div class="loader"></div>
-</ul>
+<div id="course_stages">
+<span class="loader"><div></div></span>
+</div>
 
 
 <script type="text/javascript">
@@ -150,14 +216,51 @@ $( document ).ready( function(){
 			url: '<?= WEBURL ."edu/course/$cid/get" ?>',
 			type: 'POST',
 			dataType: 'json',
-			beforeSend: function(){
-				$( 'div.loader', $('#course_stages') ).show();
+				beforeSend: function(){
+				$( 'span.loader', $('#course_stages') ).show();
 			},
 			success: function( data ){
 				if ( data.status ){
-					$( 'div.loader', $('#course_stages') ).hide();
+					$( 'span.loader', $('#course_stages') ).hide();
 					var stages = $(ich.t_stage(data)); 
 					$( '#course_stages' ).append( stages );
+					var themes_list = $( 'ol.course_stage', stages );
+					themes_list.sortable({
+						start: function(){
+							$( 'li.theme' ).show();
+							$( 'li.edit_form' ).remove();
+						},
+						stop: function( event, ui ){
+							themes_list.sortable( "option", "disabled", true );
+							console.log( arguments );
+							var elem = ui.item[0];
+							var data = {
+								order: reorder_list( elem ),
+								theme_id: $(elem).attr( 'themeid' ),
+								course_id: $(elem).attr( 'courseid' ),
+								stage_id: $(elem).attr( 'stageid' )
+							};
+							
+							$( 'span.loader', elem ).show();
+							$.ajax({
+								url: '<?= WEBURL ."edu/course/$cid/move" ?>',
+								data: data,
+								type: 'POST',
+								dataType: 'json',
+								success: function( data ){
+									if ( data.status ){
+										console.log('moved succesfully');
+									}
+									else {
+									}
+								},
+								complete: function(){
+									themes_list.sortable( "option", "disabled", false );
+									$( 'span.loader', elem ).hide();
+								}
+							});
+						}
+					});
 					$( 'button.add_theme' ).click( add_theme );
 					$( 'li.theme' ).dblclick( edit_theme );
 				}
@@ -165,6 +268,17 @@ $( document ).ready( function(){
 		});
 	}
 	init_stages();
+	
+	
+	// перебивает значения аттрибута order у всех siblings и 
+	// возвращает значение аттрибута указанного элемента
+	var reorder_list = function( elem ){
+		var parent = elem.parentNode;
+		$(parent).children().each( function( i ){
+			$(this).attr( 'order', i+1 );
+		});
+		return $(elem).attr('order');
+	}
 	
 	
 	// Редактирование темы
@@ -197,11 +311,11 @@ $( document ).ready( function(){
 					return false;
 				if ( Number(hours) < 0 || Number(hours) > 50 )
 					return false;
-				if ( name === param.name && hours === param.hours )
+				if ( name === param.name && hours === param.hours ){
+					remove_form();
 					return false;
-				$('div.loader', fe).css( 'display', 'inline-block' );
-				// $('div.loader', fe).show();
-				// console.log($('div.loader', fe));
+				}
+				$( 'span.loader', fe ).show();
 			},
 			success: function( data ){
 				if ( data.status ){
@@ -212,7 +326,7 @@ $( document ).ready( function(){
 					$(self).remove();
 				}
 				else {
-					$('div.loader', form).hide();
+					$( 'span.loader', form ).hide();
 					remove_form();
 					alert( 'Произошла ошибка' );
 				}
@@ -263,7 +377,7 @@ $( document ).ready( function(){
 					return false;
 				if ( Number(hours) < 1 && Number(hours) > 50 )
 					return false;
-				$( 'div.loader', form ).css('display', 'inline-block');
+				$( 'span.loader', form ).show();
 			},
 			success: function( data ){
 				console.log( data );
@@ -276,7 +390,7 @@ $( document ).ready( function(){
 				}
 				else {
 					alert('Произошла ошибка');
-					$( 'div.loader', form ).hide();
+					$( 'span.loader', form ).hide();
 				}
 			}
 		});
@@ -294,21 +408,21 @@ $( document ).ready( function(){
 		<input type="hidden" name="course_id" value="{{course_id}}" />
 		<input type="submit" value="сохранить"/>
 		<input type="button" value="отмена" />
-		<div class="loader"></div>
+		<span class="loader"><div></div></span>
 	</form>
 </script>
 
 <script type="text/html" id="t_stage">
-	<ul> 
+	<ul class="course_stages_list"> 
 	{{#stages}}
 	<li stageid="{{id}}">
 		<h3>{{stage_name}} {{order}} семестр</h3>
 		<button class="add_theme" stageid="{{id}}" courseid="{{course_id}}">Добавить учебную тему</button>
-		<ul class="course_stage" stageid="{{id}}">
+		<ol class="course_stage" stageid="{{id}}">
 		{{#themes}}
 			{{>t_theme}}
 		{{/themes}}
-		</ul>
+		</ol>
 	</li>
 	{{/stages}}
 	</ul>
@@ -318,6 +432,7 @@ $( document ).ready( function(){
 	<li class="theme" themeid="{{id}}" courseid="{{course_id}}" stageid="{{stage_id}}" themename="{{name}}" hours="{{hours}}" order="{{order}}">
 		<span class="name">{{name}}</span>
 		<span class="hours">{{hours}} ч.</span>
+		<span class="loader"><div></div></span>
 	</li>
 </script>
 
@@ -329,7 +444,7 @@ $( document ).ready( function(){
 		<input type="hidden" name="theme_id" value="{{theme_id}}" />
 		<input type="submit" value="редактировать"/>
 		<input type="button" value="отмена" />
-		<div class="loader"></div>
+		<span class="loader"><div></div></span>
 	</form>
 	</li>
 </script>

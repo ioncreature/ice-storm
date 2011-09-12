@@ -256,9 +256,36 @@ table.common tr.header th{
 
 
 /* AJAX LOADER */
-div.loader {
+span.loader {
 	display: none;
+}
+span.loader div{
+	display: inline-block;
 	width: 16px;
-	height: 16px;
+	height: 15px;
 	background: transparent url(fbloader.gif) center left no-repeat;
 }
+
+
+/* COURSE THEMES MODULE */
+.course_stages_list {
+	list-style: none inside;
+	max-width: 850px;
+}
+.course_stages_list > li {
+	margin-top: 10px;
+}
+.course_stages_list .course_stage{
+	border: 1px solid #CCC;
+	padding-top: 7px;
+	padding-bottom: 8px;
+	border-radius: 4px;
+	background-color: #F9F9F9;
+}
+.course_stages_list .course_stage li.theme{
+}
+/*NO-SELECTABLE*/
+.course_stages_list .noselect{ 
+}
+
+
