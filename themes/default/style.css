@@ -11,7 +11,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 	background: #f4f9fF;
-	min-width: 960px;
+	min-width: 980px;
 	background-color: #E0F0FF;
 	font-size: 14px;
 	font-family: Verdana, Arial, sans;
@@ -23,6 +23,16 @@ a {
 }
 a:hover {
 	text-decoration: underline;
+}
+
+/* COMMON FORMS STYLE */
+input[type=text], input[type=password] {
+	border: 1px solid #999;
+	background-color: #f9f9f9;
+	color: #333;
+	font-size: 14px;
+	border-radius: 3px;
+	padding: 3px 4px;
 }
 
 
@@ -42,8 +52,8 @@ div#header a {
 div#header > span.logo {
 	display: block;
 	float: left;
-	font-size: 24px;
-	margin: 15px 50px 15px 15px;
+	font-size: 26px;
+	margin: 13px 40px 15px 15px;
 	font-weight: bold;
 }
 div#header > span.logo a { color: #B0C5E0; }
@@ -117,6 +127,7 @@ ul.v_menu > li {
 
 h1, h2, h3{
 	margin: 10px 0px;
+	color: #444;
 }
 
 
@@ -146,11 +157,13 @@ div.error {
 	border: 1px solid #C55;
 	background-color: #EBB;
 	margin: 10px 0px 5px 0px;
+	line-height: 18px;
 	padding: 3px;
 	border-radius: 4px;
 }
 div.success {	
 	border: 1px solid #5C5;
+	line-height: 20px;
 	background-color: #BEB;
 	margin: 10px 0px 5px 0px;
 	padding: 3px;
@@ -229,3 +242,23 @@ table.common tr.header th{
 /* COMMON TABLE */
 
 
+
+/* DEPARTMENTS TREE */
+#departments_tree {
+	border: 1px solid grey;
+	border-radius: 5px;
+	font-size: 14px;
+}
+#departments_tree li{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+
+/* AJAX LOADER */
+div.loader {
+	display: none;
+	width: 16px;
+	height: 16px;
+	background: transparent url(fbloader.gif) center left no-repeat;
+}

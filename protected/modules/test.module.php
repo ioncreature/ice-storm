@@ -8,7 +8,7 @@ $acl = Auth::$acl;
 
 //
 // ВЫВОД
-top();
+Template::top();
 
 echo '<pre>';
 echo var_export( Auth::$acl, true);
@@ -29,4 +29,4 @@ paginator(array(
 <input type="submit" name="siski" value="4" />
 </form>
 
-<?= bottom() ?>
+<?= Template::bottom() ?>

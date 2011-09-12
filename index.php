@@ -33,21 +33,46 @@ try {
 				case "groups":
 					include "protected/modules/acl/groups.module.php";
 					break;
-				default:
-					redirect( WEBURL );
-			}
-			break;
-		
-		// Структура и учебные планы
-		case "edu":
-			switch ($r->get(1)){
-				case "curriculums":
-					include "protected/modules/edu/curriculums.module.php";
+				case "users":
+					include "protected/modules/acl/users.module.php";
+					break;
+				case "usersingroups":
+					include "protected/modules/acl/usersingroups.module.php";
 					break;
 				default:
 					redirect( WEBURL );
 			}
 			break;
+		
+		// Учебный процесс
+		case "edu":
+			switch ($r->get(1)){
+				case "curriculums":
+					include "protected/modules/edu/curriculums.module.php";
+					break;
+				case "courses":
+					include "protected/modules/edu/courses.module.php";
+					break;
+				case "course":
+					include "protected/modules/edu/course_themes.module.php";
+					break;
+				default:
+					redirect( WEBURL );
+			}
+			break;
+		
+		
+		// Структура учреждения
+		case "org":
+			switch ($r->get(1)){
+				case "departments":
+					include "protected/modules/org/departments.module.php";
+					break;
+				default:
+					redirect( WEBURL );
+			}
+			break;
+		
 		
 		case "logout":
 			$a->logout();

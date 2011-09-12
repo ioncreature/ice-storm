@@ -1,33 +1,31 @@
 <?php
 /*
-	ACL
-	Groups permissions
+	ACL 
+	Users and groups
 	2011
-	Kurmashev Rinat, Marenin Alex
 */
 $r = RequestParser::get_instance();
 $db = Fabric::get('db');
 
-
-if ( isset( $r->permission_id, $r->group_id, $r->stat ) ){
+if ( isset( $r->permission_id, $r->user_id, $r->stat ) ){
 	$permission_id = (int) $r->permission_id;
-	$group_id = (int) $r->group_id;
+	$user_id = (int) $r->user_id;
 	$type = mb_strtolower($r->stat) === 'allow' ? 'allow' : 'deny';
 	
 	if ( mb_strtolower($r->stat) === 'allow' ){
 		// проверка
 		$perm = $db->fetch_query("
 			SELECT * 
-			FROM auth_group_permissions
+			FROM auth_user_permissions
 			WHERE
-				group_id = '$group_id' and
+				user_id = '$user_id' and
 				permission_id = '$permission_id'
 			LIMIT 1
 		");
 		
 		if ( !$perm )
-			$db->insert( 'auth_group_permissions', array(
-				'group_id' => $group_id,
+			$db->insert( 'auth_user_permissions', array(
+				'user_id' => $user_id,
 				'permission_id' => $permission_id,
 				'type' => 'allow'
 			));
@@ -35,9 +33,9 @@ if ( isset( $r->permission_id, $r->group_id, $r->stat ) ){
 	else {
 		$db->query("
 			DELETE 
-			FROM auth_group_permissions 
+			FROM auth_user_permissions 
 			WHERE
-				group_id = '$group_id' and
+				user_id = '$user_id' and
 				permission_id = '$permission_id'
 			LIMIT 1
 		");
@@ -45,11 +43,12 @@ if ( isset( $r->permission_id, $r->group_id, $r->stat ) ){
 	die( json_encode( array( 'status' => true )));
 }
 
-// список групп
-$groups = $db->query("SELECT * FROM auth_groups");
+// список пользователей
+$users = $db->query("SELECT * FROM auth_users");
 
 // список разрешений
 $perms = $db->query("SELECT * FROM auth_permissions");
+
 
 //
 // ВЫВОД
@@ -59,29 +58,29 @@ Template::top();
 
 <table>
 	<tr>
-		<td>Группа\разрешение</td>
+		<td>Пользователь\разрешение</td>
 		<?php foreach ( $perms as $p ): ?>
 			<td><?= $p['description'] ?></td>
 		<?php endforeach; ?>
 	</tr>
-	<?php foreach ( $groups as $g ): 
-			$gps = $db->query("
-				SELECT type, group_id, permission_id
-				FROM auth_group_permissions
-				WHERE group_id = '{$g['id']}'
+	<?php foreach ( $users as $u ): 
+			$uss = $db->query("
+				SELECT type, user_id, permission_id
+				FROM auth_user_permissions
+				WHERE user_id = '{$u['id']}'
 			");
-			$gp = array();
-			foreach ( $gps as $g_p ){
-				$gp[$g_p['permission_id']] = $g_p['type'];
+			$us = array();
+			foreach ( $uss as $u_s ){
+				$us[$u_s['permission_id']] = $u_s['type'];
 			}
 	?>
 	<tr>	
-		<td><?= $g['name'] ?></td>
+		<td><?= $u['login'] ?></td>
 		<?php foreach ( $perms as $p ): ?>
-			<?php if ( isset($gp[$p['id']]) ): ?>
-				<td><input type="checkbox" name="gp_checkbox" checked="checked" value="<?= $p['id'] .','. $g['id'] ?>"/><br></td>
+			<?php if ( isset($us[$p['id']]) ): ?>
+				<td><input type="checkbox" name="gp_checkbox" checked="checked" value="<?= $p['id'] .','. $u['id'] ?>"/><br></td>
 			<?php else: ?>
-				<td><input type="checkbox" name="gp_checkbox" value="<?= $p['id'] .','. $g['id'] ?>"/><br></td>
+				<td><input type="checkbox" name="gp_checkbox" value="<?= $p['id'] .','. $u['id'] ?>"/><br></td>
 			<?php endif; ?>	
 		<?php endforeach; ?>
 	</tr>
@@ -93,11 +92,11 @@ Template::top();
 		$("input:checkbox").click( function(){
 			var index = $("input:checkbox").index(this);
 			var arr = ( $(this).val().split(',') );
-			var url = '<?= WEBURL .'acl/groups' ?>';
+			var url = '<?= WEBURL .'acl/users' ?>';
 			if ( $(this).is(':checked') )
-				$.post( url, { permission_id: arr[0], group_id: arr[1], stat: "allow" } );
+				$.post( url, { permission_id: arr[0], user_id: arr[1], stat: "allow" } );
 			else
-				$.post( url, { permission_id: arr[0], group_id: arr[1], stat: "deny" } );
+				$.post( url, { permission_id: arr[0], user_id: arr[1], stat: "deny" } );
 		});	
 	});
 </script>

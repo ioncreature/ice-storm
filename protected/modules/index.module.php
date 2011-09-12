@@ -20,7 +20,7 @@ if ( isset($r->login, $r->password) ){
 //
 // ВЫВОД
 //
-top();
+Template::top();
 ?>
 
 <!-- СООБЩЕНИЕ ОБ ОШИБКЕ -->
@@ -31,4 +31,4 @@ top();
 
 <h2>Главная страница</h2>
 <p>hello!</p>
-<?= bottom() ?>
+<?= Template::bottom() ?>

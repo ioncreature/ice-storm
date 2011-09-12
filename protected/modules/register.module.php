@@ -38,7 +38,7 @@ if ( $r->is_equal(1, 'success') and $r->is_int(2) ){
 //
 // ВЫВОД
 //
-top();
+Template::top();
 ?>
 
 <h2>Регистрация</h2>
@@ -62,25 +62,38 @@ top();
 	<label>password<br />
 		<input type="text" name="password" placeholder="пароль" />
 	</label>
+	<label>retype password<br />
+		<input type="text" name="repassword" placeholder="пароль" />
+	</label>
 	<label>email<br />
 		<input type="text" name="email" placeholder="email" />
 	</label>
 	<input type="submit" value="Зарегистрироваться" />
+	<div class="error" style="display:none"></div>
 </form>
 <script type="text/javascript">
 	$( document ).ready( function(){
 		$( 'form#register' ).submit( function(){
+			var error = '';
 			var login = $( 'input[name=login]', this ).val();
 			var pass = $( 'input[name=password]', this ).val();
+			var repass = $( 'input[name=repassword]', this ).val();
 			var email = $( 'input[name=email]', this ).val();
-			if ( login && pass && email )
-				return true;
-			else {
-				alert( 'Заполните все поля' );
+			
+			if ( pass !== repass )
+				error += 'Пароли не совпадают<br/>';
+				
+			if ( ! (login && pass && email) )
+				error += 'Заполните все поля<br/>';
+			
+			if ( error.length > 0 ){
+				$('div.error').html( error ).show();
 				return false;
 			}
+			
+			return true;
 		});
 	});
 </script>
 
-<?= bottom() ?>
+<?= Template::bottom() ?>
