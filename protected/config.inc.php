@@ -1,6 +1,6 @@
 <?php
 // DEVELOPER - ALEX MARENIN HOME
-if ( isset($_SERVER['ENV']) and $_SERVER['ENV'] == "muchacho_home" ){
+if ( isset($_SERVER['ENV']) and $_SERVER['ENV'] == "muchacho_home" or $_SERVER['ENV'] == "MUCHACHO" ){
 
 	// Database
 	define( 'DB_HOST',		"localhost" );

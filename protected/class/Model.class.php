@@ -22,8 +22,12 @@ abstract class Model{
 		if ( $object_id !== false )
 			$this->get_by_id( $object_id );
 		else {
-			foreach ( $this->fields as $f )
-				$this->orig_data[$f] = false;
+			foreach ( $this->fields as $key => $val ){
+				$field = is_int($key) ? $val : $key;
+				$default = is_int($key) ? false : $val;
+				
+				$this->orig_data[$field] = $default;
+			}
 			$this->data = $this->orig_data;
 		}
 	}
@@ -95,7 +99,6 @@ abstract class Model{
 			$data = array_diff_key( $this->data, array($this->primary_key => true) );
 			$this->data[ $this->primary_key ] = $this->db->insert( $this->table, $data );
 			$this->exists = true;
-			die( $this->data[ $this->primary_key ]);
 			return $this->data[ $this->primary_key ];
 		}
 		
