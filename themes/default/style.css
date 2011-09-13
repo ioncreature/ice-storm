@@ -272,8 +272,11 @@ span.loader div{
 	list-style: none inside;
 	max-width: 850px;
 }
+.course_stages_list li {
+	/* border-left: 1px solid grey; */
+}
 .course_stages_list > li {
-	margin-top: 10px;
+	padding-top: 10px;
 }
 .course_stages_list .course_stage{
 	border: 1px solid #CCC;
