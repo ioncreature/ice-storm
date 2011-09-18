@@ -50,11 +50,14 @@ try {
 				case "curriculums":
 					include "protected/modules/edu/curriculums.module.php";
 					break;
+				case "curriculum":
+					include "protected/modules/edu/curriculum.module.php";
+					break;
 				case "courses":
 					include "protected/modules/edu/courses.module.php";
 					break;
 				case "course":
-					include "protected/modules/edu/course_themes.module.php";
+					include "protected/modules/edu/course.module.php";
 					break;
 				default:
 					redirect( WEBURL );

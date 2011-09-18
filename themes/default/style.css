@@ -275,6 +275,10 @@ span.loader div{
 .course_stages_list li {
 	/* border-left: 1px solid grey; */
 }
+.course_stages_list li.theme {
+	cursor: default;
+	min-height: 18px;
+}
 .course_stages_list > li {
 	padding-top: 10px;
 }

@@ -9,28 +9,31 @@ $r = RequestParser::get_instance();
 $db = Fabric::get('db');
 
 // приближаем к боевым условиям
-usleep( 750*1000 );
+// usleep( 750*1000 );
 
 // идентификатор учебного курса 'edu/themes/::course_id'
 if ( !$r->is_int(2) )
 	redirect( WEBURL );
 $cid = $r->to_int(2);
 $course = $db->fetch_query("SELECT * FROM edu_courses WHERE id = '$cid' LIMIT 1");
+if ( !$course )
+	redirect( WEBURL );
+	
 
 // запрос всех семестров и тем
 if ( $r->equal('edu/course/::int/get') ){
 
 	$course_stages = $db->query("
 		SELECT 
-			edu_course_stages.*,
+			edu_course_terms.*,
 			edu_courses.hours as course_hours,
 			edu_courses.name, edu_courses.shortname
 		FROM
-			edu_course_stages
-			LEFT JOIN edu_courses ON edu_course_stages.course_id = edu_courses.id
+			edu_course_terms
+			LEFT JOIN edu_courses ON edu_course_terms.course_id = edu_courses.id
 		WHERE
-			edu_course_stages.course_id = '$cid'
-		ORDER BY edu_course_stages.`order`
+			edu_course_terms.course_id = '$cid'
+		ORDER BY edu_course_terms.`order`
 	");
 	foreach ( $course_stages as $key => $cs ){
 		$themes = $db->query("
@@ -38,7 +41,7 @@ if ( $r->equal('edu/course/::int/get') ){
 			FROM edu_course_themes
 			WHERE
 				course_id = '$cid' and
-				stage_id = '{$cs['id']}'
+				term_id = '{$cs['id']}'
 			ORDER BY `order`
 		");
 		$course_stages[$key]['themes'] = $themes ? $themes : array();
@@ -53,10 +56,10 @@ if ( $r->equal('edu/course/::int/get') ){
 
 // создание новой темы
 elseif ( $r->equal('edu/course/::int/add_theme') and 
-	isset($r->name, $r->hours, $r->stage_id, $r->course_id) ){
+	isset($r->name, $r->hours, $r->term_id, $r->course_id) ){
 	
 	$hours = (int) $r->hours;
-	$sid = (int) $r->stage_id;
+	$sid = (int) $r->term_id;
 	$cid = (int) $r->course_id;
 	
 	$db->start();
@@ -64,7 +67,7 @@ elseif ( $r->equal('edu/course/::int/add_theme') and
 		SELECT max(`order`) as o
 		FROM edu_course_themes 
 		WHERE
-			stage_id = '$sid' and
+			term_id = '$sid' and
 			course_id = '$cid'		
 	");
 	$order = $t_last ? intval($t_last['o']) + 1 : 1;
@@ -72,14 +75,15 @@ elseif ( $r->equal('edu/course/::int/add_theme') and
 		'name' => mb_substr( $r->name, 0, 300 ),
 		'hours' => $hours,
 		'course_id' => $cid,
-		'stage_id' => $sid,
+		'term_id' => $sid,
 		'order' => $order
 	));
 	$db->commit();
 	
 	die( json_encode( array( 
 		'status' => true,
-		'stage_id' => $sid,
+		'id' => $tid,
+		'term_id' => $sid,
 		'course_id' => $cid,
 		'name' => mb_substr( $r->name, 0, 300 ),
 		'hours' => $hours,
@@ -123,10 +127,12 @@ elseif ( $r->equal('edu/course/::int/edit_theme') and isset($r->name, $r->hours,
 	)));
 }
 
-elseif ( $r->equal('edu/course/::int/move') and isset($r->order, $r->theme_id, $r->course_id, $r->stage_id ) ){
+
+// сортировка учебных тем
+elseif ( $r->equal('edu/course/::int/move') and isset($r->order, $r->theme_id, $r->course_id, $r->term_id ) ){
 	$tid = (int) $r->theme_id;
 	$cid = (int) $r->course_id;
-	$sid = (int) $r->stage_id;
+	$sid = (int) $r->term_id;
 	$order = (int) $r->order;
 	
 	$db->start();
@@ -148,7 +154,7 @@ elseif ( $r->equal('edu/course/::int/move') and isset($r->order, $r->theme_id, $
 				SET
 					`order` = `order` + 1
 				WHERE
-					stage_id = '$sid' and
+					term_id = '$sid' and
 					`order` >= '$order' and
 					`order` <= '$old_order' 
 			");
@@ -168,7 +174,7 @@ elseif ( $r->equal('edu/course/::int/move') and isset($r->order, $r->theme_id, $
 				SET
 					`order` = `order` - 1
 				WHERE
-					stage_id = '$sid' and
+					term_id = '$sid' and
 					`order` >= '$old_order' and
 					`order` <= '$order' 
 			");
@@ -211,7 +217,7 @@ Template::top();
 $( document ).ready( function(){
 	
 	// начальная загрузка списков тем
-	var init_stages = function(){
+	var init_terms = function(){
 		$.ajax({
 			url: '<?= WEBURL ."edu/course/$cid/get" ?>',
 			type: 'POST',
@@ -222,7 +228,7 @@ $( document ).ready( function(){
 			success: function( data ){
 				if ( data.status ){
 					$( 'span.loader', $('#course_stages') ).hide();
-					var stages = $(ich.t_stage(data)); 
+					var stages = $(ich.t_term(data)); 
 					$( '#course_stages' ).append( stages );
 					var themes_list = $( 'ol.course_stage', stages );
 					themes_list.sortable({
@@ -232,13 +238,12 @@ $( document ).ready( function(){
 						},
 						stop: function( event, ui ){
 							themes_list.sortable( "option", "disabled", true );
-							console.log( arguments );
 							var elem = ui.item[0];
 							var data = {
 								order: reorder_list( elem ),
 								theme_id: $(elem).attr( 'themeid' ),
 								course_id: $(elem).attr( 'courseid' ),
-								stage_id: $(elem).attr( 'stageid' )
+								term_id: $(elem).attr( 'stageid' )
 							};
 							
 							$( 'span.loader', elem ).show();
@@ -267,7 +272,7 @@ $( document ).ready( function(){
 			}
 		});
 	}
-	init_stages();
+	init_terms();
 	
 	
 	// перебивает значения аттрибута order у всех siblings и 
@@ -341,6 +346,7 @@ $( document ).ready( function(){
 		
 		// предотвращаем повторное создание формы
 		var parent = this.parentNode;
+		var parent = $( 'ol.course_stage', this.parentNode ).get(0);
 		if ( $('.add_theme_form', parent).length > 0 ){
 			$('.add_theme_form input[name="name"]', parent).focus();
 			return false;
@@ -351,7 +357,7 @@ $( document ).ready( function(){
 		console.log(sid);
 		
 		var form = $(ich.t_form_theme({
-			'stage_id': sid,
+			'term_id': sid,
 			'course_id': cid
 		}));
 		$(this).after( form );
@@ -361,6 +367,7 @@ $( document ).ready( function(){
 		var remove_form = function(){ 
 			$(form).remove(); 
 			$(self).show();
+			$(self).focus();
 		};
 		$( 'input[type=button]', form ).click( remove_form );
 		$( 'input, select', form ).bind( 'keydown', 'esc', remove_form );
@@ -387,6 +394,7 @@ $( document ).ready( function(){
 					$(parent).append( theme );
 					$(theme).dblclick( edit_theme );
 					remove_form();
+					$(self).focus();
 				}
 				else {
 					alert('Произошла ошибка');
@@ -404,7 +412,7 @@ $( document ).ready( function(){
 	<form class="add_theme_form" method="POST" action="<?= WEBURL ."edu/course/$cid/add_theme" ?>">
 		<input type="text" placeholder="название темы" name="name" value="" />
 		<input type="text" placeholder="кол-во часов" name="hours" value="" />
-		<input type="hidden" name="stage_id" value="{{stage_id}}" />
+		<input type="hidden" name="term_id" value="{{term_id}}" />
 		<input type="hidden" name="course_id" value="{{course_id}}" />
 		<input type="submit" value="сохранить"/>
 		<input type="button" value="отмена" />
@@ -412,7 +420,7 @@ $( document ).ready( function(){
 	</form>
 </script>
 
-<script type="text/html" id="t_stage">
+<script type="text/html" id="t_term">
 	<ul class="course_stages_list"> 
 	{{#stages}}
 	<li stageid="{{id}}">
@@ -429,7 +437,7 @@ $( document ).ready( function(){
 </script>
 
 <script type="text/html" id="t_theme" class="partial">
-	<li class="theme" themeid="{{id}}" courseid="{{course_id}}" stageid="{{stage_id}}" themename="{{name}}" hours="{{hours}}" order="{{order}}">
+	<li class="theme" themeid="{{id}}" courseid="{{course_id}}" stageid="{{term_id}}" themename="{{name}}" hours="{{hours}}" order="{{order}}">
 		<span class="name">{{name}}</span>
 		<span class="hours">{{hours}} ч.</span>
 		<span class="loader"><div></div></span>
@@ -439,7 +447,7 @@ $( document ).ready( function(){
 <script type="text/html" id="t_form_edit_theme">
 	<li class="edit_form">
 	<form class="edit_theme_form" method="POST" action="<?= WEBURL ."edu/course/$cid/edit_theme" ?>">
-		<input type="text" placeholder="название темы" name="name" value="{{name}}" />
+		<input type="text" placeholder="название темы" name="name" value="{{name}}" style="width: 300px;"/>
 		<input type="text" placeholder="кол-во часов" name="hours" value="{{hours}}" />
 		<input type="hidden" name="theme_id" value="{{theme_id}}" />
 		<input type="submit" value="редактировать"/>
@@ -449,4 +457,4 @@ $( document ).ready( function(){
 	</li>
 </script>
 
-<?= bottom() ?>
+<?= Template::bottom() ?>

@@ -45,7 +45,7 @@ if ( $r->equal('edu/courses/add') and isset($r->name, $r->shortname, $r->terms, 
 		));
 		
 		for ( $i = 1; $i <= $terms; $i++ )
-			$db->insert( 'edu_course_stages', array(
+			$db->insert( 'edu_course_terms', array(
 				'course_id' => $cid,
 				'order' => $i,
 				'hours' => 0
@@ -64,10 +64,10 @@ if ( $r->equal('edu/courses/add') and isset($r->name, $r->shortname, $r->terms, 
 $courses = $db->query("
 	SELECT 
 		edu_courses.*,
-		COUNT(edu_course_stages.id) as stages
+		COUNT(edu_course_terms.id) as stages
 	FROM 
 		edu_courses
-		LEFT JOIN edu_course_stages ON edu_courses.id = edu_course_stages.course_id
+		LEFT JOIN edu_course_terms ON edu_courses.id = edu_course_terms.course_id
 	GROUP BY edu_courses.id
 ");
 
@@ -98,7 +98,7 @@ Template::top();
 			<input type="text" name="terms" placeholder="количество семестров" <?= $terms ? 'value="'.intval($terms).'"' : ''?> />
 		</label><br />
 		<label>Количество часов<br />
-			<input type="text" name="hours" placeholder="количество часов" <?= $terms ? 'value="'.intval($terms).'"' : ''?> />
+			<input type="text" name="hours" placeholder="количество часов" <?= $hours ? 'value="'.intval($hours).'"' : ''?> />
 		</label>
 		<input type="submit" value="Добавить" />
 	</form>
@@ -124,7 +124,6 @@ Template::top();
 			$( 'div.error' ).show();
 			return false;
 		}
-		return false;
 	});
 </script>
 <br />
@@ -149,7 +148,7 @@ Template::top();
 		<td><?= $c['hours'] ?></td>
 	</tr>
 	<?php endforeach; ?>
-	<?php if ( ! $courses ): ?>
+	<?php if ( !$courses ): ?>
 		<tr><td colspan="3"><b>Учебных курсов пока нет</b></td></tr>
 	<?php endif; ?>
 </table>

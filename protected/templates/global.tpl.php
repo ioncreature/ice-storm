@@ -1,14 +1,4 @@
 <?php
-function bottom(){?>
-</div>
-<!-- FOOTER -->
-<?php $db = Fabric::get( 'db' ); ?>
-<!-- MySQL time: <?=$db->get_time()?> / <?=$db->get_query_count()?> -->
-</body></html>
-<?php
-}
-
-
 function menu(){?>
 	<!-- TOP MENU -->
 	<ul class="h_menu">
@@ -115,7 +105,5 @@ function paginator( array $params ){
 		<?php endif; ?>
 		
 		</div>
-	<?php endif; ?>
-	
-	<?
+	<?php endif;
 }

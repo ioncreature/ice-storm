@@ -14,19 +14,27 @@ if ( $r->equal('edu/curriculums/add') and isset($r->name, $r->count) ){
 	try {
 		$name = $r->name;
 		$count = (int) $r->count;
-		
-		if ( !$count and mb_strlen($name) <= 8 )
+
+		if ( !$count and mb_strlen($name) <= 6 )
 			throw new Exception( 'Вы ввели некорректные данные для создания нового учебного плана' );
 		
 		$curr = $db->fetch_query( "SELECT * FROM edu_curriculums WHERE name = '". $db->safe($name) ."'" );
 		if ( $curr )
 			throw new Exception( 'Вы ввели некорректные данные для создания нового учебного плана' );
 	
-		$db->insert( 'edu_curriculums', array(
+		$db->start();
+		$cid = $db->insert( 'edu_curriculums', array(
 			'state' => 'active',
 			'name' => $name,
 			'terms_count' => $count
 		));
+		for ( $i = 1; $i <= $count; $i++ ){
+			$db->insert( 'edu_curriculum_terms', array(
+				'curriculum_id' => $cid,
+				'order' => $i
+			));
+		}
+		$db->commit();
 		redirect( WEBURL .'edu/curriculums' );
 	}
 	catch ( Exception $e ){
@@ -91,7 +99,11 @@ Template::top();
 	</tr>
 	<?php foreach ( $curriculums as $c ): ?>
 	<tr <?= $i++ % 2 === 1 ? 'class="odd"' : '' ?>>
-		<td class="left"><?= nl2br( htmlspecialchars($c['name']) ) ?></td>
+		<td class="left">
+			<a href="<?= WEBURL .'edu/curriculum/'. $c['id'] ?>">
+				<?= nl2br( htmlspecialchars($c['name']) ) ?>
+			</a>
+		</td>
 		<td><?= $c['terms_count'] ?></td>
 	</tr>
 	<?php endforeach; ?>
