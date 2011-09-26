@@ -90,6 +90,11 @@ try {
 			include "protected/modules/test.module.php";
 			break;
 		
+		// тестовая backbone страница
+		case 'mvc':
+			include "protected/modules/mvc.module.php";
+			break;
+		
 		// по умолчанию - главная страница
 		case "index":
 		default:

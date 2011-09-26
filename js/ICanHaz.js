@@ -399,6 +399,7 @@ function ICanHaz() {
 }
 
 window.ich = new ICanHaz();
+window.Mustache = Mustache;
 
 // init itself on document ready
 $(function () {

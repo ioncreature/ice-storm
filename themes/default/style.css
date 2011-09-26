@@ -25,6 +25,7 @@ a:hover {
 	text-decoration: underline;
 }
 
+
 /* COMMON FORMS STYLE */
 input[type=text], input[type=password] {
 	border: 1px solid #999;
@@ -34,6 +35,25 @@ input[type=text], input[type=password] {
 	border-radius: 3px;
 	padding: 3px 4px;
 }
+input[type=submit], input[type=button], button{
+	cursor: pointer;
+	border-radius: 3px;
+	font-size: 13px;
+	line-height: 17px;
+	border-color: #AAA;
+	border-width: 1px;
+	color: #222;
+	padding: 2px 4px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#FCFCFC), to(#D3D3D3));
+	background: -moz-linear-gradient(top, #FCFCFC, #D3D3D3);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FCFCFC', endColorstr='#D3D3D3');
+}
+input[type="submit"]:hover, input[type="button"]:hover, button:hover{
+	background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#BBC6E6));/*E5E5E5*/
+	background: -moz-linear-gradient(top, #FFF, #BBC6E6);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#BBC6E6');
+}
+/* COMMON FORMS STYLE */
 
 
 
