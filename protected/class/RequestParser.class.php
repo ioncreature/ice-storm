@@ -62,14 +62,15 @@ class RequestParser {
 	
 	
 	// создает переменную $hash, хранящую URI
-	protected function get_uri() {
+	protected function get_uri(){
+		$request_uri = urldecode( $_SERVER['REQUEST_URI'] );
 		if ( isset($_GET['hash']) )	// Для Вконтакте
 			$hash = $_GET['hash'];
-		else if ( mb_substr($_SERVER['REQUEST_URI'], 0, 2, "utf-8") === "/?" )
+		else if ( mb_substr($request_uri, 0, 2, "utf-8") === "/?" )
 			$hash = "";
 		else {
 			// Убираем из хеша идентификатор сессии
-			$hash = substr($_SERVER['REQUEST_URI'], 1);
+			$hash = substr($request_uri, 1);
 			if ( defined('SID') )
 				$hash = str_replace( "?".SID , "?", $hash );
 		}
@@ -174,9 +175,12 @@ class RequestParser {
 	/*
 	*	@return true or false
 	*/
-	public function equal( $route ){
+	public function equal( $route, $strict = false ){
 		$actions = $this->get_actions( $route );
-		// var_export($actions);
+		
+		if ( $strict and (count($actions) !== count($this->actions)) )
+			return false;
+		
 		foreach ( $actions as $i => $val )
 			if ( $actions[$i] === '::int' and $this->is_int($i) )
 				continue;

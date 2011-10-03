@@ -18,18 +18,15 @@ if ( !$curriculum )
 	redirect( WEBURL );
 
 
+// Начальная загрузка 
 if ( $r->equal('edu/curriculum/::int/get/stages') ){
 	
 	// Список семестров в учебном плане
 	$terms = $db->query("
-		SELECT
-			edu_curriculum_terms.*
-		FROM 
-			edu_curriculum_terms
-		WHERE
-			edu_curriculum_terms.curriculum_id = '$cid'
-		ORDER BY 
-			edu_curriculum_terms.`order`
+		SELECT *
+		FROM edu_curriculum_terms
+		WHERE curriculum_id = '$cid'
+		ORDER BY `order`
 	");
 	foreach ( $terms as $key => $t ){
 		$courses = $db->query("
@@ -59,19 +56,124 @@ if ( $r->equal('edu/curriculum/::int/get/stages') ){
 			edu_courses
 			LEFT JOIN edu_course_terms ON
 				edu_course_terms.course_id = edu_courses.id
+		WHERE
+			edu_courses.id <> ALL ( 
+				SELECT course_id 
+				FROM edu_curriculum_courses
+				WHERE
+					curriculum_id = '$cid'
+			)
 		GROUP BY edu_courses.id
 	");
+	
+	// список семестров
 	$courses_out = array();
 	foreach ( $courses as $c ){
-		$c['terms'] = explode( ',', $c['terms'] );
+		$cterms = $db->query("
+			SELECT id, `order`
+			FROM edu_course_terms
+			WHERE course_id = {$c['id']}
+			ORDER BY `order`
+		");
+		$c['terms'] = $cterms;
 		$courses_out[] = $c;
 	}
 	
 	die( json_encode( array(
 		'status'	=> true,
 		'terms'		=> $terms,
-		'courses'	=> $courses_out
+		'courses'	=> $courses_out,
+		'db_queries'=> $db->get_query_count()
 	)));
+}
+
+
+// Сохранение курса в плане
+if ( $r->equal("edu/curriculum/$cid/add/course") and
+	isset($r->course_term_id, $r->course_id, $r->term_id)
+){
+	try {
+		// валидация
+		$course_term_id = (int) $r->course_term_id;
+		$course_id = (int) $r->course_id;
+		$term_id = (int) $r->term_id;
+		
+		$db->start();
+		$course_t = $db->fetch_query("
+			SELECT * 
+			FROM edu_course_terms 
+			WHERE
+				course_id = '$course_id' AND
+				id = '$course_term_id'
+			LIMIT 1
+		");
+		$ct = $db->fetch_query("
+			SELECT * 
+			FROM edu_curriculum_terms
+			WHERE 
+				id = '$term_id' AND
+				curriculum_id = '$cid'
+			LIMIT 1
+		");
+		
+		// добавляем в базу
+		if ( !$course_t or !$ct )
+			throw new Exception('Incorrect input data');
+	
+		$available_course_terms = $db->query("
+			SELECT id 
+			FROM 
+				edu_course_terms
+				FORCE INDEX( course_id_index )
+			WHERE
+				course_id = '$course_id' AND
+				id <> ALL (
+					SELECT course_term_id
+					FROM edu_curriculum_courses
+					WHERE
+						curriculum_id = '$cid' AND
+						course_id = '$course_id'
+				)
+			ORDER BY `order`
+		");
+		$available_curr_terms = $db->query("
+			SELECT id
+			FROM edu_curriculum_terms
+			WHERE
+				curriculum_id = '$cid' AND
+				id >= '$term_id'
+			ORDER BY `order`
+		");
+		if ( count($available_course_terms) > count($available_curr_terms) )
+			throw new Exception('No enougnt curriculum terms');
+		
+		$cterms = array();
+		for ( $i = 0; $i < count($available_course_terms); $i++ ){
+			$db->insert( 'edu_curriculum_courses', array(
+				'curriculum_id' => $cid,
+				'course_id' => $course_id,
+				'curriculum_term_id' => $available_curr_terms[$i]['id'],
+				'course_term_id' => $available_course_terms[$i]['id']
+			));
+			$cterms[] = $available_course_terms[$i]['id'];
+		}
+		
+		$db->commit();
+		die( json_encode( array(
+			'status' => true,
+			'course_terms' => json_encode( $cterms ),
+			'course_id' => $course_id
+		)));
+	}
+	
+	catch( Exception $e ){
+		$db->rollback();
+		die( json_encode( array(
+			'status' => false,
+			'error' => $e->getMessage()
+		)));
+	}
+	
 }
 
 
@@ -80,6 +182,7 @@ if ( $r->equal('edu/curriculum/::int/get/stages') ){
 // ВЫВОД
 //
 Template::add_js( '/js/jquery.hotkeys.js' );
+Template::add_js( '/js/underscore.js' );
 Template::top();
 ?>
 <h2>Расписание курсов учебного плана "<?= htmlspecialchars($curriculum['name']) ?>"</h2>
@@ -118,27 +221,34 @@ Template::top();
 		var parent = this.parentNode;
 		
 		$(button).hide();
-		var form = $( ich.t_form_add_course({ courses: courses }) );
+		var form = $( ich.t_form_add_course({ 
+			courses: courses,
+			term_id: $(button).attr('termid')
+		}));
 		$(button).after( form );
+		var select_term = $( 'select[name=course_term_id]', form );
 		var remove_form = function(){
 			$(button).show();
 			$(form).remove();
 		}
 		$( 'input[type=button]', form ).click( remove_form );
 		$( 'select', form ).bind( 'keydown', 'esc', remove_form );
+		var t_opt = '{{#terms}}<option value="{{id}}">{{order}} часть</option>{{/terms}}';
 		
-		// обработчик select'a с курсами
-		$( 'select[name=course_id]', form ).change( function(){
+		var fill_opt = function(){
 			var value = $(this).val();
-			var template = '{{#terms}}<option value="{{.}}">{{.}} часть</option>{{/terms}}';
-			for ( var i = 0; i < courses.length; i++ ){
-				if ( Number(value) === Number(courses[i].id) )
-					$(this).html( Mustache.to_html(template, courses[i]) );
+			for ( var i = 0; i < courses.length; i++ )
+				if ( Number(value) === Number(courses[i].id) ){
+					$(select_term).html( Mustache.to_html(t_opt, courses[i]) );
 					break;
 				}
-			}
-		})
+		}
+		fill_opt.call( $('select[name=course_id]', form) );
 		
+		// обработчик select'a с курсами
+		$( 'select[name=course_id]', form ).change( fill_opt );
+		
+		// запрос
 		$( form ).ajaxForm({
 			type: 'POST',
 			dataType: 'json',
@@ -146,24 +256,36 @@ Template::top();
 				$( 'span.loader', form ).show();
 			},
 			success: function( data ){
-				
+				if ( data.status ){
+					var course_data;
+					for ( var i = 0; i < courses.length; i++ )
+						if ( Number(courses[i].id) === Number(data.course_id) ){
+							course_data = courses[i];
+							var nc = [];
+							for ( var j = 0; j < courses.length; j++ )
+								if ( i != j )
+									nc.push(courses[j]);
+							courses = nc;
+							break;
+						}
+					
+					// добавление курса
+					var term = $( parent );
+					for ( var i = 0; i < data.course_terms.length; i++ ){
+						term.append( ich.t_course({
+							course_id: course_data.id,
+							course_term_id: data.course_terms[i],
+							curriculum_term_id: term.attr( 'termid' ),
+							name: course_data.name,
+							order: i+1
+						}));
+						term = term.next();
+					}
+				}
 			},
 			complete: function(){
 				$( 'span.loader', form ).hide();
-			}
-		});
-	}
-	
-	var add_course = function( data ){
-		var self = this;
-		
-		$.ajax({
-			url: '<?= WEBURL ."edu/curriculum/$cid/add/course" ?>',
-			type: 'POST',
-			data: {},
-			dataType: 'json',
-			success: function( data ){
-				
+				remove_form();
 			}
 		});
 	}
@@ -176,10 +298,10 @@ Template::top();
 	{{#terms}}
 		<li termid="{{term_id}}">
 			<h3>{{order}} семестр</h3>
-			<button class="add_course" termid="{{term_id}}">Добавить учебный курс</button>
+			<button class="add_course" termid="{{id}}">Добавить учебный курс</button>
 			<ul class="courses">
 			{{#courses}}
-				{{>t_courses}}
+				{{>t_course}}
 			{{/courses}}
 			</ul>
 		</li>
@@ -187,13 +309,21 @@ Template::top();
 	</ul>
 </script>
 
+<script type="text/html" id="t_course" class="partial">
+	<li courseid="{{course_id}}" coursetermid="{{course_term_id}}" curriculumtermid="{{curriculum_term_id}}">
+		<span class="name">{{name}},</span> <span>{{order}} часть</span>
+	</li>
+</script>
+
+
 <script type="text/html" id="t_form_add_course">
 	<form class="form_add_course" method="POST" action="<?= WEBURL ."edu/curriculum/$cid/add/course" ?>">
 		Курс
 		<select name="course_id">
 			{{#courses}}<option value="{{id}}">{{name}}</option>{{/courses}}
 		</select>
-		Часть<select name="course_term_id"></select>
+		Часть
+		<select name="course_term_id"></select>
 		<input type="hidden" name="term_id" value="{{term_id}}" />
 		<input type="submit" value="добавить" />
 		<input type="button" value="отмена" />

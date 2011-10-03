@@ -20,6 +20,7 @@ try {
 	$r = RequestParser::get_instance();
 	define( "APP_HASH", $r->get_hash() );	
 	
+	usleep(500*1000);
 
 	// -------
 	//  ВЫВОД
