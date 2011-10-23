@@ -13,14 +13,13 @@ function __autoload( $name ){
 try {
 	// проверка авторизации
 	$a = Auth::get_instance();
-	$db = Fabric::get( 'db' );
 	$acl = Auth::$acl;
 	
 	// обрабортка запроса
 	$r = RequestParser::get_instance();
 	define( "APP_HASH", $r->get_hash() );	
 	
-	usleep(500*1000);
+	// usleep(500*1000);
 
 	// -------
 	//  ВЫВОД
@@ -59,6 +58,15 @@ try {
 					break;
 				case "course":
 					include "protected/modules/edu/course.module.php";
+					break;
+				case "groups":
+					include "protected/modules/edu/groups_tree.module.php";
+					break;
+				case "group":
+					include "protected/modules/edu/group.module.php";
+					break;
+				case "students":
+					include "protected/modules/edu/students.module.php";
 					break;
 				default:
 					redirect( WEBURL );

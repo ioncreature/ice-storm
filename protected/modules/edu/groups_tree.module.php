@@ -1,25 +1,40 @@
 <?php
 /*
-	Модуль создания и редактироваия подраздедлений
+	Модуль редактирования учебных групп
 	Marenin Alex
-	August 2011
+	October
+	2011
 */
 
 $r = RequestParser::get_instance();
 $db = Fabric::get('db');
 
+$groups = $db->query("
+	SELECT 
+		edu_groups.*,
+		edu_curriculums.name as cname
+	FROM 
+		edu_groups
+		LEFT JOIN edu_group_terms ON
+			edu_groups.id = edu_group_terms.group_id
+		LEFT JOIN edu_curriculums ON
+			edu_group_terms.curriculum_id = edu_curriculums.id
+	WHERE edu_groups.state = 'on'
+");
+
 
 // возвращает список вложеннх подразделений
 if ( $r->equal('org/departments/get/') and isset($r->department_id) ){
 	$did = (int) $r->department_id;
-	$departments = $db->query("SELECT * FROM org_departments WHERE parent_id = '$did'");
+	$departments = $db->query( "SELECT * FROM org_departments WHERE parent_id = '$did'" );
 	$out = array();
 	foreach( $departments as $d ){
 		$out[] = array(
-			'data' => $d['name'],
-			'rel' => 'folder',
+			'id'	=> (int) $d['id'], 
+			'data'	=> $d['name'],
+			'rel'	=> 'folder',
 			'state' => 'closed',
-			'attr' => array( 'department_id' => (int) $d['id'] )
+			'attr'	=> array( 'department_id' => (int) $d['id'] )
 		);
 	}
 	die( json_encode( array( $out )));
@@ -93,9 +108,6 @@ elseif ( $r->equal('org/departments/remove') and isset($r->id) ){
 
 
 // первоначальное состояние дерева
-
-
-// первоначальное состояние дерева
 $departments = $db->cached_query( "SELECT * FROM org_departments", 5 );
 $dep = array();
 foreach ( $departments as $k => $d ){
@@ -138,7 +150,7 @@ $tree = get_departments_tree( $dep );
 Template::add_js( '/js/jstree/jquery.jstree.js' );
 Template::top();
 ?>
-<h2>Подразделения</h2>
+<h2>Группы</h2>
 
 
 
@@ -146,8 +158,6 @@ Template::top();
 <?php if ( !empty($error) ): ?>
 	<div class="error"><?= $error ?></div>
 <?php endif; ?>
-
-
 
 <!-- JSTREE HANDLER -->
 <div id="departments_tree"></div>
@@ -167,13 +177,24 @@ $("#departments_tree")
 		},
 		
 		json_data: {
-			data: <?= json_encode(array($tree) ) ?>,
+			data: <?= json_encode( array($tree) ) ?>,
 			
 			ajax : {
 				url : "<?= WEBURL .'org/departments/get' ?>",
 				type: 'POST',
 				data : function( elem ){
 					return { department_id: $(elem).attr('department_id') }
+				}
+			}
+		},
+
+		types: {
+			types: {
+				group: {
+					icon: { 'image': '<?= WEBURL ?>themes/default/groups.png' }
+				},
+				department: {
+					icon: { 'image': '<?= WEBURL ?>themes/default/groups.png' }
 				}
 			}
 		},
@@ -184,11 +205,10 @@ $("#departments_tree")
 					label: "Удалить"
 				},
 				create: {
-					label: "Создать"
+					label: "Добавить группу"
 				},
 				rename: {
-					label: "Переименовать",
-					_disabled: true
+					label: "Переименовать"
 				},
 				ccp: {
 					label: "Редактировать",
@@ -228,7 +248,7 @@ $("#departments_tree")
 				url: '<?= WEBURL .'org/departments/move' ?>',
 				async: false,
 				type: 'POST',
-				data : {
+				data : { 
 					id: $(data.rslt.o[i]).attr( 'department_id' ),
 					to: data.rslt.cr === -1 ? 1 : data.rslt.np.attr( 'department_id' )
 				}
@@ -253,5 +273,4 @@ $("#departments_tree")
 	});
 </script>
 
-
-<?php Template::bottom(); ?>
+<?= Template::bottom() ?>

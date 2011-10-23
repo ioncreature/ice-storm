@@ -1,4 +1,5 @@
-./.buildpath
-./.settings/org.eclipse.php.core.prefs
-./.settings/*
-./.project
+.gitignore
+.buildpath
+.settings/org.eclipse.php.core.prefs
+.settings/*
+.project
