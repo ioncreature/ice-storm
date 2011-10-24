@@ -65,4 +65,30 @@ function mb_trim( $string, $chars = "", $chars_array = array() ){
     $string = mb_ereg_replace( "($encoded_char_list)*$", "", $string );
     return $string;
 }
+
+
+
+/**
+ * строит дерево из списка
+ * @param array $list	список подразделений
+ * @return array
+ */
+function get_departments_tree( array &$list, $did = 0, $depth = 10 ){
+	if ( empty($list) )
+	return array();
+	if ( $depth === 0 )
+	return false;
+
+	$childs = array();
+	foreach ( $list as $k => $dep )
+	if ( $dep['parent_id'] == $did ){
+		$childs[] = $dep;
+		unset( $list[$k] );
+	}
+
+	foreach ( $childs as $k => $c )
+	$childs[$k]['children'] = get_departments_tree( $list, $c['id'], $depth-- );
+
+	return $childs;
+}
 ?>

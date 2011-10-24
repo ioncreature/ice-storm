@@ -54,7 +54,7 @@ elseif ( $r->equal('org/departments/move') and isset($r->id, $r->to) ){
 	$to_id = (int) $r->to;
 	$db->start();
 	$deps = $db->query("SELECT * FROM org_departments WHERE id IN ('$dep_id','$to_id')");
-	if ( count($deps) === 2 ){
+	if ( count($deps) === 2 or $to_id === 0 ){
 		$db->query("
 			UPDATE org_departments
 			SET
@@ -65,7 +65,33 @@ elseif ( $r->equal('org/departments/move') and isset($r->id, $r->to) ){
 		");
 	}
 	$db->commit();
-	die( json_encode( array( 'status' => count($deps) === 2 )));
+	die( json_encode( array( 
+		'status' => count($deps) === 2 or $to_id === 0 
+	)));
+}
+
+
+// переименование нода
+elseif ( $r->equal('org/departments/rename') and isset($r->id, $r->title) ){
+	$id = (int) $r->id;
+	$name = $db->safe( mb_substr($r->title, 0, 125) );
+	$db->start();
+	
+	$dep = $db->query( "SELECT * FROM org_departments WHERE id = '$id'" );
+	if ( $dep )
+		$db->query("
+			UPDATE org_departments
+			SET
+				name = '$name'
+			WHERE
+				id = '$id'
+			LIMIT 1
+		");
+	
+	$db->commit();
+	die( json_encode( array(
+		'status' => true
+	)));
 }
 
 
@@ -93,9 +119,6 @@ elseif ( $r->equal('org/departments/remove') and isset($r->id) ){
 
 
 // первоначальное состояние дерева
-
-
-// первоначальное состояние дерева
 $departments = $db->cached_query( "SELECT * FROM org_departments", 5 );
 $dep = array();
 foreach ( $departments as $k => $d ){
@@ -107,27 +130,6 @@ foreach ( $departments as $k => $d ){
 		'state'		=> 'open',
 		'attr'		=> array( 'department_id' => (int) $d['id'] )
 	);
-}
-/**
- * строит дерево из списка
- */
-function get_departments_tree( array &$list, $did = 0, $depth = 5 ){
-	if ( empty($list) )
-	return array();
-	if ( $depth === 0 )
-	return false;
-
-	$childs = array();
-	foreach ( $list as $k => $dep )
-	if ( $dep['parent_id'] == $did ){
-		$childs[] = $dep;
-		unset( $list[$k] );
-	}
-
-	foreach ( $childs as $k => $c )
-	$childs[$k]['children'] = get_departments_tree( $list, $c['id'], $depth-- );
-
-	return $childs;
 }
 $tree = get_departments_tree( $dep );
 
@@ -188,7 +190,7 @@ $("#departments_tree")
 				},
 				rename: {
 					label: "Переименовать",
-					_disabled: true
+					//_disabled: true
 				},
 				ccp: {
 					label: "Редактировать",
@@ -201,6 +203,8 @@ $("#departments_tree")
 		core: {}
 	})
 	
+	
+	// Создание
 	.bind( 'create.jstree', function( e, data ){
 		console.log('create.jstree: ' + data.rslt.name);	
 		$.ajax({
@@ -222,6 +226,8 @@ $("#departments_tree")
 			}
 		});
 	})
+	
+	// Перенос
 	.bind( 'move_node.jstree', function( e, data ){
 		data.rslt.o.each( function( i ){
 			$.ajax({
@@ -230,27 +236,48 @@ $("#departments_tree")
 				type: 'POST',
 				data : {
 					id: $(data.rslt.o[i]).attr( 'department_id' ),
-					to: data.rslt.cr === -1 ? 1 : data.rslt.np.attr( 'department_id' )
+					to: data.rslt.cr === -1 ? 0 : data.rslt.np.attr( 'department_id' )
 				}
 			});
 		});
 	})
-	.bind("remove.jstree", function( e, data ){
+	
+	// Удаление
+	.bind( 'remove.jstree', function( e, data ){
 		data.rslt.obj.each( function(){
 			$.ajax({
-				async : false,
+				async: false,
 				type: 'POST',
 				url: '<?= WEBURL .'org/departments/remove' ?>',
-				data : { 
-					"id" : $(this).attr('department_id')
+				data: { 
+					id: $(this).attr('department_id')
 				}, 
-				success : function( r ){
+				success: function( r ){
 					if ( !r.status )
 						data.inst.refresh();
 				}
 			});
 		});
+	})
+
+	// Переименование
+	.bind( 'rename.jstree', function ( e, data ){
+		console.log( data );
+		$.ajax({
+			url: '<?= WEBURL .'org/departments/rename' ?>',
+			type: 'POST',
+			dataType: 'json', 
+			data: {
+				id: $(data.rslt.obj).attr( 'department_id' ),
+				title: data.rslt.new_name
+			},
+			success: function ( r ){
+				if ( !r.status )
+					$.jstree.rollback(data.rlbk);
+			}
+		});
 	});
+	
 </script>
 
 
