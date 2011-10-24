@@ -108,38 +108,34 @@ elseif ( $r->equal('org/departments/remove') and isset($r->id) ){
 
 
 // первоначальное состояние дерева
-$departments = $db->cached_query( "SELECT * FROM org_departments", 5 );
+$departments = $db->cached_query("
+	SELECT 
+		id, name, parent_id, 
+		'department' as rel
+	FROM org_departments
+	UNION
+	SELECT
+		id, name, department_id as parent_id,
+		'group' as rel
+	FROM
+		edu_groups
+", 5 );
 $dep = array();
 foreach ( $departments as $k => $d ){
-	$dep[] = array(
+	$a = array(
 		'id'		=> (int) $d['id'],
 		'parent_id' => (int) $d['parent_id'],
 		'data'		=> $d['name'],
-		'rel'		=> 'department',
-		'state'		=> 'open',
-		'attr'		=> array( 'department_id' => (int) $d['id'] )
+		'attr'		=> array( 
+			'department_id' => (int) $d['id'],
+			'rel' => $d['rel']
+		)
 	);
-}
-/**
- * строит дерево из списка
- */
-function get_departments_tree( array &$list, $did = 0, $depth = 5 ){
-	if ( empty($list) )
-	return array();
-	if ( $depth === 0 )
-	return false;
-
-	$childs = array();
-	foreach ( $list as $k => $dep )
-	if ( $dep['parent_id'] == $did ){
-		$childs[] = $dep;
-		unset( $list[$k] );
-	}
-
-	foreach ( $childs as $k => $c )
-	$childs[$k]['children'] = get_departments_tree( $list, $c['id'], $depth-- );
-
-	return $childs;
+	if ( $d['rel'] === 'department' )
+		$a['state'] = 'open';
+		
+// 	$a['state'] = $d['rel'] === 'department' ? 'open' : 'closed';
+	$dep[] = $a;
 }
 $tree = get_departments_tree( $dep );
 
@@ -162,12 +158,13 @@ Template::top();
 <!-- JSTREE HANDLER -->
 <div id="departments_tree"></div>
 <script type="text/javascript">
+console.log(<?= json_encode( array($tree) ) ?>);
 $("#departments_tree")
 	.bind("before.jstree", function( e, data ){
 		// console.log('before.jstree fired', data);
 	})
 	.jstree({ 
-		plugins: [ "json_data", "ui", "themes", "dnd", "contextmenu", "crrm" ],
+		plugins: [ "json_data", "ui", "themes", "dnd", "contextmenu", "crrm", "types" ],
 		
 		theme: {
 			theme: 'apple',
@@ -189,12 +186,18 @@ $("#departments_tree")
 		},
 
 		types: {
+			max_depth: -2,
+			max_children: -2,
+			valid_children: [ "department" ],
 			types: {
 				group: {
-					icon: { 'image': '<?= WEBURL ?>themes/default/groups.png' }
+					icon: { 'image': "<?= WEBURL .'themes/default/groups.png' ?>" },
+					valid_children: "none",
+					max_depth: 0,
+					max_children: 0
 				},
 				department: {
-					icon: { 'image': '<?= WEBURL ?>themes/default/groups.png' }
+					valid_children: [ "department", "group" ]
 				}
 			}
 		},

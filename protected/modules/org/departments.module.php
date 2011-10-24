@@ -169,8 +169,8 @@ $("#departments_tree")
 		},
 		
 		json_data: {
-			data: <?= json_encode(array($tree) ) ?>,
-			
+			data: <?= json_encode(array($tree) ) ?>
+			/*
 			ajax : {
 				url : "<?= WEBURL .'org/departments/get' ?>",
 				type: 'POST',
@@ -178,6 +178,7 @@ $("#departments_tree")
 					return { department_id: $(elem).attr('department_id') }
 				}
 			}
+			*/
 		},
 		
 		contextmenu: {
