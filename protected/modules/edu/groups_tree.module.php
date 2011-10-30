@@ -42,7 +42,8 @@ if ( $r->equal('org/departments/get/') and isset($r->department_id) ){
 
 
 // добавление подразделения
-elseif ( $r->equal('org/departments/add') and isset($r->id, $r->title) ){
+elseif ( $r->equal('edu/groups/add') and isset($r->id, $r->title) ){
+	die( json_encode( array( 'status' => true )));
 	$pid = (int) $r->id;
 	$name = $db->safe( $r->title );
 	$db->start();
@@ -65,6 +66,7 @@ elseif ( $r->equal('org/departments/add') and isset($r->id, $r->title) ){
 
 // перемещение нода в дереве
 elseif ( $r->equal('org/departments/move') and isset($r->id, $r->to) ){
+	die( json_encode( array( 'status' => true )));
 	$dep_id = (int) $r->id;
 	$to_id = (int) $r->to;
 	$db->start();
@@ -86,6 +88,7 @@ elseif ( $r->equal('org/departments/move') and isset($r->id, $r->to) ){
 
 // удаление подразделения
 elseif ( $r->equal('org/departments/remove') and isset($r->id) ){
+	die( json_encode( array( 'status' => true )));
 	$id = (int) $r->id;
 	$db->start();
 	$dep = $db->fetch_query("SELECT * FROM org_departments WHERE id = '$id'");
@@ -116,7 +119,7 @@ $departments = $db->cached_query("
 	UNION
 	SELECT
 		id, name, department_id as parent_id,
-		'group' as rel
+		'default' as rel
 	FROM
 		edu_groups
 ", 5 );
@@ -146,7 +149,7 @@ $tree = get_departments_tree( $dep );
 Template::add_js( '/js/jstree/jquery.jstree.js' );
 Template::top();
 ?>
-<h2>Группы</h2>
+<h2>Группы <a href="<?= WEBURL . 'edu/groups_list' ?>">(перейти к списку)</a></h2>
 
 
 
@@ -174,15 +177,7 @@ $("#departments_tree")
 		},
 		
 		json_data: {
-			data: <?= json_encode( array($tree) ) ?>,
-			
-			ajax : {
-				url : "<?= WEBURL .'org/departments/get' ?>",
-				type: 'POST',
-				data : function( elem ){
-					return { department_id: $(elem).attr('department_id') }
-				}
-			}
+			data: <?= json_encode( array($tree) ) ?>
 		},
 
 		types: {
@@ -190,7 +185,7 @@ $("#departments_tree")
 			max_children: -2,
 			valid_children: [ "department" ],
 			types: {
-				group: {
+				default: {
 					icon: { 'image': "<?= WEBURL .'themes/default/groups.png' ?>" },
 					valid_children: "none",
 					max_depth: 0,
@@ -205,17 +200,27 @@ $("#departments_tree")
 		contextmenu: {
 			items: {
 				remove: {
-					label: "Удалить"
+					label: "Удалить группу"
 				},
 				create: {
-					label: "Добавить группу"
+					label: "Добавить группу",
+					action: function( obj ){
+						console.log( obj );
+						var data = {
+							attr: {
+								rel: 'default'
+							} 
+						}
+						$("#demo").jstree( "create", null, "last", data );
+					}
 				},
 				rename: {
-					label: "Переименовать"
+					label: "Переименовать группу"
 				},
 				ccp: {
 					label: "Редактировать",
-					_disabled: true
+					_disabled: true,
+					submenu: false
 				}
 			}
 		},
@@ -224,20 +229,27 @@ $("#departments_tree")
 		core: {}
 	})
 	
+	// create
 	.bind( 'create.jstree', function( e, data ){
-		console.log('create.jstree: ' + data.rslt.name);	
+		/*
+		var type = data.rslt.obj.attr( "rel" );
+		if ( type !== 'group' ){
+			$.jstree.rollback(data.rlbk);
+			return false;
+		}
+		*/
 		$.ajax({
-			url: '<?= WEBURL .'org/departments/add' ?>',
+			url: '<?= WEBURL .'edu/groups/add' ?>',
 			type: 'POST',
 			data: {
-				id: data.rslt.parent.attr( 'department_id' ),
+				parent_id: data.rslt.parent.attr( 'department_id' ),
 				title: data.rslt.name,
 				type: data.rslt.obj.attr( 'rel' )
 			},
 			dataType: 'json',
 			success: function(){
 				if ( r.status )
-					$(data.rslt.obj).attr( 'department_id', r.id);
+					$(data.rslt.obj).attr( 'department_id', r.id );
 				else {
 					$.jstree.rollback(data.rlbk);
 					alert( 'Подразделение с таким именем уже существует' );
@@ -245,25 +257,42 @@ $("#departments_tree")
 			}
 		});
 	})
+	
+	// move
 	.bind( 'move_node.jstree', function( e, data ){
+		var type = data.rslt.obj.attr( "rel" );
+		if ( type !== 'group' ){
+			$.jstree.rollback(data.rlbk);
+			return false;
+		}
+		
 		data.rslt.o.each( function( i ){
 			$.ajax({
-				url: '<?= WEBURL .'org/departments/move' ?>',
+				url: '<?= WEBURL .'edu/groups/move' ?>',
 				async: false,
 				type: 'POST',
-				data : { 
+				data : {
 					id: $(data.rslt.o[i]).attr( 'department_id' ),
 					to: data.rslt.cr === -1 ? 1 : data.rslt.np.attr( 'department_id' )
 				}
 			});
 		});
 	})
+	
+	// remove
 	.bind("remove.jstree", function( e, data ){
+		var type = data.rslt.obj.attr( "rel" );
+		console.log( type );
+		if ( type !== 'group' ){
+			$.jstree.rollback(data.rlbk);
+			return false;
+		}
+		
 		data.rslt.obj.each( function(){
 			$.ajax({
 				async : false,
 				type: 'POST',
-				url: '<?= WEBURL .'org/departments/remove' ?>',
+				url: '<?= WEBURL .'edu/groups/remove' ?>',
 				data : { 
 					"id" : $(this).attr('department_id')
 				}, 

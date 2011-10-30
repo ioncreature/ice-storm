@@ -62,11 +62,17 @@ try {
 				case "groups":
 					include "protected/modules/edu/groups_tree.module.php";
 					break;
+				case "groups_list":
+					include "protected/modules/edu/groups_list.module.php";
+					break;
 				case "group":
 					include "protected/modules/edu/group.module.php";
 					break;
 				case "students":
 					include "protected/modules/edu/students.module.php";
+					break;
+				case "student":
+					include "protected/modules/edu/student.module.php";
 					break;
 				default:
 					redirect( WEBURL );

@@ -2,8 +2,8 @@
 # Host:                         localhost
 # Server version:               5.1.51-community - MySQL Community Server (GPL)
 # Server OS:                    Win32
-# HeidiSQL version:             6.0.0.3943
-# Date/time:                    2011-09-18 23:16:08
+# HeidiSQL version:             6.0.0.3949
+# Date/time:                    2011-10-30 22:26:18
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `auth_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `human_id` (`human_id`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 # Dumping data for table ice-storm.auth_users: ~1 rows (approximately)
 /*!40000 ALTER TABLE `auth_users` DISABLE KEYS */;
@@ -105,8 +105,8 @@ CREATE TABLE IF NOT EXISTS `auth_users_groups` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`,`group_id`),
   KEY `auth_users_groups_auth_groups` (`group_id`),
-  CONSTRAINT `auth_users_groups_auth_users` FOREIGN KEY (`user_id`) REFERENCES `auth_users` (`id`),
-  CONSTRAINT `auth_users_groups_auth_groups` FOREIGN KEY (`group_id`) REFERENCES `auth_groups` (`id`)
+  CONSTRAINT `auth_users_groups_auth_groups` FOREIGN KEY (`group_id`) REFERENCES `auth_groups` (`id`),
+  CONSTRAINT `auth_users_groups_auth_users` FOREIGN KEY (`user_id`) REFERENCES `auth_users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 # Dumping data for table ice-storm.auth_users_groups: ~1 rows (approximately)
@@ -143,13 +143,14 @@ CREATE TABLE IF NOT EXISTS `edu_courses` (
   `shortname` varchar(100) DEFAULT NULL,
   `hours` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Учебные курсы (истори, матемтика etc)';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Учебные курсы (истори, матемтика etc)';
 
-# Dumping data for table ice-storm.edu_courses: ~0 rows (approximately)
+# Dumping data for table ice-storm.edu_courses: ~3 rows (approximately)
 /*!40000 ALTER TABLE `edu_courses` DISABLE KEYS */;
 INSERT INTO `edu_courses` (`id`, `name`, `shortname`, `hours`) VALUES
 	(1, 'Правописание, 1 класс', 'Правописание', 300),
-	(2, 'Музыка, 1 класс', 'Музыка', 40);
+	(2, 'Музыка, 1 класс', 'Музыка', 40),
+	(3, 'Труд, 1 класс', 'Труд', 60);
 /*!40000 ALTER TABLE `edu_courses` ENABLE KEYS */;
 
 
@@ -162,11 +163,11 @@ CREATE TABLE IF NOT EXISTS `edu_course_terms` (
   `order` int(11) NOT NULL DEFAULT '1',
   `hours` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `edu_course_stages_edu_courses` (`course_id`),
+  KEY `course_id_index` (`course_id`),
   CONSTRAINT `edu_course_stages_edu_courses` FOREIGN KEY (`course_id`) REFERENCES `edu_courses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Этапы учебного курса';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='Этапы учебного курса';
 
-# Dumping data for table ice-storm.edu_course_terms: ~0 rows (approximately)
+# Dumping data for table ice-storm.edu_course_terms: ~10 rows (approximately)
 /*!40000 ALTER TABLE `edu_course_terms` DISABLE KEYS */;
 INSERT INTO `edu_course_terms` (`id`, `course_id`, `term_name`, `order`, `hours`) VALUES
 	(1, 1, '', 1, 0),
@@ -176,7 +177,9 @@ INSERT INTO `edu_course_terms` (`id`, `course_id`, `term_name`, `order`, `hours`
 	(5, 2, '', 1, 0),
 	(6, 2, '', 2, 0),
 	(7, 2, '', 3, 0),
-	(8, 2, '', 4, 0);
+	(8, 2, '', 4, 0),
+	(9, 3, '', 1, 0),
+	(10, 3, '', 2, 0);
 /*!40000 ALTER TABLE `edu_course_terms` ENABLE KEYS */;
 
 
@@ -190,13 +193,13 @@ CREATE TABLE IF NOT EXISTS `edu_course_themes` (
   `hours` int(11) NOT NULL DEFAULT '1' COMMENT 'Продолжительность темы',
   `order` int(10) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
-  KEY `edu_course_themes_edu_courses` (`course_id`),
-  KEY `edu_course_themes_edu_course_terms` (`term_id`),
-  CONSTRAINT `edu_course_themes_edu_course_terms` FOREIGN KEY (`term_id`) REFERENCES `edu_course_terms` (`id`),
-  CONSTRAINT `edu_course_themes_edu_courses` FOREIGN KEY (`course_id`) REFERENCES `edu_courses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Темы из учебных курсов';
+  KEY `course_id_index` (`course_id`),
+  KEY `term_id_index` (`term_id`),
+  CONSTRAINT `edu_course_themes_edu_courses` FOREIGN KEY (`course_id`) REFERENCES `edu_courses` (`id`),
+  CONSTRAINT `edu_course_themes_edu_course_terms` FOREIGN KEY (`term_id`) REFERENCES `edu_course_terms` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Темы из учебных курсов';
 
-# Dumping data for table ice-storm.edu_course_themes: ~0 rows (approximately)
+# Dumping data for table ice-storm.edu_course_themes: ~9 rows (approximately)
 /*!40000 ALTER TABLE `edu_course_themes` DISABLE KEYS */;
 INSERT INTO `edu_course_themes` (`id`, `course_id`, `term_id`, `name`, `hours`, `order`) VALUES
 	(1, 1, 1, 'Алфавит', 2, 1),
@@ -221,9 +224,9 @@ CREATE TABLE IF NOT EXISTS `edu_curriculums` (
   `next_curriculum` int(10) NOT NULL DEFAULT '0',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Учебные планы - школьное/институтское образование и т.д.';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Учебные планы - школьное/институтское образование и т.д.';
 
-# Dumping data for table ice-storm.edu_curriculums: ~0 rows (approximately)
+# Dumping data for table ice-storm.edu_curriculums: ~1 rows (approximately)
 /*!40000 ALTER TABLE `edu_curriculums` DISABLE KEYS */;
 INSERT INTO `edu_curriculums` (`id`, `name`, `state`, `terms_count`, `next_curriculum`, `create_date`) VALUES
 	(2, '1 класс. Общеобразовательный', 'active', 4, 0, '2011-09-18 21:31:43');
@@ -240,14 +243,25 @@ CREATE TABLE IF NOT EXISTS `edu_curriculum_courses` (
   `course_term_id` int(10) DEFAULT NULL,
   `name` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  KEY `edu_curriculum_courses_edu_curriculums` (`curriculum_id`),
-  KEY `edu_curriculum_courses_edu_courses` (`course_id`),
+  KEY `curriculum_id_index` (`curriculum_id`),
+  KEY `course_id_index` (`course_id`),
   CONSTRAINT `edu_curriculum_courses_edu_courses` FOREIGN KEY (`course_id`) REFERENCES `edu_courses` (`id`),
   CONSTRAINT `edu_curriculum_courses_edu_curriculums` FOREIGN KEY (`curriculum_id`) REFERENCES `edu_curriculums` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
-# Dumping data for table ice-storm.edu_curriculum_courses: ~0 rows (approximately)
+# Dumping data for table ice-storm.edu_curriculum_courses: ~10 rows (approximately)
 /*!40000 ALTER TABLE `edu_curriculum_courses` DISABLE KEYS */;
+INSERT INTO `edu_curriculum_courses` (`id`, `curriculum_id`, `course_id`, `curriculum_term_id`, `course_term_id`, `name`) VALUES
+	(1, 2, 1, 1, 1, ''),
+	(2, 2, 1, 2, 2, ''),
+	(3, 2, 1, 3, 3, ''),
+	(4, 2, 1, 4, 4, ''),
+	(5, 2, 3, 2, 9, ''),
+	(6, 2, 3, 3, 10, ''),
+	(7, 2, 2, 1, 5, ''),
+	(8, 2, 2, 2, 6, ''),
+	(9, 2, 2, 3, 7, ''),
+	(10, 2, 2, 4, 8, '');
 /*!40000 ALTER TABLE `edu_curriculum_courses` ENABLE KEYS */;
 
 
@@ -258,11 +272,11 @@ CREATE TABLE IF NOT EXISTS `edu_curriculum_terms` (
   `curriculum_id` int(10) NOT NULL,
   `order` int(10) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
-  KEY `edu_curriculum_stages_edu_curriculums` (`curriculum_id`),
+  KEY `curriculum_id_index` (`curriculum_id`),
   CONSTRAINT `edu_curriculum_stages_edu_curriculums` FOREIGN KEY (`curriculum_id`) REFERENCES `edu_curriculums` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Семестры в учебном плане';
 
-# Dumping data for table ice-storm.edu_curriculum_terms: ~0 rows (approximately)
+# Dumping data for table ice-storm.edu_curriculum_terms: ~4 rows (approximately)
 /*!40000 ALTER TABLE `edu_curriculum_terms` DISABLE KEYS */;
 INSERT INTO `edu_curriculum_terms` (`id`, `curriculum_id`, `order`) VALUES
 	(1, 2, 1),
@@ -284,10 +298,12 @@ CREATE TABLE IF NOT EXISTS `edu_groups` (
   PRIMARY KEY (`id`),
   KEY `edu_groups_org_departments` (`department_id`),
   CONSTRAINT `edu_groups_org_departments` FOREIGN KEY (`department_id`) REFERENCES `org_departments` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-# Dumping data for table ice-storm.edu_groups: ~0 rows (approximately)
+# Dumping data for table ice-storm.edu_groups: ~1 rows (approximately)
 /*!40000 ALTER TABLE `edu_groups` DISABLE KEYS */;
+INSERT INTO `edu_groups` (`id`, `name`, `department_id`, `start_date`, `end_date`, `state`) VALUES
+	(1, '1211', 3, '2011-10-24 23:21:17', NULL, 'on');
 /*!40000 ALTER TABLE `edu_groups` ENABLE KEYS */;
 
 
@@ -303,7 +319,7 @@ CREATE TABLE IF NOT EXISTS `edu_group_terms` (
   `closed` enum('yes','no') NOT NULL DEFAULT 'no',
   `name` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  KEY `edu_group_terms_edu_groups` (`group_id`),
+  KEY `group_id_index` (`group_id`),
   CONSTRAINT `edu_group_terms_edu_groups` FOREIGN KEY (`group_id`) REFERENCES `edu_groups` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -364,10 +380,10 @@ CREATE TABLE IF NOT EXISTS `edu_marks` (
   `correct_id` int(11) NOT NULL DEFAULT '0' COMMENT 'id исправляемой оценки',
   `importance` enum('high','medium','low') NOT NULL DEFAULT 'medium' COMMENT 'важность оценки - высокая, средняя, низкая',
   PRIMARY KEY (`id`),
-  KEY `date_add` (`date_add`),
-  KEY `estimated_type_estimated_id` (`estimated_type`,`estimated_id`),
-  KEY `work_type_work_id` (`work_type`,`work_id`),
-  KEY `mark_type_mark_id` (`mark_type`,`mark_id`)
+  KEY `date_add_index` (`date_add`),
+  KEY `estimated_type_estimated_id_index` (`estimated_type`,`estimated_id`),
+  KEY `work_type_work_id_index` (`work_type`,`work_id`),
+  KEY `mark_type_mark_id_index` (`mark_type`,`mark_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Оценки учеников';
 
 # Dumping data for table ice-storm.edu_marks: ~0 rows (approximately)
@@ -411,8 +427,14 @@ CREATE TABLE IF NOT EXISTS `edu_mark_note` (
 # Dumping structure for table ice-storm.edu_students
 DROP TABLE IF EXISTS `edu_students`;
 CREATE TABLE IF NOT EXISTS `edu_students` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `human_id` int(10) NOT NULL,
-  `group_id` int(10) DEFAULT NULL,
+  `group_id` int(10) NOT NULL,
+  `enrollment_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата зачисления',
+  `enrollment_order` varchar(50) NOT NULL DEFAULT '' COMMENT 'Приказ о зачислении',
+  `dismissal_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Дата отчисления',
+  `dismissal_order` varchar(50) NOT NULL DEFAULT '' COMMENT 'Приказ об отчислении',
+  PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`),
   KEY `human_id` (`human_id`),
   CONSTRAINT `edu_students_edu_groups` FOREIGN KEY (`group_id`) REFERENCES `edu_groups` (`id`),
@@ -421,6 +443,8 @@ CREATE TABLE IF NOT EXISTS `edu_students` (
 
 # Dumping data for table ice-storm.edu_students: ~0 rows (approximately)
 /*!40000 ALTER TABLE `edu_students` DISABLE KEYS */;
+INSERT INTO `edu_students` (`id`, `human_id`, `group_id`, `enrollment_date`, `enrollment_order`, `dismissal_date`, `dismissal_order`) VALUES
+	(1, 1, 1, '2005-09-01 00:00:00', '1', '0000-00-00 00:00:00', '');
 /*!40000 ALTER TABLE `edu_students` ENABLE KEYS */;
 
 
@@ -439,22 +463,22 @@ CREATE TABLE IF NOT EXISTS `edu_teachers` (
 DROP TABLE IF EXISTS `org_departments`;
 CREATE TABLE IF NOT EXISTS `org_departments` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(150) NOT NULL,
+  `name` varchar(250) NOT NULL,
   `state` enum('active','inactive') NOT NULL DEFAULT 'active',
   `parent_id` int(10) DEFAULT NULL,
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `edit_date` timestamp NULL DEFAULT NULL,
   `close_date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 # Dumping data for table ice-storm.org_departments: ~4 rows (approximately)
 /*!40000 ALTER TABLE `org_departments` DISABLE KEYS */;
 INSERT INTO `org_departments` (`id`, `name`, `state`, `parent_id`, `create_date`, `edit_date`, `close_date`) VALUES
-	(1, 'Институт ПМИ', 'active', 0, '2011-08-22 01:14:25', NULL, NULL),
 	(2, 'Институт ГП', 'active', 0, '2011-08-22 01:15:14', NULL, NULL),
-	(3, 'Факультет ПМИ', 'active', 1, '2011-08-22 21:32:06', NULL, NULL),
-	(4, 'Факультет АСУ', 'active', 1, '2011-08-22 21:32:23', NULL, NULL);
+	(3, 'Факультет ПМИ', 'active', 2, '2011-08-22 21:32:06', NULL, NULL),
+	(4, 'Факультет АСУ', 'active', 2, '2011-08-22 21:32:23', NULL, NULL),
+	(5, 'Кафедра Алгебры и Геометрии', 'active', 3, '2011-10-24 21:39:58', NULL, NULL);
 /*!40000 ALTER TABLE `org_departments` ENABLE KEYS */;
 
 
@@ -462,7 +486,9 @@ INSERT INTO `org_departments` (`id`, `name`, `state`, `parent_id`, `create_date`
 DROP TABLE IF EXISTS `org_humans`;
 CREATE TABLE IF NOT EXISTS `org_humans` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `fio` varchar(100) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `middle_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
   `birth_date` date DEFAULT NULL,
   `photo` varchar(150) DEFAULT NULL,
   `phone_number` varchar(50) NOT NULL DEFAULT '',
@@ -474,6 +500,8 @@ CREATE TABLE IF NOT EXISTS `org_humans` (
 
 # Dumping data for table ice-storm.org_humans: ~0 rows (approximately)
 /*!40000 ALTER TABLE `org_humans` DISABLE KEYS */;
+INSERT INTO `org_humans` (`id`, `first_name`, `middle_name`, `last_name`, `birth_date`, `photo`, `phone_number`, `email`, `skype`, `icq`) VALUES
+	(1, 'Александр', 'Юрьевич', 'Маренин', '1988-02-01', NULL, '89817140250', 'great_muchacho@mail.ru', 'ioncreature', '3001879');
 /*!40000 ALTER TABLE `org_humans` ENABLE KEYS */;
 
 
