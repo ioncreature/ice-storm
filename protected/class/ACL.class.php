@@ -12,6 +12,8 @@ class ACL{
 	
 	protected $driver_name;
 	
+	protected $user_id = null;
+	
 	
 	public function __construct( $user_id, $driver_name = 'ACL_MySQL_Driver' ){
 		$this->user_id = (int) $user_id;
@@ -40,7 +42,7 @@ class ACL{
 		}
 		
 		// Получаем пользовательские разрешения
-		$user_p = $driver->get_user_permissions();
+		$user_p = $driver->get_user_permissions( $this->user_id );
 		$this->permissions = $this->merge( $user_p, $groups_p );
 	}
 	

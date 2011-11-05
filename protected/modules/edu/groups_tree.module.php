@@ -114,12 +114,12 @@ elseif ( $r->equal('org/departments/remove') and isset($r->id) ){
 $departments = $db->cached_query("
 	SELECT 
 		id, name, parent_id, 
-		'department' as rel
+		'default' as rel
 	FROM org_departments
 	UNION
 	SELECT
 		id, name, department_id as parent_id,
-		'default' as rel
+		'group' as rel
 	FROM
 		edu_groups
 ", 5 );
@@ -128,13 +128,13 @@ foreach ( $departments as $k => $d ){
 	$a = array(
 		'id'		=> (int) $d['id'],
 		'parent_id' => (int) $d['parent_id'],
-		'data'		=> $d['name'],
+		'data'		=> 'Группа '. $d['name'],
 		'attr'		=> array( 
 			'department_id' => (int) $d['id'],
 			'rel' => $d['rel']
 		)
 	);
-	if ( $d['rel'] === 'department' )
+	if ( $d['rel'] === 'default' )
 		$a['state'] = 'open';
 		
 // 	$a['state'] = $d['rel'] === 'department' ? 'open' : 'closed';
@@ -183,16 +183,16 @@ $("#departments_tree")
 		types: {
 			max_depth: -2,
 			max_children: -2,
-			valid_children: [ "department" ],
+			valid_children: [ "default" ],
 			types: {
-				default: {
+				'default': {
+					valid_children: [ "default", "group" ]
+				},
+				group: {
 					icon: { 'image': "<?= WEBURL .'themes/default/groups.png' ?>" },
 					valid_children: "none",
 					max_depth: 0,
 					max_children: 0
-				},
-				department: {
-					valid_children: [ "department", "group" ]
 				}
 			}
 		},

@@ -6,6 +6,9 @@ $r = RequestParser::get_instance();
 $db = Fabric::get('db');
 $acl = Auth::$acl;
 
+$u = new UserModel( 1 );
+$u->password = '123123';
+$u->save();
 //
 // ВЫВОД
 Template::add_js( '/js/jstree/jquery.jstree.js' );

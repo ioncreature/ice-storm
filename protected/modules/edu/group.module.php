@@ -17,22 +17,27 @@ $group = $db->fetch_query("
 	SELECT 
 		edu_groups.*,
 		edu_curriculums.name as cname,
-		org_departments.name as dname
+		org_departments.name as dname,
+		edu_group_terms.date_end,
+		edu_curriculum_terms.`order`
 	FROM 
 		edu_groups
-		LEFT JOIN edu_group_terms ON
-			edu_groups.id = edu_group_terms.group_id
-		LEFT JOIN edu_curriculums ON
-			edu_group_terms.curriculum_id = edu_curriculums.id
 		LEFT JOIN org_departments ON
 			org_departments.id = edu_groups.department_id
+		LEFT JOIN edu_group_terms ON
+			edu_group_terms.group_id = edu_groups.id AND
+			edu_group_terms.closed = 'no'
+		LEFT JOIN edu_curriculums ON
+			edu_curriculums.id = edu_group_terms.curriculum_id
+		LEFT JOIN edu_curriculum_terms ON
+			edu_curriculum_terms.id = edu_group_terms.curriculum_term_id
 	WHERE 
-		edu_groups.id = '$gid' and
-		edu_groups.state = 'on'
+		edu_groups.id = '$gid'
 ");
 if ( !$group )
 	redirect( WEBURL );
 
+// var_dump( $group ); die;
 $students = $db->query("
 	SELECT 
 		edu_students.*,
@@ -55,7 +60,7 @@ Template::top();
 <!-- ИНФОРМАЦИЯ О ГРУППЕ -->
 <table>
 	<tr>
-		<td>Название</td>
+		<td width="275px">Название</td>
 		<td><?= htmlspecialchars($group['name']) ?></td>
 	</tr>
 	<tr>
@@ -63,21 +68,30 @@ Template::top();
 		<td><?= htmlspecialchars($group['dname']) ?></td>
 	</tr>
 	<tr>
-		<td>Курс</td>
-		<td><?= htmlspecialchars($group['name']) ?></td>
+		<td>Текущий учебный план</td>
+		<td>
+			<?= $group['cname'] ? htmlspecialchars($group['cname']) : '---' ?>
+		</td>
 	</tr>
 	<tr>
-		<td>Курс</td>
-		<td><?= htmlspecialchars($group['name']) ?></td>
+		<td>Текущий семестр</td>
+		<td>
+			<?php if ( $group['order'] ):  ?>
+				<?= $group['order'] ?> семестр
+				<?= $group['date_end'] ? '(окончание - '. date('Y-m-d', strtotime($group['date_end'])) .')' : '' ?>
+			<?php else: ?>
+				---
+			<?php endif; ?>
+		</td>
 	</tr>
-</table>
+</table><br />
 
 
 <!-- СПИСОК СТУДЕНТОВ -->
-<h2>Студенты группы <?= htmlspecialchars($group['name']) ?></h2>
+<h2>Студенты</h2>
 <table>
 	<tr>
-		<th>ФИО</th>
+		<th width="275px">ФИО</th>
 		<th>Дата рождения</th>
 	</tr>
 <?php foreach ( $students as $s ): ?>

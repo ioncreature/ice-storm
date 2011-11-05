@@ -202,6 +202,7 @@ elseif ( $r->equal('edu/course/::int/move') and isset($r->order, $r->theme_id, $
 Template::add_js( '/js/jquery.hotkeys.js' );
 Template::add_js( '/js/ui/jquery-ui.js' );
 Template::add_css( '/js/ui/jquery-ui.css' );
+Template::add_js( '/js/ICanHaz.js' );
 Template::top();
 ?>
 <h2>Темы учебного курса "<?= htmlspecialchars($course['name']) ?>"</h2>
