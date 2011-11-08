@@ -43,6 +43,21 @@ try {
 					redirect( WEBURL );
 			}
 			break;
+			
+		// Кабинет пользователя
+		case "user":
+			if ( $a->is_logged() )
+				switch ($r->get(1)){
+					case "cabinet":
+						include "protected/modules/user/cabinet.module.php";
+						break;
+					default:
+						redirect( WEBURL );
+				}
+			else
+				include "protected/modules/access_denied.module.php";
+			break;
+			
 		
 		// Учебный процесс
 		case "edu":

@@ -35,6 +35,13 @@ class UserModel extends Model{
 			$this->password = $this->hash($this->data['password']);
 	}
 	
+	public function check_password( $pass ){
+		if ( isset($this->data['password']) )
+			return $this->data['password'] === $this->hash($pass) ;
+		else
+			return 0;
+	}
+	
 	protected function hash( $val ){
 		return md5( sha1($val) .'salt' );
 	}

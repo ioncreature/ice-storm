@@ -44,7 +44,7 @@ function menu(){?>
 function auth_form(){?>
 	<?php if ( Auth::is_logged() ): ?>
 	<form id="auth" method="POST" action="<?= WEBURL .'logout' ?>">
-		<a href="<?= WEBURL . 'logout'?>" title="exit"><?= Auth::get_user()->login ?></a>
+		<a href="<?= WEBURL . 'user/cabinet'?>" title="Мой Кабинет"><?= Auth::get_user()->login ?></a>
 		<input type="submit" name="logout" value="Выход" />
 	</form>
 	<?php else: ?>
