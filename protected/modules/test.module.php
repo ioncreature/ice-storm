@@ -7,7 +7,7 @@ $db = Fabric::get('db');
 $acl = Auth::$acl;
 
 $u = new UserModel( 1 );
-$u->password = '123123';
+$u->password = '1';
 $u->save();
 //
 // ВЫВОД
