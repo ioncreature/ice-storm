@@ -89,11 +89,20 @@ try {
 				case "student":
 					include "protected/modules/edu/student.module.php";
 					break;
+    			default:
+					redirect( WEBURL );
+			}
+			break;
+
+        case "stat":
+            switch ( $r->get(1) ){
+				case "edu":
+					include "protected/modules/stat/edu.module.php";
+					break;
 				default:
 					redirect( WEBURL );
 			}
 			break;
-		
 		
 		// Структура учреждения
 		case "org":

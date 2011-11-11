@@ -8,7 +8,7 @@ function menu(){?>
 		<li><span class="a">Учебный процесс</span>
 			<ul class="v_menu">
 				<li><a href="<?= WEBURL .'edu/marks' ?>">Оценки</a></li>
-				<li><a href="<?= WEBURL .'edu/statistics' ?>">Статистика</a></li>
+				<li><a href="<?= WEBURL .'stat/edu' ?>">Статистика</a></li>
 				<li><a href="<?= WEBURL .'edu/schedule' ?>">Расписание</a></li>
 			</ul>
 		</li>

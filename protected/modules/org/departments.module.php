@@ -190,8 +190,8 @@ $("#departments_tree")
 					label: "Создать"
 				},
 				rename: {
-					label: "Переименовать",
-					//_disabled: true
+					//_disabled: true,
+					label: "Переименовать"
 				},
 				ccp: {
 					label: "Редактировать",
