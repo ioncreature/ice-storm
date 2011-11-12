@@ -137,6 +137,7 @@ $tree = get_departments_tree( $dep );
 //
 // ВЫВОД
 //
+Template::add_to_title( 'Подразделения' );
 Template::add_js( '/js/jstree/jquery.jstree.js' );
 Template::top();
 ?>

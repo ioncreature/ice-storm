@@ -1,29 +1,24 @@
-html {
-	margin: 0px;
-	padding: 0px;
+html, body, div {
+    margin: 0px;
+    padding: 0px;
 }
-/* html * {
-	margin: 0px;
-	padding: 0px;
-} */
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
 body {
 	display: block;
-	margin: 0px;
-	padding: 0px;
-	background: #f4f9fF;
-	min-width: 980px;
+    min-width: 1000px;
 	background-color: #E0F0FF;
 	font-size: 14px;
 	font-family: Verdana, Arial, sans;
 	color: #333;
 }
 
-a {
-	text-decoration: none;
-}
-a:hover {
-	text-decoration: underline;
-}
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
 
 
 /* COMMON FORMS STYLE */
@@ -59,34 +54,65 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover{
 
 /* HEADER */
 div#header {
-	margin: 0px 0px 25px 0px;
-	padding: 6px;
-	height: 60px;
+	height: 64px;
 	background-color: #247;
-	border-bottom: 2px solid #BCD;
 	z-index: 50;
+    border-bottom: 1px solid #000;
+    background-image: linear-gradient(bottom, #2e558c 1%, #3463a3 51%, #224477 100%);
+    background-image: -o-linear-gradient(bottom, #2e558c 1%, #3463a3 51%, #224477 100%);
+    background-image: -moz-linear-gradient(bottom, #2e558c 1%, #3463a3 51%, #224477 100%);
+    background-image: -webkit-linear-gradient(bottom, #2e558c 1%, #3463a3 51%, #224477 100%);
+    background-image: -ms-linear-gradient(bottom, #2e558c 1%, #3463a3 51%, #224477 100%);
+}
+div#header > .h_wrapper {
+    height: 100%;
+    border-bottom: 1px solid #FFF;
 }
 div#header a {
 	color: #E0F0FF;
 }
-div#header > span.logo {
+div#header span.logo {
 	display: block;
 	float: left;
 	font-size: 26px;
 	margin: 13px 40px 15px 15px;
 	font-weight: bold;
 }
-div#header > span.logo a { color: #B0C5E0; }
-div#header > span.logo a:hover { 
-	color: #EFF8FF;
-	text-decoration: none;
+div#header span.logo a {
+    text-decoration: none;
+    color: #B0C5E0;
 }
-div#header > ul.h_menu{
+div#header span.logo a:hover {
+    color: #EFF8FF;
+    text-shadow: rgba(0, 0, 0, 0.4) 0px 0px 15px;
+}
+
+div#header ul.h_menu{
 	margin: 0px auto;
 	margin-top: 15px;
 }
-div#header > form#auth {
-	float: right;
+div#header .left_section {
+    float: right;
+    height: 100%;
+    border-left: 1px solid #89a;
+    border-left: 1px solid rgba( 110, 130, 170, 0.5 );
+    background-color: rgba( 40, 75, 90, 0.1 );
+    overflow:  hidden;
+}
+div#header .left_section:hover{
+    background-color: rgba( 30, 100, 50, 0.7 );
+    border-color: rgba( 10, 80, 10, 0.7 );
+}
+div#header .left_section .ls_wrapper {
+    padding: 6px;
+    border-left: 1px solid #348;
+    border-left: 1px solid rgba();
+    height: 100%;
+}
+
+form#auth {}
+form#auth.logged {
+    padding: 12px 6px;
 }
 form#auth input[type=text], 
 form#auth input[type=password] {
@@ -152,13 +178,21 @@ h1, h2, h3{
 
 
 /* CONTENT BODY */
+div.body_wrapper {
+    overflow: hidden;
+    background-image: linear-gradient(top, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 25px);
+    background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 25px);
+    background-image: -o-linear-gradient(top, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 15px);
+    background-image: -moz-linear-gradient(top, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 15px);
+    background-image: -ms-linear-gradient(top, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 15px);
+}
 div#body {
-	margin: 0px 6px 6px 6px;
-	padding: 12px;
-	background-color: #FFFFFF;
-	width: 80%;
-	max-width: 1200px;
-	margin: 30px auto;
+    margin: 30px auto;
+    padding: 12px;
+    background-color: #FFFFFF;
+    width: 90%;
+    max-width: 1280px;
+    min-width: 920px;
 	border-radius: 10px;
 	border: 2px solid #ACD;
 	z-index: 0;
@@ -166,7 +200,7 @@ div#body {
 
 /* FOOTER */
 div#footer {
-	margin: 0px 6px 6px 6px;
+	margin: 0 6px 6px 6px;
 	padding: 6px;
 	background-color: #BEC;
 }
@@ -176,7 +210,7 @@ div#footer {
 div.error {
 	border: 1px solid #C55;
 	background-color: #EBB;
-	margin: 10px 0px 5px 0px;
+	margin: 10px 0 5px 0;
 	line-height: 18px;
 	padding: 3px;
 	border-radius: 4px;
@@ -185,7 +219,7 @@ div.success {
 	border: 1px solid #5C5;
 	line-height: 20px;
 	background-color: #BEB;
-	margin: 10px 0px 5px 0px;
+	margin: 10px 0 5px 0;
 	padding: 3px;
 	border-radius: 4px;
 }
@@ -265,7 +299,7 @@ table.common tr.header th{
 
 /* DEPARTMENTS TREE */
 #departments_tree {
-	border: 1px solid grey;
+	border: 1px solid #999;
 	border-radius: 4px;
 	font-size: 14px;
 }
@@ -316,3 +350,15 @@ span.loader div{
 }
 
 
+.transition_all_03 {
+    transition: all 0.3s linear;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+}
+.transition_all_05 {
+    transition: all 0.5s linear;
+    -webkit-transition: all 0.5s linear;
+    -moz-transition: all 0.5s linear;
+    -o-transition: all 0.5s linear;
+}

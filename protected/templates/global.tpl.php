@@ -26,7 +26,7 @@ function menu(){?>
 				<li><a href="<?= WEBURL .'org/departments' ?>">Подразделения</a></li>
 			</ul>
 		</li>
-		<li><span class="a">Разграничение доступа</span>
+		<li><span class="a">Доступ</span>
 			<ul class="v_menu">
 				<li><a href="<?= WEBURL .'acl/groups' ?>">Группы</a></li>
 				<li><a href="<?= WEBURL .'acl/users' ?>">Пользователи</a></li>
@@ -43,12 +43,12 @@ function menu(){?>
 
 function auth_form(){?>
 	<?php if ( Auth::is_logged() ): ?>
-	<form id="auth" method="POST" action="<?= WEBURL .'logout' ?>">
+	<form id="auth" class="logged" method="POST" action="<?= WEBURL .'logout' ?>">
 		<a href="<?= WEBURL . 'user/cabinet'?>" title="Мой Кабинет"><?= Auth::get_user()->login ?></a>
 		<input type="submit" name="logout" value="Выход" />
 	</form>
 	<?php else: ?>
-	<form id="auth" method="POST" action="<?= WEBURL ?>">
+	<form id="auth" class="unlogged" method="POST" action="<?= WEBURL ?>">
 		<input type="text" name="login" value="" placeholder="Ваш логин" />
 		<input type="password" name="password" value="" placeholder="Пароль" /><br />
 		<input type="submit" class="submit" value="Войти" />

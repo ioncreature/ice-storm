@@ -166,7 +166,11 @@ class RequestParser {
 	}
 	
 	
-	// возвращает строку с действием или '' если действия с таким $index нет
+	/**
+	 * возвращает строку с действием или '' если действия с таким $index нет
+	 * @param $index номер "действия", начиная с 0
+	 * @return string
+	 */
 	public function get( $index ){
 		return ( $this->is_set($index) ? $this->actions[$index] : '' );
 	}

@@ -15,10 +15,11 @@ try {
 	$a = Auth::get_instance();
 	$acl = Auth::$acl;
 	
-	// обрабортка запроса
+	// обработка запроса
 	$r = RequestParser::get_instance();
 	define( "APP_HASH", $r->get_hash() );	
-	
+
+	Template::title( APP_TITLE );
 	// usleep(500*1000);
 
 	// -------
@@ -110,6 +111,9 @@ try {
 				case "departments":
 					include "protected/modules/org/departments.module.php";
 					break;
+				case "staff":
+					include "protected/modules/org/staff.module.php";
+					break;
 				default:
 					redirect( WEBURL );
 			}
@@ -119,7 +123,7 @@ try {
 		case "logout":
 			$a->logout();
 			redirect( WEBURL );
-		
+
 		case "register":
 			include "protected/modules/register.module.php";
 			break;
@@ -140,11 +144,14 @@ try {
 			include "protected/modules/index.module.php";
 			break;
 	}
+	
+	// Вывод
+	Template::output();
 }
 
 //	------------
 //	Отлов ошибок
-//	------------
+	//	------------
 catch ( CacheException $e ){
 	echo "Ошибка кеширования: ". $e->getMessage();
 }

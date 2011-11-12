@@ -2,6 +2,9 @@
 // DEVELOPER - ALEX MARENIN HOME
 if ( isset($_SERVER['ENV']) and $_SERVER['ENV'] == "muchacho_home" or $_SERVER['ENV'] == "MUCHACHO" ){
 
+	// Application title
+	define( 'APP_TITLE', 'Ice Storm' );
+
 	// Database
 	define( 'DB_HOST',		"localhost" );
 	define( 'DB_USER',		"root" );
