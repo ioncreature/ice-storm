@@ -55,13 +55,13 @@ Template::top();
 	<input type="submit" value="Сменить пароль" />
 	
 	<!-- СОБЩЕНИЕ ОБ ОШИБКЕ -->
-	<div class="error" style="display: none;">
-		<?= isset($error) ? $error : '' ?>
+	<div class="error" style="<?= isset($error) ? '' : 'display: none;'?>">
+	<?= isset($error) ? $error : '' ?>
 	</div>
 	
 	<!-- СООБЩЕНИЕ ОБ УСПЕХЕ -->
 	<?php if ( $r->equal('user/cabinet/success') ): ?>
-		<div class="success">Пароль успешно изменён</div>
+	<div class="success">Пароль успешно изменён</div>
 	<?php endif; ?>
 </form>
 

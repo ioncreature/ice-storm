@@ -100,13 +100,12 @@ div#header .left_section {
     overflow:  hidden;
 }
 div#header .left_section:hover{
-    background-color: rgba( 30, 100, 50, 0.7 );
+    background-color: rgba( 20, 90, 40, 0.9 );
     border-color: rgba( 10, 80, 10, 0.7 );
 }
 div#header .left_section .ls_wrapper {
     padding: 6px;
     border-left: 1px solid #348;
-    border-left: 1px solid rgba();
     height: 100%;
 }
 

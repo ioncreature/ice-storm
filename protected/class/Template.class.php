@@ -74,9 +74,9 @@ class Template {
 	 */
 	public static function add_css( $path, array $attributes = array() ){
 		if ( !isset($attributes['rel']) )
-			$attributes['rel']= 'stylesheet';
+			$attributes['rel'] = 'stylesheet';
 		if ( !isset($attributes['type']) )
-			$attributes['type']= 'text/css';
+			$attributes['type'] = 'text/css';
 		$attr = static::attrs( $attributes );
 
 		static::$css[] = array(
@@ -118,6 +118,7 @@ class Template {
 	public static function output(){
 		if ( static::$output_started )
 			return false;
+		static::ob_block_end();
 		static::top();
 		static::bottom();
 	}
