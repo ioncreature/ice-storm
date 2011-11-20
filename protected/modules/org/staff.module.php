@@ -38,7 +38,7 @@ Template::ob_to_block( 'body' );
 	
 </form>
 
-<table>
+<table class="common">
 	<tr>
 		<th>Имя</th>
 		<th>Должность</th>
@@ -54,4 +54,4 @@ Template::ob_to_block( 'body' );
 </table>
 
 <?php
-Template::ob_block_end();
+Template::ob_end();

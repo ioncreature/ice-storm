@@ -12,7 +12,7 @@ $message = '';
 
 // регистрация
 if ( isset($r->login, $r->password, $r->email) ){
-	$u = new UserModel;
+	$u = new Model\User;
 	$u->login = $r->login;
 	$u->password = $r->password;
 	$u->email = $r->email;
@@ -29,7 +29,7 @@ if ( isset($r->login, $r->password, $r->email) ){
 
 // регистрация успешна
 if ( $r->is_equal(1, 'success') and $r->is_int(2) ){
-	$user = new UserModel( $r->to_int(2) );
+	$user = new Model\User( $r->to_int(2) );
 	if ( $user->exists() )
 		$message .= 'Регистрация прошла успешно, авторизуйтесь';
 }

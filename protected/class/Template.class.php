@@ -118,7 +118,7 @@ class Template {
 	public static function output(){
 		if ( static::$output_started )
 			return false;
-		static::ob_block_end();
+		static::ob_end();
 		static::top();
 		static::bottom();
 	}
@@ -162,14 +162,14 @@ class Template {
 
 	public static function ob_to_block( $name ){
 		if ( static::$ob_block_name )
-			static::ob_block_end();
+			static::ob_end();
 
 		static::$ob_block_name = $name;
 		ob_start();
 	}
 
 
-	public static function ob_block_end(){
+	public static function ob_end(){
 		if ( static::$ob_block_name )
 			static::add_to_block( static::$ob_block_name, ob_get_clean() );
 		static::$ob_block_name = false;

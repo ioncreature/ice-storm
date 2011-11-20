@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="icon" href="/favicon.ico" type="image/x-icon" /> 
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" /> 
-	<link rel="stylesheet" href="/themes/default/style.css?<?=rand(0,999)?>" />
+	<link rel="stylesheet" href="/themes/default/style.css?<?=rand(0,9999)?>" />
 <?= Template::block( 'styles' ) ?>
 	
 	<!-- Libraries -->
@@ -17,6 +17,7 @@
 	<!-- <script type="text/javascript" src="js/app.js"></script> -->
 </head>
 <body>
+<div id="global_content_wrapper">
 <div id="header">
 	<div class="h_wrapper">
 		<span class="logo"><a class="transition_all_03" href="<?= WEBURL ?>">Ice Storm</a></span>

@@ -118,7 +118,7 @@ Template::top();
 
 <!-- ВЫВОД ГРУПП СПИСКОМ -->
 <h3>Список групп</h3>	
-<table class="groups">
+<table class="common">
 	<tr>
 		<th>Название</th>
 		<th>Учебный план</th>
@@ -126,7 +126,7 @@ Template::top();
 		<th>Редактировать</th>
 	</tr>
 <?php foreach ( $groups as $g ): ?>
-	<tr <?= $i % 2 === 0 ? 'class="odd"' : '' ?>>
+	<tr <?= ++$i % 2 === 0 ? 'class="odd"' : '' ?>>
 		<td>
 			<a href="<?= WEBURL . 'edu/group/'. $g['id'] ?>"><?= $g['name'] ?></a>
 		</td>

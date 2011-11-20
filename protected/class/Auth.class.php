@@ -1,8 +1,8 @@
 <?php
-/*
-	Класс для авторизации пользователей
-	Marenin Alexandr, Arseniev Alexey
-	May,July 2011
+/**
+ *	Класс для авторизации пользователей
+ *	Marenin Alexandr, Arseniev Alexey
+ *	May,July 2011
 */
 
 
@@ -53,7 +53,7 @@ class Auth{
 	
 	
 	public function login( $login, $pass ){
-		$user = new UserModel;
+		$user = new Model\User;
 		$user->get_by_login_password( $login, $pass );
 		if ( $user->exists() ){
 			static::$logged = true;

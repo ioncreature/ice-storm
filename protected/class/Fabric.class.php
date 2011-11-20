@@ -1,6 +1,6 @@
 <?php
 /*
-	Ôàáðèêà êëàññîâ
+	Ð¤Ð°Ð±Ñ€Ð¸ÐºÐ° Ð²ÑÑÐºÐ¾Ð³Ð¾ Ñ…Ð»Ð°Ð¼Ð°
 	Marenin Alex
 	2011
 */
@@ -32,7 +32,7 @@ class Fabric {
 				break;
 			
 			case 'session':
-				$obj = new SessionStorage();
+//				$obj = new SessionStorage();
 				break;
 			
 			default:

@@ -5,9 +5,14 @@ include 'protected/lib/misc.functions.php';
 
 //автозагрузка классов по требованию
 function __autoload( $name ){
-	$inc = include 'protected/class/'. $name .'.class.php';
-	if ( !$inc )
-		die( "Class '$name' not found!");
+	// проверка для классов с неймспейсами
+	// TODO: перенести все классы в свои неймспейсы и убрать проверку
+	if ( strpos($name, '\\') !== false )
+		$path = 'protected/class/'. str_replace('\\', '/', $name) .'.php';
+	else
+		$path = 'protected/class/'. $name .'.class.php';
+	if ( ! include($path) )
+		die( "Class '$name' not found!". htmlspecialchars($name));
 }
 
 try {
@@ -30,7 +35,7 @@ try {
 		
 		// разграничение доступа
 		case "acl":
-			switch ($r->get(1)){
+			switch ( $r->get(1) ){
 				case "groups":
 					include "protected/modules/acl/groups.module.php";
 					break;
@@ -48,7 +53,7 @@ try {
 		// Кабинет пользователя
 		case "user":
 			if ( $a->is_logged() )
-				switch ($r->get(1)){
+				switch ( $r->get(1) ){
 					case "cabinet":
 						include "protected/modules/user/cabinet.module.php";
 						break;
@@ -62,7 +67,7 @@ try {
 		
 		// Учебный процесс
 		case "edu":
-			switch ($r->get(1)){
+			switch ( $r->get(1) ){
 				case "curriculums":
 					include "protected/modules/edu/curriculums.module.php";
 					break;
@@ -107,7 +112,7 @@ try {
 		
 		// Структура учреждения
 		case "org":
-			switch ($r->get(1)){
+			switch ( $r->get(1) ){
 				case "departments":
 					include "protected/modules/org/departments.module.php";
 					break;
@@ -119,28 +124,19 @@ try {
 			}
 			break;
 		
-		
 		case "logout":
 			$a->logout();
 			redirect( WEBURL );
-
 		case "register":
 			include "protected/modules/register.module.php";
 			break;
-		
-		// тестовая страница
-		case 'test':
+		case 'test':	// тестовая страница
 			include "protected/modules/test.module.php";
 			break;
-		
-		// тестовая backbone страница
-		case 'mvc':
+		case 'mvc':		// тестовая backbone страница
 			include "protected/modules/mvc.module.php";
 			break;
-		
-		// по умолчанию - главная страница
-		case "index":
-		default:
+		default:		// по умолчанию - главная страница
 			include "protected/modules/index.module.php";
 			break;
 	}
@@ -151,7 +147,7 @@ try {
 
 //	------------
 //	Отлов ошибок
-	//	------------
+//	------------
 catch ( CacheException $e ){
 	echo "Ошибка кеширования: ". $e->getMessage();
 }

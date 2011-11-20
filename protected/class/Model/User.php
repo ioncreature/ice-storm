@@ -1,11 +1,13 @@
 <?php
-/*
-	Класс для работы с данными пользователя
-	Marenin Alexandr
-	2011
-*/
+/**
+ * Модель для работы с данными пользователя
+ * @author Marenin Alex
+ * 2011
+ */
 
-class UserModel extends Model{
+namespace Model;
+
+class User extends AbstractModel{
 	
 	protected $table = 'auth_users';
 	protected $fields = array('id', 'human_id', 'login', 'password', 'email', 'active');

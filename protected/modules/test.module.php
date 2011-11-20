@@ -6,7 +6,7 @@ $r = RequestParser::get_instance();
 $db = Fabric::get('db');
 $acl = Auth::$acl;
 
-$u = new UserModel( 1 );
+$u = new Model\User( 1 );
 $u->password = '1';
 $u->save();
 //
@@ -17,6 +17,8 @@ Template::top();
 echo '<pre>';
 echo var_export( Auth::$acl, true);
 echo '</pre>';
+
+$a = new \Model\Employee();
 
 // Определяем текущую страницу
 $current_page = $r->is_int(1) ? $r->to_int(1) : 1;
