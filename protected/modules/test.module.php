@@ -18,7 +18,9 @@ echo '<pre>';
 echo var_export( Auth::$acl, true);
 echo '</pre>';
 
-$a = new \Model\Employee();
+//$a = new \Model\Human();
+//$a->get_by_id(1);
+//var_dump($a);
 
 // Определяем текущую страницу
 $current_page = $r->is_int(1) ? $r->to_int(1) : 1;

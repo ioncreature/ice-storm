@@ -5,7 +5,7 @@
  * @author Marenin Alex
  * 2011
  *
- * TODO: Add block content caching
+ * TODO: Add block content caching(Memcache or Redis)
  */
 class Template {
 	
