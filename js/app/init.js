@@ -4,7 +4,6 @@ dojo.provide( 'app.init' );
 //dojo.registerModulePath( 'dijit', '../dijit' );
 //dojo.registerModulePath( 'dojox', '../dojox' );
 
-//dojo.require( 'dijit/dijit' );
 dojo.require( 'dijit.layout.BorderContainer' );
 dojo.require( 'dijit.layout.TabContainer' );
 dojo.require( 'dijit.layout.ContentPane' );

@@ -10,7 +10,7 @@ $r = RequestParser::get_instance();
 $db = Fabric::get('db');
 $acl = Auth::$acl;
 
-$u = Auth::get_user(1);
+$u = new Model\User( 1 );
 $hu = $u->Human;
 $u->password = '1';
 $u->save();
