@@ -37,10 +37,8 @@ if ( $r->is_equal(1, 'success') and $r->is_int(2) ){
 
 //
 // ВЫВОД
-//
-Template::top();
+Template::ob_to_block( 'body' );
 ?>
-
 <h2>Регистрация</h2>
 
 <!-- СООБЩЕНИЕ ОБ ОШИБКЕ -->
@@ -71,20 +69,23 @@ Template::top();
 	<input type="submit" value="Зарегистрироваться" />
 	<div class="error" style="display:none"></div>
 </form>
+
+
+<?php Template::ob_to_block( 'js' ) ?>
 <script type="text/javascript">
 	$( document ).ready( function(){
 		$( 'form#register' ).submit( function(){
-			var error = '';
-			var login = $( 'input[name=login]', this ).val();
-			var pass = $( 'input[name=password]', this ).val();
-			var repass = $( 'input[name=repassword]', this ).val();
-			var email = $( 'input[name=email]', this ).val();
-			
+			var error  = '',
+				login  = $( 'input[name=login]', this ).val(),
+				pass   = $( 'input[name=password]', this ).val(),
+				repass = $( 'input[name=repassword]', this ).val(),
+				email  = $( 'input[name=email]', this ).val();
+
 			if ( pass !== repass )
-				error += 'Пароли не совпадают<br/>';
-				
-			if ( ! (login && pass && email) )
-				error += 'Заполните все поля<br/>';
+				error += 'Пароли не совпадают<br />';
+
+			if ( !(login && pass && email) )
+				error += 'Заполните все поля<br />';
 			
 			if ( error.length > 0 ){
 				$('div.error').html( error ).show();
@@ -95,5 +96,4 @@ Template::top();
 		});
 	});
 </script>
-
-<?= Template::bottom() ?>
+<?php Template::ob_end() ?>

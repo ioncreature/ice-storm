@@ -15,6 +15,7 @@ class Human extends AbstractModel {
 		'birth_date', 'photo', 'phone', 'email', 'skype', 'icq'
 	);
 	protected $primary_key = 'id';
+	protected $model_name = __CLASS__;
 
 
 	public function get_by_name( $first = '', $middle = '', $last = '' ){

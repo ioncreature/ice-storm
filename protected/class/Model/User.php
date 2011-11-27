@@ -10,9 +10,20 @@ namespace Model;
 class User extends AbstractModel{
 	
 	protected $table = 'auth_users';
-	protected $fields = array('id', 'human_id', 'login', 'password', 'email', 'active');
+	protected $fields = array(
+		'id', 'login', 'password', 'email',
+		'active' => 'yes',
+		'human_id' => array(
+			'type' => 'int',
+			'default' => 0,
+			'foreign_key' => 'id',
+			'model' => 'Human',
+			'namespace' => 'Model'
+		)
+	);
 	protected $model_name = 'User';
 	protected $primary_key = 'id';
+
 	
 	public function get_by_login_password( $login, $password ){
 		$this->db_connect();

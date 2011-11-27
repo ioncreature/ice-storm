@@ -27,6 +27,9 @@ $staff = $db->query("
 //
 // Вывод
 //
+Template::ob_to_block( 'js' );
+
+
 Template::ob_to_block( 'body' );
 ?>
 <h1>Сотрудники</h1>

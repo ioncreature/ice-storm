@@ -12,7 +12,7 @@ function __autoload( $name ){
 	else
 		$path = 'protected/class/'. $name .'.class.php';
 	if ( ! include($path) )
-		die( "Class '$name' not found!". htmlspecialchars($name));
+		die( "Class '$name' not found!" );
 }
 
 try {

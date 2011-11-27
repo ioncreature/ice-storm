@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="icon" href="/favicon.ico" type="image/x-icon" /> 
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" /> 
-	<link rel="stylesheet" href="/themes/default/style.css?<?=rand(0,9999)?>" />
+	<link rel="stylesheet" href="/themes/default/style.css?<?= rand(0,9999) ?>" />
 <?= Template::block( 'styles' ) ?>
 	
 	<!-- Libraries -->
@@ -13,8 +13,10 @@
 	<script type="text/javascript" src="/js/jquery.form.js"></script>
 <?= Template::block( 'scripts' ) ?>
 
-	<!-- Application -->
-	<!-- <script type="text/javascript" src="js/app.js"></script> -->
+	<!-- Module scripts -->
+	<script type="text/javascript">
+		<?= Template::block( 'js' ) ?>
+	</script>
 </head>
 <body>
 <div id="global_content_wrapper">

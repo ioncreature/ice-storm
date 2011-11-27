@@ -9,18 +9,39 @@ namespace Model;
 
 abstract class AbstractModel {
 
+	// ----------
 	// fields for redefining in descendant classes
+	
 	protected $table = '';
-	protected $fields = array();
 	protected $primary_key = 'id';
 	protected $model_name = __CLASS__;
 
-	// TODO: save only changed data in $this->data, for original data use $this->orig_data
+	/**
+	 * List of fields like: array(
+	 * 		'id',
+	 * 		'name' => 'default value',
+	 * 		'field_name' => array(
+	 * 			'foreign_key' => 'foreign_field_name',
+	 * 			'model' => 'ModelClassName',
+	 * 			'default' => 0,
+	 * 			'type' => 'int'
+	 * 		)
+	 *	)
+	 * @var array
+	 */
+	protected $fields = array();
+
+	// fields for redefining in descendant classes
+	// ----------
+
+	
 	protected $data = array();
 	protected $orig_data = array();
+	protected $models = array();
 	protected $modified = false;
 	protected $exists = false;
 	protected $db = null;
+
 
 	public function __construct( $object_id = false ){
 		if ( $object_id !== false )
@@ -28,42 +49,77 @@ abstract class AbstractModel {
 		else {
 			foreach ( $this->fields as $key => $val ){
 				$field = is_int($key) ? $val : $key;
+				
+				// 1. Простое поле
+				// 2. Поле с указанием дефолтного значения
+				if ( !is_array($val) )
 				$default = is_int($key) ? false : $val;
 
+				// 3. Поле с указанием списка параметров
+				else {
+					$default = isset($val['default']) ? $val['default'] : false;
+					if ( isset($val['model']) )
+						$this->models[$val['model']] = array(
+							'fk' => $field,
+							'namespace' => isset($val['namespace']) ? $val['namespace'] : ''
+						);
+					// TODO: добавить обработку типов полей
+				}
+				
 				$this->orig_data[$field] = $default;
 			}
-			$this->data = $this->orig_data;
 		}
 	}
 
 
 	protected function db_connect(){
-		if ( $this->db === null )
+		if ( !$this->db )
 			$this->db = \Fabric::get( 'db' );
 	}
 
 
+	/**
+	 * Mega setter
+	 * @param $key
+	 * @param $value
+	 * @return void
+	 */
 	public function __set( $key, $value ){
-		if ( isset($this->data[$key]) and ($this->data[$key] !== $value) )
+		// TODO: добавить проверку типов
+		if ( isset($this->orig_data[$key], $this->data[$key]) and $this->data[$key] !== $value )
 			$this->modified = true;
 		$this->data[$key] = $value;
 	}
 
 
+	/**
+	 * Mega getter. Returns field value or some model instance
+	 * @param $key
+	 * @return bool|Model|field_value
+	 */
 	public function __get( $key ){
-		return isset($this->data[$key]) ? $this->data[$key] : false;
+		if ( isset($this->data[$key]) )
+			return $this->data[$key];
+		elseif ( isset($this->orig_data[$key]) )
+			return $this->orig_data[$key];
+		elseif ( $this->get_model($key) )
+			return $this->get_model( $key );
+		else
+			return false;
 	}
 
 
 	public function __toString(){
-		if ( ! $this->exists )
-			return 'Empty '. $this->model_name;
-		return var_export( $this->data, true );
+		return !$this->exists ?
+			"Empty model ({$this->model_name})" : var_export( $this->data, true );
 	}
 
 
 	public function __sleep(){
-		return array( 'data', 'orig_data', 'exists', 'table', 'fields', 'model_name', 'primary_key' );
+		return array(
+			'data', 'orig_data', 'exists', 'table',
+			'fields', 'model_name', 'primary_key', 'models'
+		);
 	}
 
 	public function __wakeup(){
@@ -78,28 +134,32 @@ abstract class AbstractModel {
 	public function get_by_id( $object_id ){
 		$object_id = (int) $object_id;
 		$this->db_connect();
+		// TODO: сделать загрузку полей только из списка $this->fields
 		$this->orig_data = $this->db->fetch_query("
-			SELECT * FROM {$this->table} WHERE id = '$object_id' LIMIT 1
+			SELECT * FROM {$this->table} WHERE `{$this->primary_key}` = '$object_id' LIMIT 1
 		");
-		if ( $this->orig_data ){
-			$this->data = $this->orig_data;
+		if ( $this->orig_data )
 			$this->exists = true;
-			return true;
-		}
 
-		return false;
+		return $this->exists;
 	}
 
 
 	// Сохраняет изменения в БД
 	public function save(){
+		// сохраняем измнения в связанных моделях
+		foreach ( $this->models as $name => &$m )
+			if ( isset($m['instance']) )
+				$m['instance']->save();
+
+		// сохраняем текущую модель
 		if ( !$this->modified )
 			return false;
 		$this->db_connect();
 
 		$this->before_save();
 		// Добавляем новую запись
-		if ( ! $this->exists ){
+		if ( !$this->exists ){
 			$data = array_diff_key( $this->data, array($this->primary_key => true) );
 			$this->data[ $this->primary_key ] = $this->db->insert( $this->table, $data );
 			$this->exists = true;
@@ -117,7 +177,7 @@ abstract class AbstractModel {
 			$this->db->query("
 				UPDATE {$this->table}
 				SET $set
-				WHERE `{$this->primary_key}` = '". $this->db->safe( $this->orig_data[ $this->primary_key ]) ."'
+				WHERE `{$this->primary_key}` = '". $this->db->safe( $this->orig_data[$this->primary_key] ) ."'
 			");
 		return $this->orig_data[ $this->primary_key ];
 	}
@@ -125,18 +185,41 @@ abstract class AbstractModel {
 
 	public function load( $data ){
 		$this->exists = true;
-		$this->data = $data;
+		$this->data = array();
 		$this->orig_data = $data;
 		return true;
 	}
 
 
+	/**
+	 * Reloads data from database
+	 * @return void
+	 */
+	public function update(){
+		$this->get_by_id( $this->{$this->primary_key} );
+	}
+
+
 	protected function before_save(){
+		// redefine in descendants
 	}
 
 
 	public function is_changed( $key ){
-		return $this->data[$key] !== $this->orig_data[$key];
+		return isset($this->data[$key]) ? $this->data[$key] !== $this->orig_data[$key] : false;
+	}
+
+
+	public function get_model( $name ){
+		if ( isset($this->models[$name]) ){
+			$m =& $this->models[$name];
+			if ( !isset($m['instance']) ){
+				$class_name = ($m['namespace'] ? $m['namespace'] .'\\' : '') . $name;
+				$m['instance'] = new $class_name( $this->{$m['fk']} );
+			}
+			return isset($m['instance']) ? $m['instance'] : false;
+		}
+		else return false;
 	}
 
 }
