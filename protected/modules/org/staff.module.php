@@ -33,12 +33,12 @@ Template::add_to_block( 'js', "dojo.require( 'app.controller.Staff' );" );
 Template::add_to_block( 'js', "dojo.require( 'dojo.data.ItemFileReadStore' );" );
 Template::add_to_block( 'js', "dojo.require( 'dijit.Tree' );" );
 Template::add_to_block( 'js', "dojo.require( 'dijit.TitlePane' );" );
-Template::ob_to_block( 'body' );
 Template::add_to_block( 'body_class', 'claro' );
+
+Template::ob_to_block( 'body' );
 ?>
 
 <script type="text/javascript">
-
 </script>
 
 <div
