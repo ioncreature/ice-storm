@@ -21,7 +21,8 @@ try {
 	$acl = Auth::$acl;
 	
 	// обработка запроса
-	$r = RequestParser::get_instance();
+//	$r = RequestParser::get_instance();
+	$r = new Request\Parser();
 	define( "APP_HASH", $r->get_hash() );	
 
 	Template::title( APP_TITLE );
@@ -49,7 +50,16 @@ try {
 					redirect( WEBURL );
 			}
 			break;
-			
+
+		case "service":
+			switch ( $r->get(1) ){
+				case "department":
+					$service = new Service\Departments( $r, 'service/department' );
+					$service->responce();
+				default:
+					redirect( WEBURL );
+			}
+
 		// Кабинет пользователя
 		case "user":
 			if ( $a->is_logged() )

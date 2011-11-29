@@ -47,31 +47,34 @@ abstract class AbstractService {
 		$path and $this->root_path = $path;
 
 		// TODO: добавить парсинг $this->routes и вызов соответствующего метода
+		$msg = '';
 		foreach ( $this->routes as $method => &$routes )
 			foreach ( $routes as $route => $fn ){
 				$path = ($this->root_path ? $this->root_path .'/' : '') . $route;
 				$params = $this->request->equal( $path );
-				if ( $params and $this->request->method() === $cb['type'] ){
+				$msg .= ' '. $path .' '. var_export($params,true);
+				if ( $params and $this->request->method() === $method ){
 					$this->responce =
 						call_user_func_array( array($this, $fn), is_array($params) ? $params : array() );
 					break;
 				}
 			}
-		$this->responce or $this->responce = $this->empty_responce();
+
+		if ( !isset($this->responce) )
+			$this->responce = $this->empty_responce();
 	}
 
 
 	/**
-	 * Calls defined method and send JSON responce
-	 * @param $method
+	 * Calls defined method and send JSON responce(die)
 	 * @return void
 	 */
-	protected function responce( $method ){
+	public function responce(){
 		die( json_encode($this->responce) );
 	}
 
-	public function empty_responce(){
-		return array( 'status' => false, 'error' => 'Unknown request path' );
+	public function empty_responce( $msg = '' ){
+		return array( 'status' => false, 'error' => 'Unknown request path', 'msg' => $msg );
 	}
 
 }

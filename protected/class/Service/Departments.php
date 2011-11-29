@@ -8,31 +8,32 @@ namespace Service;
 
 class Departments extends AbstractService {
 
-	protected $root_path = 'service/departments';
+	protected $root_path = 'service/department';
 
 	protected $routes = array(
 		'get' => array(
-			'::int/children' => 'get_departments',
-			'::int/info' => 'get_department_info'
+			'::int/children' => 'get_children',
+			'::int/info' => 'get_info'
 		)
 	);
 
-	protected $db;
+	protected $db = null;
 
 	public function __construct( \Request\Parser $request, $path = null ){
-		parent::__construct( $request, $path );
-
 		$this->db = \Fabric::get( 'db' );
+		parent::__construct( $request, $path );
 	}
 
-	public function get_department( $parent_id ){
+	public function get_children( $parent_id ){
+		$parent_id = (int) $parent_id;
 		$children = $this->db->fetch_query( "SELECT * FROM org_departments WHERE parent_id = '$parent_id'" );
 		return $children ? $children : array();
 	}
 
-	public function get_department_info( $department_id ){
-		$children = $this->db->fetch_query( "SELECT * FROM org_departments WHERE parent_id = '$parent_id'" );
-
+	public function get_info( $department_id ){
+		$department_id = (int) $department_id;
+		$info = $this->db->fetch_query( "SELECT * FROM org_departments WHERE id = '$department_id'" );
+		return $info ? $info : array();
 	}
 	
 }
