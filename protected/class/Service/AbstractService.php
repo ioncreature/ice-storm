@@ -46,16 +46,25 @@ abstract class AbstractService {
 		$this->request = $request;
 		$path and $this->root_path = $path;
 
-		// TODO: добавить парсинг $this->routes и вызов соответствующего метода
-		$msg = '';
 		foreach ( $this->routes as $method => &$routes )
 			foreach ( $routes as $route => $fn ){
 				$path = ($this->root_path ? $this->root_path .'/' : '') . $route;
 				$params = $this->request->equal( $path );
-				$msg .= ' '. $path .' '. var_export($params,true);
 				if ( $params and $this->request->method() === $method ){
+
+					// проверка прав доступа
+					if ( is_array($fn) ){
+						if ( isset($fn['permission']) and !\Auth::$acl->{$fn['permission']} ){
+							$this->responce = $this->access_denied_responce();
+							return;
+						}
+						$callback = $fn['method'];
+					}
+					else
+						$callback = $fn;
+
 					$this->responce =
-						call_user_func_array( array($this, $fn), is_array($params) ? $params : array() );
+						call_user_func_array( array($this, $callback), is_array($params) ? $params : array() );
 					break;
 				}
 			}
@@ -73,8 +82,22 @@ abstract class AbstractService {
 		die( json_encode($this->responce) );
 	}
 
+
 	public function empty_responce( $msg = '' ){
-		return array( 'status' => false, 'error' => 'Unknown request path', 'msg' => $msg );
+		return array(
+			'status' => false,
+			'error' => 'Unknown request path',
+			'msg' => $msg
+		);
+	}
+
+
+	public function access_denied_responce( $msg = '' ){
+		return array(
+			'status' => false,
+			'error' => 'Access denied',
+			'msg' => $msg
+		);
 	}
 
 }

@@ -12,7 +12,11 @@ class Departments extends AbstractService {
 
 	protected $routes = array(
 		'get' => array(
-			'::int/children' => 'get_children',
+			'::int/children' => array(
+				'method' => 'get_children',
+				'permission' => 'siski'
+//				'permission' => 'service_get_children'
+			),
 			'::int/info' => 'get_info'
 		)
 	);
