@@ -7,5 +7,6 @@ dojo.provide( 'app.init' );
 dojo.require( 'dijit.layout.BorderContainer' );
 dojo.require( 'dijit.layout.TabContainer' );
 dojo.require( 'dijit.layout.ContentPane' );
+dojo.require( 'dijit.Tree' );
 dojo.require( 'dojox.charting.widget.Chart2D' );
 dojo.require( 'dojox.charting.themes.Claro' );

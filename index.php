@@ -1,6 +1,6 @@
 <?php
 // Конфиг
-include 'protected/config.inc.php';
+include 'protected/config.php';
 include 'protected/lib/misc.functions.php';	
 
 //автозагрузка классов по требованию
@@ -21,7 +21,6 @@ try {
 	$acl = Auth::$acl;
 	
 	// обработка запроса
-//	$r = RequestParser::get_instance();
 	$r = new Request\Parser();
 	define( "APP_HASH", $r->get_hash() );	
 

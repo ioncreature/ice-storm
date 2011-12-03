@@ -12,12 +12,14 @@ class Departments extends AbstractService {
 
 	protected $routes = array(
 		'get' => array(
-			'::int/children' => array(
-				'method' => 'get_children',
+			'::int' => array(
+				'method' => 'get_department',
 				'permission' => 'siski'
-//				'permission' => 'service_get_children'
 			),
-			'::int/info' => 'get_info'
+			'' => array(
+				'method' => 'get_root',
+				'permission' => 'siski'
+			)
 		)
 	);
 
@@ -28,16 +30,30 @@ class Departments extends AbstractService {
 		parent::__construct( $request, $path );
 	}
 
-	public function get_children( $parent_id ){
-		$parent_id = (int) $parent_id;
-		$children = $this->db->fetch_query( "SELECT * FROM org_departments WHERE parent_id = '$parent_id'" );
-		return $children ? $children : array();
+
+	public function get_department( $id ){
+		$id = (int) $id;
+		$dep = $this->db->fetch_query( "SELECT id, name FROM org_departments WHERE id = '$id'" );
+		if ( $dep )
+			$dep['children'] = $this->db->query("
+				SELECT id, name FROM org_departments WHERE parent_id = '$id'
+			");
+
+		return $dep ? $dep : array();
 	}
 
-	public function get_info( $department_id ){
-		$department_id = (int) $department_id;
-		$info = $this->db->fetch_query( "SELECT * FROM org_departments WHERE id = '$department_id'" );
-		return $info ? $info : array();
+
+	public function get_root(){
+		$root = $this->db->fetch_query( "SELECT id, name FROM org_departments WHERE parent_id = 0 LIMIT 1" );
+
+		if ( $root ){
+			$root_id = (int) $root['id'];
+			$root['children'] = $this->db->query("
+				SELECT id, name FROM org_departments WHERE parent_id = '$root_id'
+			");
+		}
+
+		return $root;
 	}
-	
+
 }

@@ -29,6 +29,7 @@ Template::add_js( '/js/dojo/dojo.js', array( 'djConfig' => 'parseOnLoad: true, i
 Template::add_js( '/js/app/init.js' );
 Template::add_css( '/js/dijit/themes/claro/claro.css' );
 // JS
+Template::add_to_block( 'js', "dojo.require( 'app.store.Departments' );" );
 Template::add_to_block( 'js', "dojo.require( 'app.controller.Staff' );" );
 Template::add_to_block( 'js', "dojo.require( 'dojo.data.ItemFileReadStore' );" );
 Template::add_to_block( 'js', "dojo.require( 'dijit.Tree' );" );
@@ -45,28 +46,21 @@ Template::ob_to_block( 'body' );
 	dojoType="dijit.layout.BorderContainer"
 	gutters="true"
 	design="sidebar"
-	style="width: 100%; height: 100%; min-height: 720px;">
+	style="width: 100%; height: 100%; min-height: 780px;">
 
 	<!-- LEFT PANE -->
-	<section id="left_pane" dojoType="dijit.layout.ContentPane" region="left" style="width: 275px;">
-		<h1>Подразделения</h1>
-		<div
-			dojoType="dojo.data.ItemFileReadStore"
-			jsId="continentStore"
-			url="http://ice/c.json"></div>
-		<div
-			dojoType="dijit.tree.ForestStoreModel"
-			jsId="continentModel"
-			store="continentStore"
-			query="{type:'continent'}"
-			rootId="continentRoot"
-			rootLabel="Continents"
-			childrenAttrs="children"></div>
-		<div dojoType="dijit.Tree" id="mytree" model="continentModel" openOnClick="true" style="overflow:hidden">
-			<script type="dojo/method" event="onClick" args="item">
-				alert("Execute of node " + continentStore.getLabel(item) + ", population=" + continentStore.getValue(item, "population"));
-			</script>
+	<section id="left_pane" dojoType="dijit.layout.ContentPane" region="left" style="width: 320px; padding: 0px;">
+		<div dojoType="dijit.layout.BorderContainer" gutters="false">
+			<div dojoType="dijit.layout.ContentPane" region="top">
+				<h1>Подразделения</h1>
+			</div>
+
+			<!-- DEPARTMENTS TREE -->
+			<div dojoType="dijit.layout.ContentPane" region="center">
+				<div dojoType="dijit.Tree" id="mydeptree" model="app.store.Departments" style="height:100%"></div>
+			</div>
 		</div>
+
 	</section>
 
 	<!-- CENTER PANE -->

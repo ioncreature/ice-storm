@@ -13,6 +13,10 @@
 	<script type="text/javascript" src="/js/jquery.form.js"></script>
 <?= Template::block( 'scripts' ) ?>
 
+
+	<!-- Application config -->
+<?= Template::show( 'app.config.tpl.php' ) ?>
+
 	<!-- Module scripts -->
 	<script type="text/javascript">
 		<?= Template::block( 'js' ) ?>

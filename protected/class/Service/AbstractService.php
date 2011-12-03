@@ -10,18 +10,6 @@ abstract class AbstractService {
 
 	/**
 	 * Instance of \Request\Parser
-	 * This param must looks like:
-	 * array(
-	 * 		'get' => array(
-	 * 			'::int' => 'method_name',
-	 * 			'children/::int' => 'get_children'
-	 * 		),
-	 * 		'post' => array(
-	 * 			'add' => 'some_add_method'
-	 * 		),
-	 * 		...
-	 * )
-	 *
 	 * @var \Request\Parser
 	 */
 	protected $request;
@@ -33,7 +21,23 @@ abstract class AbstractService {
 	protected $root_path = '';
 
 	/**
-	 * List of path from root $path
+	 * List of routes from root $path
+  	 * This param must looks like:
+     * array(
+     * 		'get' => array(
+     * 			'::int' => 'method_name',
+     * 			'children/::int' => 'get_children'
+     * 		),
+     * 		'post' => array(
+     * 			'add' => 'some_add_method',
+     *          'edit' => array(
+     *              'method' => 'method_name',
+     *              'permission' => 'permission_name'
+     *          )
+     * 		),
+     *      'put' => ...,
+     *      'delete' => ...
+     * )
 	 * @var array
 	 */
 	protected $routes;
