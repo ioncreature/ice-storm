@@ -7,16 +7,14 @@
 ?>
 
 <script type="text/javascript">
-	if ( window.dojo )
-		dojo.provide( 'app.config' );
-	else
-		app = app || {};
-	app.config = {
+	var app = app || {};
 
+	app.config = {
 		url: '<?= WEBURL ?>',
 
 		service: {
-			department: '<?= WEBURL . 'service/department/'?>'
+			department: '<?= WEBURL . 'service/department/'?>',
+			staff: '<?= WEBURL . 'service/staff/'?>'
 		}
 	};
 </script>

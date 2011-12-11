@@ -8,14 +8,15 @@
 	<link rel="stylesheet" href="/themes/default/style.css?<?= rand(0,9999) ?>" />
 <?= Template::block( 'styles' ) ?>
 
+	<!-- Application config -->
+<?= Template::show( 'app.config.tpl.php' ) ?>
+
 	<!-- Libraries -->
 	<script type="text/javascript" src="/js/jquery-1.7.min.js"></script>
 	<script type="text/javascript" src="/js/jquery.form.js"></script>
 <?= Template::block( 'scripts' ) ?>
 
 
-	<!-- Application config -->
-<?= Template::show( 'app.config.tpl.php' ) ?>
 
 	<!-- Module scripts -->
 	<script type="text/javascript">

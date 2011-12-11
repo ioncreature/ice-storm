@@ -22,28 +22,28 @@ abstract class AbstractService {
 
 	/**
 	 * List of routes from root $path
-  	 * This param must looks like:
-     * array(
-     * 		'get' => array(
-     * 			'::int' => 'method_name',
-     * 			'children/::int' => 'get_children'
-     * 		),
-     * 		'post' => array(
-     * 			'add' => 'some_add_method',
-     *          'edit' => array(
-     *              'method' => 'method_name',
-     *              'permission' => 'permission_name'
-     *          )
-     * 		),
-     *      'put' => ...,
-     *      'delete' => ...
-     * )
+	 * This param must looks like:
+	 * array(
+	 * 		'get' => array(
+	 * 			'::int' => 'method_name',
+	 * 			'children/::int' => 'get_children'
+	 * 		),
+	 * 		'post' => array(
+	 * 			'add' => 'some_add_method',
+	 *          'edit' => array(
+	 *              'method' => 'method_name',
+	 *              'permission' => 'permission_name'
+	 *          )
+	 * 		),
+	 *      'put' => ...,
+	 *      'delete' => ...
+	 * )
 	 * @var array
 	 */
 	protected $routes;
 
 	
-	protected $responce;
+	protected $response;
 
 
 	public function __construct( \Request\Parser $request, $path = null ){
@@ -53,13 +53,13 @@ abstract class AbstractService {
 		foreach ( $this->routes as $method => &$routes )
 			foreach ( $routes as $route => $fn ){
 				$path = ($this->root_path ? $this->root_path .'/' : '') . $route;
-				$params = $this->request->equal( $path );
+				$params = $this->request->equal( $path, true );
 				if ( $params and $this->request->method() === $method ){
 
 					// проверка прав доступа
 					if ( is_array($fn) ){
 						if ( isset($fn['permission']) and !\Auth::$acl->{$fn['permission']} ){
-							$this->responce = $this->access_denied_responce();
+							$this->response = $this->access_denied_response();
 							return;
 						}
 						$callback = $fn['method'];
@@ -67,27 +67,32 @@ abstract class AbstractService {
 					else
 						$callback = $fn;
 
-					$this->responce =
+					$this->response =
 						call_user_func_array( array($this, $callback), is_array($params) ? $params : array() );
 					break;
 				}
 			}
 
-		if ( !isset($this->responce) )
-			$this->responce = $this->empty_responce();
+		if ( !isset($this->response) )
+			$this->response = $this->empty_response();
 	}
 
 
 	/**
-	 * Calls defined method and send JSON responce(die)
+	 * Calls defined method and send JSON response(die)
 	 * @return void
 	 */
-	public function responce(){
-		die( json_encode($this->responce) );
+	public function response(){
+		die( json_encode($this->response) );
 	}
 
 
-	public function empty_responce( $msg = '' ){
+	public function get_response(){
+		return $this->response;
+	}
+
+
+	public function empty_response( $msg = '' ){
 		return array(
 			'status' => false,
 			'error' => 'Unknown request path',
@@ -96,7 +101,7 @@ abstract class AbstractService {
 	}
 
 
-	public function access_denied_responce( $msg = '' ){
+	public function access_denied_response( $msg = '' ){
 		return array(
 			'status' => false,
 			'error' => 'Access denied',

@@ -104,6 +104,19 @@ class Parser {
 		return $this->method === 'post';
 	}
 
+
+	// проверка request method
+	public function is_put(){
+		return $this->method === 'put';
+	}
+
+
+	// проверка request method
+	public function is_delete(){
+		return $this->method === 'delete';
+	}
+
+
 	/**
 	 * Return current request method
 	 * @return string

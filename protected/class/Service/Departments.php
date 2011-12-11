@@ -20,6 +20,15 @@ class Departments extends AbstractService {
 				'method' => 'get_root',
 				'permission' => 'siski'
 			)
+		),
+		'delete' => array(
+			'::int' => array(
+				'method' => 'delete_department',
+				'permission' => 'departments_can_delete'
+			)
+		),
+		'put' => array(
+
 		)
 	);
 

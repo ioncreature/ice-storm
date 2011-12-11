@@ -3,12 +3,21 @@
  * test module
  */
 //
+
+
+if ( $r->is_put() )
+	die( var_export($r, true) );
+elseif ( $r->is_delete() )
+	die( var_export($r, true) );
+
 // ВЫВОД
+Template::add_js( '/js/dojo/dojo.js', array('djConfig' => 'parseOnLoad: true, isDebug: true') );
 Template::top();
 
-$r = RequestParser::get_instance();
+$r = \Request\Parser::get_instance();
 $db = Fabric::get('db');
 $acl = Auth::$acl;
+
 
 $u = new Model\User( 1 );
 $hu = $u->Human;
@@ -40,5 +49,27 @@ paginator(array(
 <form action="<?= WEBURL .'test/siski/10' ?>" method="POST">
 	<input type="submit" name="siski" value="4" />
 </form>
+
+<script type="text/javascript">
+	dojo
+		.xhrPut({
+			url: window.location.href,
+			content: { content_test: 100500 }
+		})
+		.then( function( response ){
+			console.error( 'PUT' );
+			console.log( response );
+		});
+	dojo
+		.xhrDelete({
+			url: window.location.href,
+			content: { content_test: 100500 }
+		})
+		.then( function( response ){
+			console.error( 'DELETE' );
+			console.log( response );
+		});
+
+</script>
 
 <?= Template::bottom() ?>

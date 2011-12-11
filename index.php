@@ -54,7 +54,10 @@ try {
 			switch ( $r->get(1) ){
 				case "department":
 					$service = new Service\Departments( $r, 'service/department' );
-					$service->responce();
+					$service->response();
+				case "staff":
+					$service = new Service\Staff( $r, 'service/staff' );
+					$service->response();
 				default:
 					redirect( WEBURL );
 			}

@@ -8,6 +8,16 @@
 $r = RequestParser::get_instance();
 $db = Fabric::get( 'db' );
 
+$department_id = $r->to_int( 2 );
+
+
+// берем список пользователей
+if ( $department_id ){
+
+}
+
+
+
 $staff = $db->query("
 	SELECT
 		org_staff.*,
@@ -25,17 +35,23 @@ $staff = $db->query("
 //
 
 // PREPARE
-Template::add_js( '/js/dojo/dojo.js', array( 'djConfig' => 'parseOnLoad: true, isDebug: true' ) );
+Template::add_js( '/js/dojo/dojo.js', array('djConfig' => 'parseOnLoad: true, isDebug: true') );
 Template::add_js( '/js/app/init.js' );
+Template::add_js( '/js/app/page/Staff.js' );
 Template::add_css( '/js/dijit/themes/claro/claro.css' );
-// JS
-Template::add_to_block( 'js', "dojo.require( 'app.store.Departments' );" );
-Template::add_to_block( 'js', "dojo.require( 'app.controller.Staff' );" );
-Template::add_to_block( 'js', "dojo.require( 'dojo.data.ItemFileReadStore' );" );
-Template::add_to_block( 'js', "dojo.require( 'dijit.Tree' );" );
-Template::add_to_block( 'js', "dojo.require( 'dijit.TitlePane' );" );
+Template::add_css( '/js/dojox/grid/resources/Grid.css' );
+Template::add_css( '/js/dojox/grid/resources/claroGrid.css' );
 Template::add_to_block( 'body_class', 'claro' );
 
+// JS
+Template::ob_to_block( 'head' ); ?>
+<script type="text/javascript">
+
+</script>
+<?php
+Template::ob_end();
+
+// BODY
 Template::ob_to_block( 'body' );
 ?>
 
@@ -44,12 +60,12 @@ Template::ob_to_block( 'body' );
 
 <div
 	dojoType="dijit.layout.BorderContainer"
-	gutters="true"
+	gutters="false"
 	design="sidebar"
-	style="width: 100%; height: 100%; min-height: 780px;">
+	style="min-height: 760px;">
 
 	<!-- LEFT PANE -->
-	<section id="left_pane" dojoType="dijit.layout.ContentPane" region="left" style="width: 320px; padding: 0px;">
+	<section id="left_pane" dojoType="dijit.layout.ContentPane" region="left" style="width: 35%; min-width: 350px; padding: 0px;">
 		<div dojoType="dijit.layout.BorderContainer" gutters="false">
 			<div dojoType="dijit.layout.ContentPane" region="top">
 				<h1>Подразделения</h1>
@@ -57,7 +73,7 @@ Template::ob_to_block( 'body' );
 
 			<!-- DEPARTMENTS TREE -->
 			<div dojoType="dijit.layout.ContentPane" region="center">
-				<div dojoType="dijit.Tree" id="mydeptree" model="app.store.Departments" style="height:100%"></div>
+				<div dojoType="dijit.Tree" id="staff_departments_tree" model="app.store.Departments" style="height:100%"></div>
 			</div>
 		</div>
 
@@ -65,11 +81,8 @@ Template::ob_to_block( 'body' );
 
 	<!-- CENTER PANE -->
 	<section id="center_pane" dojoType="dijit.layout.ContentPane" region="center">
-		<h1>Сотрудники</h1>
-		<form action="<?= WEBURL .'org/staff' ?>">
-
-		</form>
-
+		<div id="staff_grid"></div>
+		<!--
 		<table class="common">
 			<tr>
 				<th>Имя</th>
@@ -84,6 +97,7 @@ Template::ob_to_block( 'body' );
 			</tr>
 		<?php endforeach; ?>
 		</table>
+		-->
 	</section>
 </div>
 
