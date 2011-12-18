@@ -26,24 +26,22 @@ dojo.safeMixin( app.store.StaffDepartments, app.store.Departments, {} );
 //
 
 
-dojo.ready( function(){
-	dojo.provide( 'app.StaffGrid' );
 
+
+dojo.ready( function(){
+
+	var tree = dijit.byId( 'staff_departments_tree' );
+
+	dojo.provide( 'app.StaffGrid' );
 	app.StaffGrid = (function(){
 		return new dojox.grid.DataGrid({
 			store: dojo.data.ObjectStore({objectStore: app.store.Staff}),
-
-//			structure: [
-//				{ name: 'Id', field: 'id' },
-//				{ name: 'First name', field: 'first_name' },
-//				{ name: 'Last name', field: 'last_name' }
-//			]
 			structure: [{
 				defaultCell: { width: '30%' },
 				cells: [
-					{ name: 'id', field: 'id' },
-					{ name: 'First name', field: 'first_name' },
-					{ name: 'Last name', field: 'last_name' }
+					{ name: 'ФИО', field: 'name' },
+					{ name: 'Должность', field: 'post' },
+					{ name: 'Подразделение', field: 'department' }
 				]
 			}]
 		}, 'staff_grid' );

@@ -11,6 +11,7 @@ class Staff extends AbstractService {
 
 	protected $routes = array(
 		'get' => array(
+			'' => 'get_all',
 			'::int' => 'get_employee',
 			'department/::int' => 'get_department_staff',
 			'department/::int/recursive' => 'get_department_staff_recursive'
@@ -24,6 +25,21 @@ class Staff extends AbstractService {
 		parent::__construct( $request, $path );
 	}
 
+
+	public function get_all(){
+
+		return $this->db->query("
+			SELECT
+				org_staff.id, org_staff.post,
+				CONCAT( org_humans.last_name, ' ', org_humans.first_name, ' ', org_humans.middle_name ) as name,
+				org_departments.name as department
+			FROM
+				org_staff
+				LEFT JOIN org_humans ON org_humans.id = org_staff.human_id
+				LEFT JOIN org_departments ON  org_departments.id = org_staff.department_id
+			LIMIT 100
+		");
+	}
 
 	public function get_employee( $id ){
 		$id = (int) $id;

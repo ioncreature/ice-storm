@@ -1,5 +1,7 @@
 dojo.provide( 'app.init' );
 
+dojo.registerModulePath( 'app', '../app' );
+
 //dojo.registerModulePath( 'app', '../app' );
 //dojo.registerModulePath( 'dijit', '../dijit' );
 //dojo.registerModulePath( 'dojox', '../dojox' );

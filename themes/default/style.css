@@ -394,3 +394,8 @@ span.loader div{
     -moz-transition: all 0.5s linear;
     -o-transition: all 0.5s linear;
 }
+
+
+#staff_grid {
+	border: 0px;
+}

@@ -5,55 +5,18 @@
  */
 
 namespace Service;
+use \Controller\AbstractController;
 
-abstract class AbstractService {
+abstract class AbstractService extends \Controller\AbstractController {
 
-	/**
-	 * Instance of \Request\Parser
-	 * @var \Request\Parser
-	 */
-	protected $request;
-
-	/**
-	 * Root service path
-	 * @var string
-	 */
-	protected $root_path = '';
-
-	/**
-	 * List of routes from root $path
-	 * This param must looks like:
-	 * array(
-	 * 		'get' => array(
-	 * 			'::int' => 'method_name',
-	 * 			'children/::int' => 'get_children'
-	 * 		),
-	 * 		'post' => array(
-	 * 			'add' => 'some_add_method',
-	 *          'edit' => array(
-	 *              'method' => 'method_name',
-	 *              'permission' => 'permission_name'
-	 *          )
-	 * 		),
-	 *      'put' => ...,
-	 *      'delete' => ...
-	 * )
-	 * @var array
-	 */
-	protected $routes;
-
-	
-	protected $response;
-
-
-	public function __construct( \Request\Parser $request, $path = null ){
+	public function __construct( \Request\Parser $request, $root_path = null ){
 		$this->request = $request;
-		$path and $this->root_path = $path;
+		$root_path and $this->root_path = $root_path;
 
 		foreach ( $this->routes as $method => &$routes )
 			foreach ( $routes as $route => $fn ){
 				$path = ($this->root_path ? $this->root_path .'/' : '') . $route;
-				$params = $this->request->equal( $path, true );
+				$params = $this->request->equal( $path, true ); // TODO: make true?
 				if ( $params and $this->request->method() === $method ){
 
 					// проверка прав доступа

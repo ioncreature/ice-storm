@@ -137,6 +137,13 @@ class Template {
 	}
 
 
+	public function template_to_block( $template_name, $block_name ){
+		Template::ob_to_block( $block_name );
+		include TEMPLATES_PATH. $template_name;
+		Template::ob_end();
+	}
+
+
 	public static function add_to_block( $name, $content ){
 		if ( isset(static::$block[$name]) )
 			static::$block[$name] .= $content;

@@ -5,12 +5,7 @@ include 'protected/lib/misc.functions.php';
 
 //автозагрузка классов по требованию
 function __autoload( $name ){
-	// проверка для классов с неймспейсами
-	// TODO: перенести все классы в свои неймспейсы и убрать проверку
-	if ( strpos($name, '\\') !== false )
-		$path = 'protected/class/'. str_replace('\\', '/', $name) .'.php';
-	else
-		$path = 'protected/class/'. $name .'.class.php';
+	$path = 'protected/class/'. str_replace('\\', '/', $name) .'.class.php';
 	if ( ! include($path) )
 		die( "Class '$name' not found!" );
 }

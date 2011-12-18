@@ -26,9 +26,6 @@ class Departments extends AbstractService {
 				'method' => 'delete_department',
 				'permission' => 'departments_can_delete'
 			)
-		),
-		'put' => array(
-
 		)
 	);
 
