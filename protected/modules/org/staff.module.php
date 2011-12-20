@@ -60,7 +60,7 @@ Template::ob_to_block( 'body' );
 
 <div
 	dojoType="dijit.layout.BorderContainer"
-	gutters="false"
+	gutters="true"
 	design="sidebar"
 	style="min-height: 760px;">
 
