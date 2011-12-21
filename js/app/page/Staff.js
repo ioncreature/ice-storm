@@ -15,6 +15,7 @@ dojo.require( 'dojo.data.ObjectStore' );
 dojo.require( 'dijit.Tree' );
 dojo.require( 'dijit.TitlePane' );
 dojo.require( 'dijit.form.ValidationTextBox' );
+dojo.require( 'dojo.store.Observable' );
 
 dojo.provide( 'app.store.StaffDepartments' );
 dojo.safeMixin( app.store.StaffDepartments, app.store.Departments, {} );
@@ -29,22 +30,38 @@ dojo.safeMixin( app.store.StaffDepartments, app.store.Departments, {} );
 
 
 dojo.ready( function(){
+	dojo.provide( 'app.page.Staff.Grid' );
+	dojo.provide( 'app.page.Staff.Tree' );
 
-	var tree = dijit.byId( 'staff_departments_tree' );
 
-	dojo.provide( 'app.StaffGrid' );
-	app.StaffGrid = (function(){
-		return new dojox.grid.DataGrid({
-			store: dojo.data.ObjectStore({objectStore: app.store.Staff}),
-			structure: [{
-				defaultCell: { width: '30%' },
-				cells: [
-					{ name: 'ФИО', field: 'name' },
-					{ name: 'Должность', field: 'post' },
-					{ name: 'Подразделение', field: 'department' }
-				]
-			}]
-		}, 'staff_grid' );
-	})();
-	app.StaffGrid.startup();
+	// Departments tree
+	var tree_store = new dojo.store.Observable( app.store.Departments );
+	app.page.Staff.Tree = new dijit.Tree({
+
+		model: tree_store,
+
+		onClick: function( department, self, event ){
+			console.log( this.model.root );
+			console.log( arguments );
+			this.model.add({ id: 100, name: 'Sex and Drugs department', parent: 6, children: false });
+		}
+
+	}, 'staff_departments_tree' );
+
+
+	// Staff table
+	app.page.Staff.Grid = new dojox.grid.DataGrid({
+		store: dojo.data.ObjectStore({objectStore: app.store.Staff}),
+		rowsPerPage: 50 ,
+		keepRows: 1000,
+		structure: [{
+			defaultCell: { width: '30%' },
+			cells: [
+				{ name: 'Должность', field: 'post' },
+				{ name: 'ФИО', field: 'name' },
+				{ name: 'Подразделение', field: 'department' }
+			]
+		}]
+	}, 'staff_grid' );
+	app.page.Staff.Grid.startup();
 });

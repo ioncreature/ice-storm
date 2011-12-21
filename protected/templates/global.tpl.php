@@ -82,7 +82,7 @@ function paginator( array $params ){
 	if ( $pages - $p['page_current'] > $p['page_show'] ){
 		$last_page_link = true;
 		$page_end = $p['page_current'] + $p['page_show'];
-	}	
+	}
 	?>
 	
 	<?php if ( $pages > 1 ): ?>

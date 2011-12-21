@@ -73,7 +73,7 @@ Template::ob_to_block( 'body' );
 
 			<!-- DEPARTMENTS TREE -->
 			<div dojoType="dijit.layout.ContentPane" region="center">
-				<div dojoType="dijit.Tree" id="staff_departments_tree" model="app.store.Departments" style="height:100%"></div>
+				<div id="staff_departments_tree" style="height:100%"></div>
 			</div>
 		</div>
 
@@ -82,22 +82,6 @@ Template::ob_to_block( 'body' );
 	<!-- CENTER PANE -->
 	<section id="center_pane" dojoType="dijit.layout.ContentPane" region="center">
 		<div id="staff_grid"></div>
-		<!--
-		<table class="common">
-			<tr>
-				<th>Имя</th>
-				<th>Должность</th>
-				<th>Подразделение</th>
-			</tr>
-		<?php foreach ( $staff as $s ): ?>
-			<tr>
-				<td><?= htmlspecialchars($s['name']) ?></td>
-				<td><?= htmlspecialchars($s['post']) ?></td>
-				<td><?= htmlspecialchars($s['department']) ?></td>
-			</tr>
-		<?php endforeach; ?>
-		</table>
-		-->
 	</section>
 </div>
 
