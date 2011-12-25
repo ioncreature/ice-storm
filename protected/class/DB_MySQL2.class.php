@@ -12,6 +12,7 @@
 class DB_MySQL2 implements ISQL_DB{
 	
 	
+	protected 			$connection		= null;
 	protected 			$connected		= false;	// Is DB connection set
 	protected 			$db_id			= null;		// DB connection identifier
 	protected			$query_id		= null;		// Query identifier
@@ -30,8 +31,15 @@ class DB_MySQL2 implements ISQL_DB{
 	
 	// MAGIC METHODS
 	public function __construct( $host, $user, $pass, $name ){
-		$this->connect( $host, $user, $pass, $name );
+		$this->connection = array(
+			'host' => $host,
+			'user' => $user,
+			'pass' => $pass,
+			'name' => $name
+		);
+		// $this->connect( $host, $user, $pass, $name );
 	}
+
 	public function __destruct(){
 		$this->close();
 	}
@@ -47,6 +55,15 @@ class DB_MySQL2 implements ISQL_DB{
 			throw new SQLException( 'Ошибка при подключении к БД' );
 		$this->connected = true;
 		$this->query( "SET NAMES 'UTF8'" );
+	}
+
+	private function _connect(){
+		$this->connect(
+			$this->connection['host'],
+			$this->connection['user'],
+			$this->connection['pass'],
+			$this->connection['name']
+		);
 	}
 	
 	
@@ -84,6 +101,9 @@ class DB_MySQL2 implements ISQL_DB{
 	// Simple query without caching
 	// @return все данные запроса( если SELECT )
 	public function query( $query ){
+		if ( !$this->connected )
+			$this->_connect();
+
 		$this->start_query();
 		
 		$this->last_query = $query;
@@ -276,7 +296,7 @@ class DB_MySQL2 implements ISQL_DB{
 	
 	// return all query execution time
 	public function get_time(){
-		return round($this->query_time, 4);
+		return round(static::$query_time, 4);
 	}
 	
 	
@@ -306,7 +326,7 @@ class DB_MySQL2 implements ISQL_DB{
 	
 	// return queries count
 	public function get_query_count(){
-		return $this->query_count;
+		return static::$query_count;
 	}
 	
 	
@@ -331,17 +351,15 @@ class DB_MySQL2 implements ISQL_DB{
 	
 	
 	
-	//SERVICE FUNCTIONS (timing and counting)
+	// SERVICE FUNCTIONS (timing and counting)
 	protected function start_query(){
 		$this->timer = microtime(true);
 		$this->fetch_iterator = 0;
 	}
 	protected function end_query(){
-		$this->query_count ++;
-		$this->query_time += microtime(true) - $this->timer;
+		static::$query_count ++;
+		static::$query_time += microtime(true) - $this->timer;
 		$this->last_query_time = microtime(true) - $this->timer;
 	}
 	
 }
-
-?>

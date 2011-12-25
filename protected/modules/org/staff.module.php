@@ -35,28 +35,17 @@ $staff = $db->query("
 //
 
 // PREPARE
-Template::add_js( '/js/dojo/dojo.js', array('djConfig' => 'parseOnLoad: true, isDebug: true') );
+Template::add_js( '/js/dojo/dojo.js' );
 Template::add_js( '/js/app/init.js' );
 Template::add_js( '/js/app/page/Staff.js' );
 Template::add_css( '/js/dijit/themes/claro/claro.css' );
-Template::add_css( '/js/dojox/grid/resources/Grid.css' );
-Template::add_css( '/js/dojox/grid/resources/claroGrid.css' );
-Template::add_to_block( 'body_class', 'claro' );
-
-// JS
-Template::ob_to_block( 'head' ); ?>
-<script type="text/javascript">
-
-</script>
-<?php
-Template::ob_end();
+//Template::add_css( '/js/dojox/grid/resources/Grid.css' );
+//Template::add_css( '/js/dojox/grid/resources/claroGrid.css' );
+Template::add_js( '/js/ICanHaz.js' );
 
 // BODY
 Template::ob_to_block( 'body' );
 ?>
-
-<script type="text/javascript">
-</script>
 
 <div
 	dojoType="dijit.layout.BorderContainer"
@@ -84,5 +73,41 @@ Template::ob_to_block( 'body' );
 		<div id="staff_grid"></div>
 	</section>
 </div>
+
+<?php Template::ob_end();
+
+
+// JS Templates for table
+Template::ob_to_block( 'body' );
+?>
+
+<script type="text/html" id="t_staff_table">
+	<table class="common staff">
+		<thead>
+			<tr>
+				<th width="30%">ФИО</th>
+				<th width="40%">Должность</th>
+				<th width="30%">Подразделение</th>
+			</tr>
+		</thead>
+		<tbody>
+		{{#staff}}
+			{{>t_staff_rows}}
+		{{/staff}}
+		{{^staff}}
+			<tr><td colspan="3">Сотрудников нет</td></tr>
+		{{/staff}}
+		</tbody>
+	</table>
+</script>
+
+
+<script type="text/html" id="t_staff_rows" class="partial">
+	<tr>
+		<td>{{name}}</td>
+		<td>{{post}}</td>
+		<td>{{department}}</td>
+	</tr>
+</script>
 
 <?php Template::ob_end(); ?>

@@ -28,6 +28,11 @@ dojo.require( 'dojo.store.JsonRest' );
             this.get( "" ).then( onItem, onError );
         },
 
+		query: function(){
+			console.error(arguments);
+			return this.inherited( arguments );
+		},
+
         getLabel: function( dep ){
             return dep.name;
         }

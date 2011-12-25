@@ -25,6 +25,9 @@ class Parser {
 	protected $actions = null;
 
 
+	protected $put_data = null;
+
+
 	// Singleton
 	private static $instance = null;
     public static function get_instance() {
@@ -58,6 +61,7 @@ class Parser {
 		return  array_key_exists( $key, $this->request_data ) ?
 				$this->request_data[$key] : null;
 	}
+
 
 	public function __isset( $key ){
 		return array_key_exists( $key, $this->request_data );
@@ -116,6 +120,17 @@ class Parser {
 		return $this->method === 'delete';
 	}
 
+
+	public function get_all(){
+		return $this->$request_data;
+	}
+
+
+	public function get_put(){
+		if ( isset($this->put_data) )
+			$this->put_data = file_get_contents( 'php://input' );
+		return $this->put_data;
+	}
 
 	/**
 	 * Return current request method

@@ -61,7 +61,7 @@ class Template {
 			'attributes' => $attributes
 		);
 
-		static::add_to_block( 'scripts', "\t<script src='$path' $attr></script>\n" );
+		static::add_to_block( 'scripts', "\t<script $attr src='$path'></script>\n" );
 	}
 
 
