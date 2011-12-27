@@ -5,48 +5,17 @@
  * November 2011
  */
 
-$r = RequestParser::get_instance();
-$db = Fabric::get( 'db' );
-
-$department_id = $r->to_int( 2 );
-
-
-// берем список пользователей
-if ( $department_id ){
-
-}
-
-
-
-$staff = $db->query("
-	SELECT
-		org_staff.*,
-		org_departments.name as department,
-		CONCAT( org_humans.last_name, ' ', org_humans.first_name, ' ', org_humans.middle_name ) as name
-	FROM
-		org_staff
-		LEFT JOIN org_departments ON org_departments.id = org_staff.department_id
-		LEFT JOIN org_humans ON org_humans.id = org_staff.human_id
-");
-
-
-//
-// ВЫВОД
-//
 
 // PREPARE
+Template::add_css( '/js/dijit/themes/claro/claro.css' );
 Template::add_js( '/js/dojo/dojo.js' );
 Template::add_js( '/js/app/init.js' );
 Template::add_js( '/js/app/page/Staff.js' );
-Template::add_css( '/js/dijit/themes/claro/claro.css' );
-//Template::add_css( '/js/dojox/grid/resources/Grid.css' );
-//Template::add_css( '/js/dojox/grid/resources/claroGrid.css' );
 Template::add_js( '/js/ICanHaz.js' );
 
-// BODY
+// OUTPUT
 Template::ob_to_block( 'body' );
 ?>
-
 <div
 	dojoType="dijit.layout.BorderContainer"
 	gutters="true"
@@ -65,22 +34,17 @@ Template::ob_to_block( 'body' );
 				<div id="staff_departments_tree" style="height:100%"></div>
 			</div>
 		</div>
-
 	</section>
 
 	<!-- CENTER PANE -->
 	<section id="center_pane" dojoType="dijit.layout.ContentPane" region="center">
+		<h2 id="depatrment_name"></h2>
 		<div id="staff_grid"></div>
 	</section>
 </div>
 
-<?php Template::ob_end();
 
-
-// JS Templates for table
-Template::ob_to_block( 'body' );
-?>
-
+<!-- JS TEMPLATES -->
 <script type="text/html" id="t_staff_table">
 	<table class="common staff">
 		<thead>
@@ -91,12 +55,8 @@ Template::ob_to_block( 'body' );
 			</tr>
 		</thead>
 		<tbody>
-		{{#staff}}
-			{{>t_staff_rows}}
-		{{/staff}}
-		{{^staff}}
-			<tr><td colspan="3">Сотрудников нет</td></tr>
-		{{/staff}}
+		{{#staff}}{{>t_staff_rows}}{{/staff}}
+		{{^staff}}<tr><td colspan="3">Сотрудников нет</td></tr>{{/staff}}
 		</tbody>
 	</table>
 </script>
@@ -104,7 +64,7 @@ Template::ob_to_block( 'body' );
 
 <script type="text/html" id="t_staff_rows" class="partial">
 	<tr>
-		<td>{{name}}</td>
+		<td><a href="<?= WEBURL . 'org/employee/' ?>{{id}}">{{name}}</a></td>
 		<td>{{post}}</td>
 		<td>{{department}}</td>
 	</tr>

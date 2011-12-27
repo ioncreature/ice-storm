@@ -26,6 +26,10 @@
 			service: {
 				department: '<?= WEBURL . 'service/department/' ?>',
 				staff: '<?= WEBURL . 'service/staff/' ?>'
+			},
+
+			page: {
+				employee: '<?= WEBURL . 'org/employee/' ?>'
 			}
 		};
 	</script>

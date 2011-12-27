@@ -126,6 +126,9 @@ try {
 				case "staff":
 					include "protected/modules/org/staff.module.php";
 					break;
+				case "employee":
+					include "protected/modules/org/employee.module.php";
+					break;
 				default:
 					redirect( WEBURL );
 			}

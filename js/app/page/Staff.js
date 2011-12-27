@@ -50,6 +50,7 @@ dojo.ready( function(){
 	 */
 	app.page.Staff.parse_table = function( data ){
 		var staff = { staff: dojo.fromJson( data ) };
+		console.log( data, staff );
 		$( '#staff_grid' ).html( ich.t_staff_table(staff) );
 	}
 

@@ -340,6 +340,8 @@ class DB_MySQL2 implements ISQL_DB{
 	
 	// Очистка строки для добавления в БД
 	public function safe( $value ){
+		if ( !$this->connected )
+			$this->_connect();
         if ( is_string($value) ){
 			if ( get_magic_quotes_gpc() ) 
 				$value = stripslashes( $value );

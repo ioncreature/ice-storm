@@ -4,7 +4,6 @@
  */
 
 dojo.provide( 'app.store.Departments' );
-
 dojo.require( 'dojo.store.JsonRest' );
 
 (function(){
@@ -25,16 +24,22 @@ dojo.require( 'dojo.store.JsonRest' );
         },
 
         getRoot: function( onItem, onError ){
-            this.get( "" ).then( onItem, onError );
+			var self = this;
+			if ( !this.rootElement )
+				this.get( "" ).then( function( result ){
+					onItem( result );
+					self.rootElement = result;
+				}, onError );
+			else
+				onItem( this.rootElement );
         },
 
 		query: function(){
-			console.error(arguments);
 			return this.inherited( arguments );
 		},
 
-        getLabel: function( dep ){
-            return dep.name;
+        getLabel: function( department ){
+            return department.name;
         }
     });
 })();

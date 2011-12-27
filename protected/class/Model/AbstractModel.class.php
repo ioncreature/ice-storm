@@ -14,7 +14,6 @@ abstract class AbstractModel {
 	
 	protected $table = '';
 	protected $primary_key = 'id';
-	protected $model_name = __CLASS__;
 
 	/**
 	 * List of fields like: array(
@@ -44,31 +43,28 @@ abstract class AbstractModel {
 
 
 	public function __construct( $object_id = false ){
-		if ( $object_id !== false )
-			$this->get_by_id( $object_id );
-		else {
-			foreach ( $this->fields as $key => $val ){
-				$field = is_int($key) ? $val : $key;
-				
-				// 1. Простое поле
-				// 2. Поле с указанием дефолтного значения
-				if ( !is_array($val) )
+		foreach ( $this->fields as $key => $val ){
+			$field = is_int($key) ? $val : $key;
+			// 1. Простое поле
+			// 2. Поле с указанием дефолтного значения
+			if ( !is_array($val) )
 				$default = is_int($key) ? false : $val;
 
-				// 3. Поле с указанием списка параметров
-				else {
-					$default = isset($val['default']) ? $val['default'] : false;
-					if ( isset($val['model']) )
-						$this->models[$val['model']] = array(
-							'fk' => $field,
-							'namespace' => isset($val['namespace']) ? $val['namespace'] : ''
-						);
-					// TODO: добавить обработку типов полей
-				}
-				
-				$this->orig_data[$field] = $default;
+			// 3. Поле с указанием списка параметров
+			else {
+				$default = isset($val['default']) ? $val['default'] : false;
+				if ( isset($val['model']) )
+					$this->models[$val['model']] = array(
+						'fk' => $field,
+						'namespace' => isset($val['namespace']) ? $val['namespace'] : __NAMESPACE__
+					);
+				// TODO: добавить обработку типов полей
 			}
+
+			$this->orig_data[$field] = $default;
 		}
+		if ( $object_id !== false )
+			$this->get_by_id( $object_id );
 	}
 
 
@@ -111,7 +107,7 @@ abstract class AbstractModel {
 
 	public function __toString(){
 		return !$this->exists ?
-			"Empty model ({$this->model_name})" : var_export( $this->data, true );
+			'Empty model ('.__CLASS__.')' : var_export( $this->data, true );
 	}
 
 
@@ -214,7 +210,7 @@ abstract class AbstractModel {
 		if ( isset($this->models[$name]) ){
 			$m =& $this->models[$name];
 			if ( !isset($m['instance']) ){
-				$class_name = ($m['namespace'] ? $m['namespace'] .'\\' : '') . $name;
+				$class_name = ('\\'. $m['namespace'] ? $m['namespace'] .'\\' : '') . $name;
 				$m['instance'] = new $class_name( $this->{$m['fk']} );
 			}
 			return isset($m['instance']) ? $m['instance'] : false;
@@ -222,4 +218,8 @@ abstract class AbstractModel {
 		else return false;
 	}
 
+
+	public function exportArray(){
+		return $this->data + $this->orig_data;
+	}
 }

@@ -27,7 +27,7 @@ class Template {
 		if ( $title )
 			static::$title = $title;
 		else
-			return static::$title ? static::$title : APP_TITLE;
+			return htmlspecialchars( static::$title ? static::$title : APP_TITLE );
 	}
 
 
