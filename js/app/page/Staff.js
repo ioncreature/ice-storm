@@ -28,6 +28,7 @@ dojo.ready( function(){
 		model: new dojo.store.Observable( app.store.Departments ),
 
 		onClick: function( department, self, event ){
+			dojo.byId( 'depatrment_name' ).innerHTML = department.name;
 			app.page.Staff.update_staff_list( department.id );
 		}
 	}, 'staff_departments_tree' );
@@ -50,7 +51,6 @@ dojo.ready( function(){
 	 */
 	app.page.Staff.parse_table = function( data ){
 		var staff = { staff: dojo.fromJson( data ) };
-		console.log( data, staff );
 		$( '#staff_grid' ).html( ich.t_staff_table(staff) );
 	}
 

@@ -38,7 +38,10 @@ Template::ob_to_block( 'body' );
 
 	<!-- CENTER PANE -->
 	<section id="center_pane" dojoType="dijit.layout.ContentPane" region="center">
-		<h2 id="depatrment_name"></h2>
+		<h2 id="depatrment_name" style="height: 30px;">Все сотрудики</h2>
+		<div style="text-align: right;">
+			<a href="<?= WEBURL .'org/employee/new' ?>"><button>Новый сотрудник</button></a>
+		</div>
 		<div id="staff_grid"></div>
 	</section>
 </div>
