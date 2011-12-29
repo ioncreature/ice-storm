@@ -5,9 +5,8 @@
  */
 
 namespace Model;
-use \Model\AbstractModel;
 
-class Employee extends \Model\AbstractModel {
+class Employee extends AbstractModel {
 
 	protected $table = 'org_staff';
 	protected $fields = array(
@@ -37,7 +36,7 @@ class Employee extends \Model\AbstractModel {
 		return $this->db->query("
 			SELECT
 				org_staff.id, org_staff.post,
-				CONCAT( org_humans.last_name, ' ', org_humans.first_name, ' ', org_humans.middle_name ) as name,
+				org_humans.full_name as name,
 				org_departments.name as department,
 				org_departments.id as department_id
 			FROM
@@ -46,6 +45,28 @@ class Employee extends \Model\AbstractModel {
 				LEFT JOIN org_departments ON  org_departments.id = org_staff.department_id
 			WHERE
 				department_id = '$department_id'
+		");
+	}
+
+
+	public function search_by_name( $name ){
+		$this->db_connect();
+		$name = $this->db->safe( mb_trim($name) );
+
+		return $this->db->query("
+			SELECT
+				org_staff.id, org_staff.post,
+				org_humans.id as human_id,
+				org_humans.full_name as name,
+				org_departments.id as department_id,
+				org_departments.name as department
+			FROM
+				org_staff
+				INNER JOIN org_humans ON org_humans.id = org_staff.human_id AND org_humans.full_name LIKE '$name%'
+				LEFT JOIN org_departments ON  org_departments.id = org_staff.department_id
+			WHERE
+				org_humans.full_name LIKE '%$name%'
+			LIMIT 10
 		");
 	}
 	

@@ -16,4 +16,10 @@ class Department extends \Model\AbstractModel {
 	);
 	protected $primary_key = 'id';
 
+	public function get_all( $cache = 60 ){
+		return $this->db->cached_query("
+			SELECT id, name FROM org_departments ORDER BY name
+		", $cache );
+	}
+
 }

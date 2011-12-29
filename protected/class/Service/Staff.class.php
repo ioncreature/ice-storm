@@ -14,7 +14,8 @@ class Staff extends AbstractService {
 			'' => 'get_all',
 			'::int' => 'get_employee',
 			'department/::int' => 'get_department_staff',
-			'department/::int/recursive' => 'get_department_staff_recursive'
+			'department/::int/recursive' => 'get_department_staff_recursive',
+			'search/::str' => 'search_by_name'
 		),
 		'put' => array(
 			'::int' => 'update_employee'
@@ -22,9 +23,12 @@ class Staff extends AbstractService {
 	);
 
 	protected $db = null;
+	protected $model = null;
+
 
 	public function __construct( \Request\Parser $request, $path = null ){
 		$this->db = \Fabric::get( 'db' );
+		$this->model = new \Model\Employee();
 		parent::__construct( $request, $path );
 	}
 
@@ -33,7 +37,7 @@ class Staff extends AbstractService {
 		return $this->db->query("
 			SELECT
 				org_staff.id, org_staff.post,
-				CONCAT( org_humans.last_name, ' ', org_humans.first_name, ' ', org_humans.middle_name ) as name,
+				org_humans.full_name as name,
 				org_departments.name as department,
 				org_departments.id as department_id
 			FROM
@@ -49,7 +53,7 @@ class Staff extends AbstractService {
 		return $this->db->fetch_query("
 			SELECT
 				org_staff.id, org_staff.post,
-				CONCAT( org_humans.last_name, ' ', org_humans.first_name, ' ', org_humans.middle_name ) as name,
+				org_humans.full_name as name,
 				org_departments.name as department,
 				org_departments.id as department_id
 			FROM
@@ -66,10 +70,9 @@ class Staff extends AbstractService {
 		$department_id = (int) $department_id;
 		return $this->db->query("
 			SELECT
-				org_staff.id, org_staff.post,
-				CONCAT( org_humans.last_name, ' ', org_humans.first_name, ' ', org_humans.middle_name ) as name,
-				org_departments.name as department,
-				org_departments.id as department_id
+				org_staff.id, org_staff.post, org_staff.department_id, org_staff.human_id
+				org_humans.full_name as name,
+				org_departments.name as department
 			FROM
 				org_staff
 				LEFT JOIN org_humans ON org_humans.id = org_staff.human_id
@@ -80,16 +83,16 @@ class Staff extends AbstractService {
 	}
 
 
+
+	public function search_by_name( $name ){
+		return $this->model->search_by_name( $name );
+	}
+
+
 	public function get_department_staff_recursive( $department_id ){
 		$department_id = (int) $department_id;
-		return $this->db->query("
-			SELECT *
-			FROM
-				org_staff
-				LEFT JOIN org_humans ON org_humans.id = org_staff.human_id
-			WHERE
-				org_staff.department_id = '$department_id'
-		");
+		// some code
+		return array( 'msg' => 'method is under development' );
 	}
 
 

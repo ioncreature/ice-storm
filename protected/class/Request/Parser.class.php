@@ -253,7 +253,7 @@ class Parser {
 		foreach ( $actions as $i => $val )
 			if ( $actions[$i] === '::int' and $this->is_int($i) )
 				$params[] = $this->to_int( $i );
-			elseif ( $actions[$i] === '::string' and $this->is_set($i) )
+			elseif ( $actions[$i] === '::str' and $this->is_set($i) )
 				$params[] = $this->get( $i );
 			elseif ( !$this->is_equal($i, $actions[$i]) )
 				return false;

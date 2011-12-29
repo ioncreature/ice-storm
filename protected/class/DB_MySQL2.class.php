@@ -169,12 +169,14 @@ class DB_MySQL2 implements ISQL_DB{
 			$this->end_query();
 			return $this->query_data;
 		}
-		
+
+		if ( !$this->connected )
+			$this->_connect();
 		$this->last_query = $query;
 		// отправляем запрос в MySQL
 		$this->query_id = mysqli_query( $this->db_id, $query );
 		if ( !$this->query_id )
-			throw new SQLException( 'Ошибка &lt;'. mysqli_error( $this->db_id ).'&gt; при выполнениии запроса &lt;'.$query.'&gt; ');
+			throw new SQLException( '123123Ошибка &lt;'. mysqli_error( $this->db_id ).'&gt; при выполнениии запроса &lt;'.$query.'&gt; ');
 		
 		// преобразуем результат в массив
 		$this->fetch_all();

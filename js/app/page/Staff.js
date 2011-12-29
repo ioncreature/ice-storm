@@ -8,10 +8,10 @@ dojo.provide( 'app.page.Staff' );
 
 dojo.require( 'app.store.Departments' );
 dojo.require( 'app.page.Staff' );
-dojo.require( 'app.store.Staff' );
 dojo.require( 'dojo.data.ItemFileReadStore' );
 dojo.require( 'dojox.grid.DataGrid' );
 dojo.require( 'dojo.data.ObjectStore' );
+dojo.require( 'dojo.on' );
 dojo.require( 'dijit.Tree' );
 dojo.require( 'dijit.TitlePane' );
 dojo.require( 'dijit.form.ValidationTextBox' );
@@ -56,4 +56,15 @@ dojo.ready( function(){
 
 	// get staff from root node
 	app.page.Staff.update_staff_list();
+
+
+	$( '#staff_search' ).submit( function( event ){
+		event.stopPropagation();
+		event.preventDefault();
+
+		dojo.xhrGet({ url: app.config.service.staff +'search/'+ dojo.formToObject(event.target).name })
+			.then( app.page.Staff.parse_table );
+
+		return false;
+	});
 });

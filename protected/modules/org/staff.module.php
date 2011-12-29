@@ -38,7 +38,14 @@ Template::ob_to_block( 'body' );
 
 	<!-- CENTER PANE -->
 	<section id="center_pane" dojoType="dijit.layout.ContentPane" region="center">
-		<h2 id="depatrment_name" style="height: 30px;">Все сотрудики</h2>
+		<div style="overflow: hidden">
+			<h2 id="depatrment_name" style="height: 30px; width: 70%; float: left;">Все сотрудики</h2>
+			<div style="float: right; width: 29%; text-align: right;">
+				<form id="staff_search" action="<?= WEBURL .'service/staff/search/' ?>" method="POST">
+					<input name="name" type="text" />
+				</form>
+			</div>
+		</div>
 		<div style="text-align: right;">
 			<a href="<?= WEBURL .'org/employee/new' ?>"><button>Новый сотрудник</button></a>
 		</div>
