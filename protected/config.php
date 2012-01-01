@@ -24,31 +24,33 @@ if ( isset($_SERVER['ENV']) and ($_SERVER['ENV'] == "muchacho_home" or $_SERVER[
 	
 	// Путь до файла лога
 	error_reporting( E_ALL );
-	ini_set( "display_errors", false );
+	ini_set( "display_errors", true );
 }
 
 // PRODUCTION
 else {
+	// Application title
+	define( 'APP_TITLE', 'Ice Storm' );
+
 	// Database
 	define( 'DB_HOST',		"localhost" );
 	define( 'DB_USER',		"root" );
-	define( 'DB_PASSWORD',	"root" );
-	define( 'DB_NAME',		"videoboom" );
-	define( 'DB_CHARSET',	true );
-	
+	define( 'DB_PASSWORD',	"dfhbfnbd" );
+	define( 'DB_NAME',		"ice-storm" );
+
 	// Memcached
 	define( "MMC_HOST", "localhost" );
 	define( "MMC_PORT", "11211" );
 	
 	// Paths
-	define( 'WEBURL', "http://viboom/" );
+	define( 'WEBURL', "http://spvi.vv/ice/" );
 	define( 'DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] .'/' );
+	define( 'TEMPLATES_PATH', $_SERVER['DOCUMENT_ROOT'] .'/protected/templates/' );
 	
-	define( 'ADMIN_EMAIL', 'admin@icestorm.ru' );
+	define( 'ADMIN_EMAIL', 'admin@spvi.vv' );
 	
-	error_reporting(E_ALL);
-
-	ini_set("display_errors", false);
+	error_reporting( E_ALL );
+	ini_set( "display_errors", true );
 }
 
 
