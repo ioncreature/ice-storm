@@ -3,17 +3,17 @@
 <head>
 	<title><?= Template::title() ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="icon" href="/favicon.ico" type="image/x-icon" />
-	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-	<link rel="stylesheet" href="/themes/default/style.css?<?= rand(0,9999) ?>" />
+	<link rel="icon" href="<?= WEBURL ?>favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="<?= WEBURL ?>favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="<?= WEBURL ?>themes/default/style.css?<?= rand(0,9999) ?>" />
 <?= Template::block( 'styles' ) ?>
 
 	<!-- JavaScript config -->
 <?= Template::show( 'js.config.tpl.php' ) ?>
 
 	<!-- Libraries -->
-	<script type="text/javascript" src="/js/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" src="/js/jquery.form.js"></script>
+	<script type="text/javascript" src="<?= WEBURL ?>js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="<?= WEBURL ?>js/jquery.form.js"></script>
 <?= Template::block( 'scripts' ) ?>
 
 	<!-- Module scripts -->

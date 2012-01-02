@@ -18,8 +18,9 @@ if ( isset($_SERVER['ENV']) and ($_SERVER['ENV'] == "muchacho_home" or $_SERVER[
 	// Paths
 	define( 'WEBURL', 'http://ice/' );
 	define( 'DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] .'/' );
-	define( 'TEMPLATES_PATH', DOCUMENT_ROOT .'/protected/templates/' );
-	
+	define( 'PROTECTED_PATH', DOCUMENT_ROOT .'protected/' );
+	define( 'TEMPLATES_PATH', PROTECTED_PATH .'templates/' );
+
 	define( 'ADMIN_EMAIL', 'admin@ice' );
 	
 	// Путь до файла лога
@@ -44,8 +45,9 @@ else {
 	
 	// Paths
 	define( 'WEBURL', "http://spvi.vv/ice/" );
-	define( 'DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] .'/ice/' );
-	define( 'TEMPLATES_PATH', DOCUMENT_ROOT .'/protected/templates/' );
+	define( 'DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] .'/ice-storm/' );
+	define( 'PROTECTED_PATH', DOCUMENT_ROOT .'protected/' );
+	define( 'TEMPLATES_PATH', PROTECTED_PATH .'templates/' );
 	
 	define( 'ADMIN_EMAIL', 'admin@spvi.vv' );
 	
