@@ -4,7 +4,7 @@
 	Users and groups
 	2011
 */
-$r = RequestParser::get_instance();
+$r = \Request\Parser::get_instance();
 $db = Fabric::get('db');
 
 if ( isset( $r->permission_id, $r->user_id, $r->stat ) ){

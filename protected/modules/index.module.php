@@ -5,7 +5,7 @@
 	2011
 */
 
-$r = RequestParser::get_instance();
+$r = \Request\Parser::get_instance();
 $error = '';
 
 if ( isset($r->login, $r->password) ){

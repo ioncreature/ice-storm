@@ -5,7 +5,7 @@
 	2011
 	Kurmashev Rinat, Marenin Alex
 */
-$r = RequestParser::get_instance();
+$r = \Request\Parser::get_instance();
 $db = Fabric::get('db');
 
 

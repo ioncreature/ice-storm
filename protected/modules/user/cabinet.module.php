@@ -5,7 +5,7 @@
  * November 2011
  */
 
-$r = RequestParser::get_instance();
+$r = \Request\Parser::get_instance();
 
 if ( $r->equal('user/cabinet/change_pass') and isset($r->pass_old, $r->pass_new, $r->pass_confirm) ){
 	$user = Auth::get_user();

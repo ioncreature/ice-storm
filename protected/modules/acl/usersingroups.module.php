@@ -1,5 +1,5 @@
 <?php
-$r = RequestParser::get_instance();
+$r = \Request\Parser::get_instance();
 $db = Fabric::get('db');
 
 if ( isset( $r->user_id, $r->group_id, $r->stat ) ){
