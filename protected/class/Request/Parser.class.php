@@ -75,7 +75,7 @@ class Parser {
 
 	// создает переменную $hash, хранящую URI
 	protected function get_uri(){
-		$request_uri = urldecode( $_SERVER['REQUEST_URI'] );
+		$request_uri = str_replace( WEBURL, '', urldecode($_SERVER['REQUEST_URI']) );
 		if ( isset($_GET['hash']) )	// Для Вконтакте
 			$hash = $_GET['hash'];
 		else if ( mb_substr($request_uri, 0, 2, "utf-8") === "/?" )
