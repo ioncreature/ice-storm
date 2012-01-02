@@ -75,7 +75,9 @@ class Parser {
 
 	// создает переменную $hash, хранящую URI
 	protected function get_uri(){
-		$request_uri = str_replace( WEBURL, '', urldecode($_SERVER['REQUEST_URI']) );
+		$url = parse_url( WEBURL );
+		$request_uri = mb_ereg_replace( '^'. $url['path'], '', urldecode($_SERVER['REQUEST_URI']) );
+
 		if ( isset($_GET['hash']) )	// Для Вконтакте
 			$hash = $_GET['hash'];
 		else if ( mb_substr($request_uri, 0, 2, "utf-8") === "/?" )
@@ -83,10 +85,11 @@ class Parser {
 		else {
 			// Убираем из хеша идентификатор сессии
 			$hash = substr($request_uri, 1);
+			$hash = mb_ereg_replace( '^/', '', $request_uri );
 			if ( defined('SID') )
 				$hash = str_replace( "?". SID , "?", $hash );
 		}
-
+		
 		return mb_strtolower( $hash );
 	}
 
