@@ -23,7 +23,7 @@ Template::top();
 <form id="add_employee_form" action="<?= WEBURL .'org/employee/add' ?>" method="POST">
 	Должность<input type="text" name="post" value="" />
 	Подразделение<select name="department_id">
-		<?php foreach( $department->get_all(1) as $d ): ?>
+		<?php foreach( $department->get_all() as $d ): ?>
 			<option value="<?= $d['id'] ?>"><?= $d['name'] ?></option>
 		<?php endforeach; ?>
 	</select>

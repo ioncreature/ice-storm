@@ -74,13 +74,13 @@ $groups = $db->query("
 ");
 
 
-$departments = $db->cached_query("
+$departments = $db->query("
 	SELECT *
 	FROM org_departments
 	WHERE
 		org_departments.state = 'active'
 	ORDER BY org_departments.name
-", 60 );
+");
 
 
 //

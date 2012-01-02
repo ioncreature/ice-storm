@@ -111,7 +111,7 @@ elseif ( $r->equal('org/departments/remove') and isset($r->id) ){
 
 
 // первоначальное состояние дерева
-$departments = $db->cached_query("
+$departments = $db->query("
 	SELECT 
 		id, name, parent_id, 
 		'default' as rel
@@ -122,7 +122,7 @@ $departments = $db->cached_query("
 		'group' as rel
 	FROM
 		edu_groups
-", 5 );
+");
 $dep = array();
 foreach ( $departments as $k => $d ){
 	$a = array(

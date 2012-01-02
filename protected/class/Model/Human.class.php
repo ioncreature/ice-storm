@@ -59,9 +59,9 @@ class Human extends AbstractModel {
 		");
 	}
 
-	public function get_all( $cache = 60 ){
-		return $this->db->cached_query("
+	public function get_all(){
+		return $this->db->query("
 			SELECT id, full_name as name FROM org_humans ORDER BY name
-		", $cache );
+		");
 	}
 }

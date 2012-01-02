@@ -38,16 +38,16 @@ Template::ob_to_block( 'body' );
 
 	<!-- CENTER PANE -->
 	<section id="center_pane" dojoType="dijit.layout.ContentPane" region="center">
+		<h2 id="depatrment_name">Все сотрудики</h2>
 		<div style="overflow: hidden">
-			<h2 id="depatrment_name" style="height: 30px; width: 70%; float: left;">Все сотрудики</h2>
-			<div style="float: right; width: 29%; text-align: right;">
+			<div style="float:left">
+				<a href="<?= WEBURL .'org/employee/new' ?>"><button>Новый сотрудник</button></a>
+			</div>
+			<div style="float: right; width: 50%; text-align: right; padding: 2px;">
 				<form id="staff_search" action="<?= WEBURL .'service/staff/search/' ?>" method="POST">
-					<input name="name" type="text" />
+					Поиск&nbsp;<input name="name" type="text" style="display: inline-block; width:200px; margin:0px; padding:0px;" />
 				</form>
 			</div>
-		</div>
-		<div style="text-align: right;">
-			<a href="<?= WEBURL .'org/employee/new' ?>"><button>Новый сотрудник</button></a>
 		</div>
 		<div id="staff_grid"></div>
 	</section>
