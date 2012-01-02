@@ -119,7 +119,7 @@ elseif ( $r->equal('org/departments/remove') and isset($r->id) ){
 
 
 // первоначальное состояние дерева
-$departments = $db->cached_query( "SELECT * FROM org_departments", 5 );
+$departments = $db->query( "SELECT * FROM org_departments", 5 );
 $dep = array();
 foreach ( $departments as $k => $d ){
 	$dep[] = array(
@@ -138,7 +138,7 @@ $tree = get_departments_tree( $dep );
 // ВЫВОД
 //
 Template::add_to_title( 'Подразделения' );
-Template::add_js( '/js/jstree/jquery.jstree.js' );
+Template::add_js( WEBURL .'js/jstree/jquery.jstree.js' );
 Template::top();
 ?>
 <h2>Подразделения</h2>

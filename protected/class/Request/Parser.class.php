@@ -89,7 +89,7 @@ class Parser {
 			if ( defined('SID') )
 				$hash = str_replace( "?". SID , "?", $hash );
 		}
-		
+
 		return mb_strtolower( $hash );
 	}
 

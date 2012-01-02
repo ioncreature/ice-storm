@@ -37,8 +37,7 @@ if ( $r->is_equal(1, 'success') and $r->is_int(2) ){
 
 //
 // ВЫВОД
-Template::ob_to_block( 'body' );
-?>
+Template::ob_to_block( 'body' ); ?>
 <h2>Регистрация</h2>
 
 <!-- СООБЩЕНИЕ ОБ ОШИБКЕ -->

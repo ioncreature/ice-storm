@@ -7,11 +7,11 @@
 
 
 // PREPARE
-Template::add_css( '/js/dijit/themes/claro/claro.css' );
-Template::add_js( '/js/dojo/dojo.js' );
-Template::add_js( '/js/app/init.js' );
-Template::add_js( '/js/app/page/Staff.js' );
-Template::add_js( '/js/ICanHaz.js' );
+Template::add_css( WEBURL .'js/dijit/themes/claro/claro.css' );
+Template::add_js(  WEBURL .'js/dojo/dojo.js' );
+Template::add_js(  WEBURL .'js/app/init.js' );
+Template::add_js(  WEBURL .'js/app/page/Staff.js' );
+Template::add_js(  WEBURL .'js/ICanHaz.js' );
 
 // OUTPUT
 Template::ob_to_block( 'body' );

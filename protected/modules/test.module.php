@@ -2,8 +2,6 @@
 /**
  * test module
  */
-//
-
 
 if ( $r->is_put() )
 	die( var_export($r, true) );
@@ -11,7 +9,7 @@ elseif ( $r->is_delete() )
 	die( var_export($r, true) );
 
 // ВЫВОД
-Template::add_js( '/js/dojo/dojo.js', array('djConfig' => 'parseOnLoad: true, isDebug: true') );
+Template::add_js( WEBURL .'js/dojo/dojo.js', array('djConfig' => 'parseOnLoad: true, isDebug: true') );
 Template::top();
 
 $r = \Request\Parser::get_instance();

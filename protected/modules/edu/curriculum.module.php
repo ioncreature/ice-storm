@@ -181,9 +181,9 @@ if ( $r->equal("edu/curriculum/$cid/add/course") and
 //
 // ВЫВОД
 //
-Template::add_js( '/js/jquery.hotkeys.js' );
-Template::add_js( '/js/underscore.js' );
-Template::add_js( '/js/ICanHaz.js' );
+Template::add_js( WEBURL .'js/jquery.hotkeys.js' );
+Template::add_js( WEBURL .'js/underscore.js' );
+Template::add_js( WEBURL .'js/ICanHaz.js' );
 Template::top();
 ?>
 <h2>Расписание курсов учебного плана "<?= htmlspecialchars($curriculum['name']) ?>"</h2>

@@ -146,7 +146,7 @@ $tree = get_departments_tree( $dep );
 //
 // ВЫВОД
 //
-Template::add_js( '/js/jstree/jquery.jstree.js' );
+Template::add_js( WEBURL .'js/jstree/jquery.jstree.js' );
 Template::top();
 ?>
 <h2>Группы <a href="<?= WEBURL . 'edu/groups_list' ?>">(перейти к списку)</a></h2>
