@@ -44,7 +44,7 @@ else {
 	define( "MMC_PORT", "11211" );
 	
 	// Paths
-	define( 'WEBURL', "http://spvi.vv/ice/" );
+	define( 'WEBURL', "http://spvi.vv/ice-storm/" );
 	define( 'DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] .'/ice-storm/' );
 	define( 'PROTECTED_PATH', DOCUMENT_ROOT .'protected/' );
 	define( 'TEMPLATES_PATH', PROTECTED_PATH .'templates/' );
