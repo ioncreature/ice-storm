@@ -68,20 +68,8 @@ class Staff extends AbstractService {
 
 	public function get_department_staff( $department_id ){
 		$department_id = (int) $department_id;
-		return $this->db->query("
-			SELECT
-				org_staff.id, org_staff.post, org_staff.department_id, org_staff.human_id
-				org_humans.full_name as name,
-				org_departments.name as department
-			FROM
-				org_staff
-				LEFT JOIN org_humans ON org_humans.id = org_staff.human_id
-				LEFT JOIN org_departments ON  org_departments.id = org_staff.department_id
-			WHERE
-				department_id = '$department_id'
-		");
+		return $this->model->get_by_department_id( $department_id );
 	}
-
 
 
 	public function search_by_name( $name ){

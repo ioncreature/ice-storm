@@ -18,7 +18,9 @@ class Department extends \Model\AbstractModel {
 
 	public function get_all( $cache = 60 ){
 		return $this->db->cached_query("
-			SELECT id, name FROM org_departments ORDER BY name
+			SELECT id, name
+			FROM org_departments
+			ORDER BY name
 		", $cache );
 	}
 
