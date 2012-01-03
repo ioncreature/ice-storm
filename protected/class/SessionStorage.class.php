@@ -66,7 +66,6 @@ class SessionStorage implements ISession{
 	}
 	
 	public function __destruct(){
-		//$this->cache->set( 'user_'. $this->sid, $this->data, 0, 15*60 );
 		session_write_close();
 	}
 	//MAGIC METHODS ------------------------------------

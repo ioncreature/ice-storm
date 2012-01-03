@@ -160,7 +160,7 @@ class DB_MySQL2 implements ISQL_DB{
 		$query_key = md5( $query );
 		
 		if ( !$this->memcache )
-			$this->memcache = Cache::getInstance();	
+			$this->memcache = Cache::get_instance();
 		
 		// Проверяем есть ли запрос в кеше
 		$res = $this->memcache->get( $this->mmc_prefix . $query_key );
@@ -182,7 +182,7 @@ class DB_MySQL2 implements ISQL_DB{
 		$this->fetch_all();
 		
 		// Кешируем запрос
-		$this->memcache->set( $this->mmc_prefix . $query_key, serialize( $this->query_data ), false, $ttl );
+		$this->memcache->set( $this->mmc_prefix . $query_key, serialize($this->query_data), $ttl );
 		
 		$this->end_query();
 		return $this->get_all();
@@ -193,7 +193,7 @@ class DB_MySQL2 implements ISQL_DB{
 	// Обнуляет ранее кэшированный запрос
 	public function reset_cached_query( $query, $time = 0 ){
 		if ( !$this->memcache )
-			$this->memcache = Cache::getInstance();	
+			$this->memcache = Cache::get_instance();
 		
 		// Получаем ключ запроса
 		$query_key = md5( $query );
@@ -205,7 +205,7 @@ class DB_MySQL2 implements ISQL_DB{
 	
 	//
 	protected function insert_replace_query( $type, $table, $data ){
-		$data = unserialize(serialize($data)); // break references within array
+		$data = unserialize( serialize($data) ); // break references within array
 		$keys_line   = '';
 		$values_line = '';
 		foreach ( $data as $key => $value ){

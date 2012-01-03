@@ -16,23 +16,24 @@ $r = \Request\Parser::get_instance();
 $db = Fabric::get('db');
 $acl = Auth::$acl;
 
-
 $u = new Model\User( 1 );
 $hu = $u->Human;
 $u->password = '1';
 $u->save();
 
+
+// phpinfo();
+// Memcache(d)
+echo 'Cache class';
+$cache = new \Cache;
+$cache->set( 'mydata', 'my super long string', 10 );
+var_dump( $cache->get( 'mydata' ) );
+
+
 echo '<pre>';
 echo var_export( Auth::$acl, true );
 echo '</pre>';
 
-echo '<pre>';
-echo var_export( $hu, true );
-echo '</pre>';
-
-//$a = new \Model\Human();
-//$a->get_by_id(1);
-//var_dump($a);
 
 // Определяем текущую страницу
 $current_page = $r->is_int(1) ? $r->to_int(1) : 1;

@@ -1,88 +1,151 @@
-<?
-# Работа с Memcached
+<?php
+/**
+ * Memcache/Memcached simple wrapper
+ * @author Marenin Alex
+ * January 2012
+ */
 
+/**
+ * Простой класс для работы с Memcache/Memcached
+ */
 class Cache {
 
-	private $connected = false;
+	protected $mmc = null;
+	protected $engine = MMC_ENGINE;
+	protected $connected = false;
+	protected $last_status = false;
 
-	public $mmc_id = false;
-	public $mmc_num = 0;
-	public $mmc_time = 0;
-	
-	
-	/**
-    * Получение всегда одного и того же экземпляра класа (singleton)
-    * @return object
-    */
+	public $compress = false;
+	public $query_count = 0;
+	public $exec_time = 0;
+
+
+	// Singleton
 	private static $instance = null;
-    public static function getInstance() {
+    public static function get_instance() {
         if( self::$instance == null )
             self::$instance = new self;
-       
+
         return self::$instance;
     }
 
 	
-	// Соединение с memcached
-	private function connect() {
-		if ( !$this->mmc_id = @memcache_pconnect(MMC_HOST, MMC_PORT) )
-			throw new CacheException( 'Невозможно установить подключение с сервером memcached: '. $e->getMessage() );
-
-		$this->connected = true;
-		return true;
-	}
-	
 	/**
-	 * Берет данные из кеша
-	 * @param string $key
+	 * Соединение с memcached
+	 * @return bool
+	 * @throws CacheException
+	 */
+	protected function connect(){
+		try {
+			if ( !$this->connected ){
+				$this->mmc = new $this->engine;
+				$this->mmc->addServer( MMC_HOST, MMC_PORT );
+
+				$this->connected = true;
+			}
+			return true;
+		}
+		catch ( Exception $e ){
+			throw new CacheException( 'Cache::connect : unable to connect', 0, $e );
+		}
+	}
+
+
+	/**
+	 * Returns instance of Memcache or Memcached class
+	 * @return Object
+	 */
+	public function get_mmc(){
+		if ( !$this->connected )
+			$this->connect();
+		return $this->mmc;
+	}
+
+
+	/**
+	 * @param $key
+	 * @return mixed
 	 */
 	public function get( $key ) {
-		$this_time = microtime(1);
-		if( !$this->connected ) 
+		$start = microtime( true );
+		if ( !$this->connected )
 			$this->connect();
-		
-		$status = memcache_get( $this->mmc_id, $key );
-		$this->mmc_time +=  microtime(1) - $this_time;
-		$this->mmc_num++;
-		
-		return $status;
+		$res = $this->mmc->get( $key );
+
+		$this->last_status = !!$res;
+		$this->exec_time +=  microtime( true ) - $start;
+		$this->query_count ++;
+		return $res;
 	}
 	
-	
+
 	/**
 	 * Устанавливает в кеш данные
 	 * @param string $key	- ключ
 	 * @param mixed $val	- значение
-	 * @param int $flag		- Use MEMCACHE_COMPRESSED to store the item compressed (uses zlib). 
 	 * @param int $expire	- Expiration time of the item. От 0 и до 2592000 (30 дней)
+	 * @return boolean
 	 */
-	public function set( $key, $val, $flag, $expire ){
-		$this_time = microtime(1);
-		
-		if( !$this->connected ) 
+	public function set( $key, $val, $expire ){
+		$start = microtime( true );
+		if ( !$this->connected )
 			$this->connect();
-		
-		$status = memcache_replace( $this->mmc_id, $key, $val, $flag, $expire ); 
-		if ( $status == false ) 
-			$status = memcache_set( $this->mmc_id, $key, $val, $flag, $expire ); 
-		
-		$this->mmc_time +=  microtime(1) - $this_time;
-		$this->mmc_num++;
-		
+
+		if ( $this->engine === 'Memcache' )
+			$status = $this->mmc->set( $key, $val, $this->compress, $expire );
+		else
+			$status = $this->mmc->set( $key, $val, $expire );
+
+		$this->last_status = $status;
+		$this->exec_time +=  microtime( true ) - $start;
+		$this->query_count ++;
 		return $status;
 	}
-	
-	
-	/**
-	*	Удаляет данные из базы
-	*	@param $key		- ключ
-	*	@param $time	- The amount of time the server will wait to delete the item. 
-	*/
-	public function delete( $key, $time = 0 ) {
-		if ( !$this->connected ) 
-			$this->connect();
-		return memcache_delete( $this->mmc_id, $key, $time );
-	}	
-}
 
-?>
+
+	/**
+	 * Tells success status of previous operation
+	 * @return bool
+	 */
+	public function is_success(){
+		return $this->engine === 'Memcache' ? $this->last_status : $this->mmc->getResultCode() === 0;
+	}
+
+
+	/**
+	 * Удаляет данные из кэша
+	 * @param $key
+	 * @param int $time - The amount of time the server will wait to delete the item.
+	 * @return boolean
+	 */
+	public function delete( $key, $time = 0 ) {
+		$start = microtime( true );
+		if ( !$this->connected )
+			$this->connect();
+
+		$status = $this->mmc->delete( $key, $time );
+
+		$this->last_status = $status;
+		$this->exec_time +=  microtime( true ) - $start;
+		$this->query_count ++;
+		return $status;
+	}
+
+
+
+	public function replace( $key, $val, $expire ){
+		$start = microtime( true );
+		if ( !$this->connected )
+			$this->connect();
+
+		if ( $this->engine === 'Memcache' )
+			$status = $this->mmc->replace( $key, $val, $this->compress, $expire );
+		else
+			$status = $this->mmc->replace( $key, $val, $expire );
+
+		$this->last_status = $status;
+		$this->exec_time +=  microtime( true ) - $start;
+		$this->query_count ++;
+		return $status;
+	}
+}

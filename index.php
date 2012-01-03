@@ -1,14 +1,5 @@
 <?php
-// Конфиг
-include 'protected/config.php';
-include 'protected/lib/misc.functions.php';	
-
-//автозагрузка классов по требованию
-function __autoload( $name ){
-	$path = 'protected/class/'. str_replace('\\', '/', $name) .'.class.php';
-	if ( ! include($path) )
-		die( "Class '$name' not found!" );
-}
+require "protected/bootstrap.php";
 
 try {
 	// проверка авторизации

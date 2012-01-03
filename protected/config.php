@@ -12,6 +12,7 @@ if ( isset($_SERVER['ENV']) and ($_SERVER['ENV'] == "muchacho_home" or $_SERVER[
 	define( 'DB_NAME',		"ice-storm" );
 
 	// Memcached
+	define( "MMC_ENGINE", "Memcache" );
 	define( "MMC_HOST", "localhost" );
 	define( "MMC_PORT", "11211" );
 	
@@ -40,9 +41,10 @@ else {
 	define( 'DB_NAME',		"ice-storm" );
 
 	// Memcached
+	define( "MMC_ENGINE", "Memcached" );
 	define( "MMC_HOST", "localhost" );
 	define( "MMC_PORT", "11211" );
-	
+
 	// Paths
 	define( 'WEBURL', "http://spvi.vv/ice-storm/" );
 	define( 'DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT'] .'/ice-storm/' );
