@@ -5,7 +5,7 @@
 <div id="footer">
 	<div class="content">
 		<br />
-		<center>Ice Storm © 2011</center>
+		Ice Storm © 2011
 	</div>
 </div>
 

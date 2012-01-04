@@ -36,15 +36,32 @@ abstract class AbstractView {
 
 
 	/**
-	 * @abstract
-	 * @return string
+	 * Returns view data, KO
+	 * @return array
 	 */
-	abstract public function show_404();
+	public function get_view_data(){
+		return $this->view_data;
+	}
 
 
 	/**
 	 * @abstract
 	 * @return string
 	 */
-	abstract public function render();
+	abstract public function render_not_found();
+
+
+	/**
+	 * @abstract
+	 * @return string
+	 */
+	abstract public function render_access_denied();
+
+
+	/**
+	 * @abstract
+	 * @param boolean $output
+	 * @return string
+	 */
+	abstract public function render( $output = true );
 }

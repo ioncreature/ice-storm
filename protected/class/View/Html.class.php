@@ -9,12 +9,6 @@ use View\AbstractView;
 
 class Html extends AbstractView {
 
-	protected $template_name;
-
-	public function __construct( $view_data = null ){
-
-	}
-
 	public function render(){
 		if ( !$this->template_name )
 			throw new \LogicException( __CLASS__ ."::render() : Template name must be " );
@@ -22,11 +16,22 @@ class Html extends AbstractView {
 		return;
 	}
 
-	public function show_404(){
-		return json_encode( array(
-			'status' => false,
-			'code' => 404,
-			'msg' => 'Not found'
-		));
-	}
+	public function render_not_found(){
+			header( "HTTP/1.1 404 Not Found" );
+			return json_encode( array(
+				'status' => false,
+				'code' => 404,
+				'msg' => 'Not found'
+			));
+		}
+
+
+		public function render_access_denied(){
+			header( "HTTP/1.1 403 Forbidden" );
+			return json_encode( array(
+				'status' => false,
+				'code' => 403,
+				'msg' => 'Forbidden'
+			));
+		}
 }

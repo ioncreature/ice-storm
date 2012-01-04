@@ -42,15 +42,14 @@ class AbstractController {
 	protected $routes;
 
 
-	protected $response;
-
-
+	/**
+	 * @var \View\AbstractView
+	 */
 	protected $view;
-
 
 	protected $callback;
 	protected $params;
-
+	protected $access = true;
 
 
 	public function __construct( \Request\Parser $request, $root_path = null ){
@@ -65,10 +64,8 @@ class AbstractController {
 
 					// проверка прав доступа
 					if ( is_array($fn) ){
-						if ( isset($fn['permission']) and !\Auth::$acl->{$fn['permission']} ){
-							$this->response = $this->access_denied_response();
-							return;
-						}
+						if ( isset($fn['permission']) and !\Auth::$acl->{$fn['permission']} )
+							$this->access = false;
 						$this->callback = $fn['method'];
 					}
 					else
@@ -76,14 +73,6 @@ class AbstractController {
 					break;
 				}
 			}
-	}
-
-
-	protected function run_callback(){
-		if ( $this->callback )
-			call_user_func_array( array($this, $this->callback), $this->params );
-		else
-			$this->view->set_404();
 	}
 
 
@@ -100,7 +89,13 @@ class AbstractController {
 	 */
 	public function render(){
 		$this->init();
-		$this->run_callback();
-		return $this->view->render();
+		if ( $this->callback and $this->access ){
+			call_user_func_array( array($this, $this->callback), $this->params );
+			return $this->view->render( false );
+		}
+		elseif ( $this->callback and !$this->access )
+			return $this->view->render_access_denied();
+		else
+			return $this->view->render_not_found();
 	}
 }

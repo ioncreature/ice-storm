@@ -137,9 +137,9 @@ class Template {
 	}
 
 
-	public function template_to_block( $template_name, $block_name ){
+	public static function template_to_block( $block_name, $template_name, $params = array() ){
 		Template::ob_to_block( $block_name );
-		include TEMPLATES_PATH. $template_name;
+		include TEMPLATES_PATH. $template_name .'.tpl.php';
 		Template::ob_end();
 	}
 
