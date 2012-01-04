@@ -15,7 +15,8 @@ abstract class AbstractView {
 
 
 	public function __construct( $view_data = null ){
-		$view_data and $this->view_data = $view_data;
+		if ( $view_data )
+			$this->add( $view_data );
 	}
 
 
@@ -32,6 +33,13 @@ abstract class AbstractView {
 			$this->view_data[$key] = $value;
 		return $this;
 	}
+
+
+	/**
+	 * @abstract
+	 * @return string
+	 */
+	abstract public function show_404();
 
 
 	/**

@@ -40,10 +40,10 @@ try {
 			switch ( $r->get(1) ){
 				case "department":
 					$service = new Service\Departments( $r, 'service/department' );
-					$service->response();
+					echo $service->render(); die;
 				case "staff":
 					$service = new Service\Staff( $r, 'service/staff' );
-					$service->response();
+					echo $service->render(); die;
 				default:
 					redirect( WEBURL );
 			}

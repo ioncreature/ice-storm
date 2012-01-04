@@ -19,7 +19,14 @@ class Html extends AbstractView {
 		if ( !$this->template_name )
 			throw new \LogicException( __CLASS__ ."::render() : Template name must be " );
 
-
 		return;
+	}
+
+	public function show_404(){
+		return json_encode( array(
+			'status' => false,
+			'code' => 404,
+			'msg' => 'Not found'
+		));
 	}
 }
