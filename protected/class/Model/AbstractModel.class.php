@@ -137,7 +137,7 @@ abstract class AbstractModel {
 		if ( $this->orig_data )
 			$this->exists = true;
 
-		return $this->exists;
+		return $this->exportArray();
 	}
 
 
@@ -220,6 +220,6 @@ abstract class AbstractModel {
 
 
 	public function exportArray(){
-		return $this->data + $this->orig_data;
+		return $this->exists() ? $this->data + $this->orig_data : array();
 	}
 }

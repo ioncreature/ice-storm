@@ -5,9 +5,9 @@
  */
 
 namespace View;
-use View\AbstractView;
+use View\AbstractView as View;
 
-class Json extends AbstractView {
+class Json extends View {
 
 	public function render(){
 		return json_encode( $this->view_data );
@@ -30,6 +30,16 @@ class Json extends AbstractView {
 			'status' => false,
 			'code' => 403,
 			'msg' => 'Forbidden'
+		));
+	}
+
+
+	public function render_error(){
+		header( "HTTP/1.1 500 Internal Server Error" );
+		return json_encode( array(
+			'status' => false,
+			'code' => 500,
+			'msg' => 'Internal Server Error'
 		));
 	}
 }

@@ -5,9 +5,6 @@
  */
 ?>
 <style type="text/css">
-	div#body {
-		background-color: #EFAFAA;
-	}
 	div.access_denied {
 		font-size: 22px;
 		font-weight: bold;
@@ -19,5 +16,5 @@
 	}
 </style>
 <div class="access_denied">
-	<span>У Вас нет доступа к запрашиваемой странице</span>
+	<span>403 - Доступ к запрашиваемой странице запрещен</span>
 </div>

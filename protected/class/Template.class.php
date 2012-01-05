@@ -141,6 +141,7 @@ class Template {
 		Template::ob_to_block( $block_name );
 		include TEMPLATES_PATH. $template_name .'.tpl.php';
 		Template::ob_end();
+		return static::block( $block_name );
 	}
 
 

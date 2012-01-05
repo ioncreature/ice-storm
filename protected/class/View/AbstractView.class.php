@@ -11,7 +11,7 @@ abstract class AbstractView {
 	/**
 	 * @var array
 	 */
-	protected $view_data;
+	protected $view_data = array();
 
 
 	public function __construct( $view_data = null ){
@@ -60,8 +60,15 @@ abstract class AbstractView {
 
 	/**
 	 * @abstract
+	 * @return string
+	 */
+	abstract public function render_error();
+
+
+	/**
+	 * @abstract
 	 * @param boolean $output
 	 * @return string
 	 */
-	abstract public function render( $output = true );
+	abstract public function render();
 }

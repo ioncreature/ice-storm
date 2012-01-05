@@ -6,7 +6,10 @@
 
 namespace View;
 
-class WebPage extends \View\AbstractView {
+use \View\AbstractView as View;
+use \Template as Template;
+
+class WebPage extends View {
 
 	public $layout = 'layout/base';
 	public $template = 'page/not_found';
@@ -22,27 +25,26 @@ class WebPage extends \View\AbstractView {
 	}
 
 
-	public function render( $output ){
-		\Template::template_to_block( 'body', $this->template, $this->view_data );
-		if ( $output )
-			return \Template::show( $this->layout );
-		else {
-			\Template::template_to_block( 'trololo', $this->layout );
-			return \Template::block( 'trololo' );
-		}
+	public function render(){
+		Template::template_to_block( 'body', $this->template, $this->get_view_data() );
+		return Template::template_to_block( '__temp_block', $this->layout );
 	}
 
 
 	public function render_not_found(){
 		header( "HTTP/1.1 404 Not Found" );
-		\Template::template_to_block( 'page/not_found', 'body' );
-		return \Template::block( 'body' );
+		return Template::template_to_block( 'body', 'page/not_found', $this->get_view_data() );
 	}
 
 
 	public function render_access_denied(){
 		header( "HTTP/1.1 403 Forbidden" );
-		\Template::template_to_block( 'page/access_denied', 'body' );
-		return \Template::block( 'body' );
+		return Template::template_to_block( 'body', 'page/access_denied', $this->get_view_data() );
+	}
+
+
+	public function render_error(){
+		header( "HTTP/1.1 500 Internal Server Error" );
+		return Template::template_to_block( 'body', 'page/error', $this->get_view_data() );
 	}
 }

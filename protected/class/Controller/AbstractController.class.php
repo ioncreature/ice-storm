@@ -5,7 +5,11 @@
  */
 namespace Controller;
 
-class AbstractController {
+use \Response\AbstractResponse as Response;
+
+abstract class AbstractController {
+
+
 
 	/**
 	 * Instance of \Request\Parser
@@ -14,10 +18,9 @@ class AbstractController {
 	protected $request;
 
 	/**
-	 * Root controller path
-	 * @var string
+	 * @var \View\AbstractView
 	 */
-	protected $root_path = '';
+	protected $view;
 
 	/**
 	 * List of routes from root $path
@@ -39,17 +42,21 @@ class AbstractController {
 	 * )
 	 * @var array
 	 */
-	protected $routes;
-
+	protected $routes = array();
 
 	/**
-	 * @var \View\AbstractView
+	 * Root controller path
+	 * @var string
 	 */
-	protected $view;
+	protected $root_path = '';
+
+	/**
+	 * @var int status code
+	 */
+	protected $status = Response::STATUS_OK;
 
 	protected $callback;
-	protected $params;
-	protected $access = true;
+	protected $params = array();
 
 
 	public function __construct( \Request\Parser $request, $root_path = null ){
@@ -65,14 +72,30 @@ class AbstractController {
 					// проверка прав доступа
 					if ( is_array($fn) ){
 						if ( isset($fn['permission']) and !\Auth::$acl->{$fn['permission']} )
-							$this->access = false;
+							$this->set_status( Response::STATUS_FORBIDDEN );
 						$this->callback = $fn['method'];
 					}
 					else
 						$this->callback = $fn;
+					$this->params = is_array( $params ) ? $params : $this->params;
 					break;
 				}
 			}
+		$this->init();
+	}
+
+
+	/**
+	 * Set execution status
+	 * @param int $status
+	 */
+	protected function set_status( $status ){
+		$this->status = $status;
+	}
+
+
+	public function get_status(){
+		return $this->status;
 	}
 
 
@@ -88,14 +111,20 @@ class AbstractController {
 	 * @return string
 	 */
 	public function render(){
-		$this->init();
-		if ( $this->callback and $this->access ){
+		if ( $this->callback and $this->get_status() === Response::STATUS_OK )
 			call_user_func_array( array($this, $this->callback), $this->params );
-			return $this->view->render( false );
+
+		$v = $this->view;
+		switch ( $this->get_status() ){
+			case Response::STATUS_FORBIDDEN:
+				return $v->render_access_denied();
+			case Response::STATUS_NOT_FOUND:
+				return $v->render_not_found();
+			case Response::STATUS_ERROR:
+				return $v->render_error();
+			// Response::STATUS_OK
+			default:
+				return $v->render();
 		}
-		elseif ( $this->callback and !$this->access )
-			return $this->view->render_access_denied();
-		else
-			return $this->view->render_not_found();
 	}
 }

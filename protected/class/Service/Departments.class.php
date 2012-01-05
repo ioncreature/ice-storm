@@ -5,10 +5,9 @@
  */
 
 namespace Service;
+use \Service\AbstractService as Service;
 
-class Departments extends AbstractService {
-
-	protected $root_path = 'service/department';
+class Departments extends Service {
 
 	protected $routes = array(
 		'get' => array(
@@ -24,42 +23,35 @@ class Departments extends AbstractService {
 		'delete' => array(
 			'::int' => array(
 				'method' => 'delete_department',
-				'permission' => 'departments_can_delete'
+				'permission' => 'departments_delete'
 			)
 		)
 	);
 
-	protected $db = null;
+	protected $model = null;
 
-	public function __construct( \Request\Parser $request, $path = null ){
-		$this->db = \Fabric::get( 'db' );
-		parent::__construct( $request, $path );
+
+	public function init(){
+		$this->model = new \Model\Department();
 	}
 
 
 	public function get_department( $id ){
 		$id = (int) $id;
-		$dep = $this->db->fetch_query( "SELECT id, name FROM org_departments WHERE id = '$id'" );
+		$dep = $this->model->get_by_id( $id );
 		if ( $dep )
-			$dep['children'] = $this->db->query("
-				SELECT id, name FROM org_departments WHERE parent_id = '$id'
-			");
+			$dep['children'] = $this->model->get_children();
 
-		return $dep ? $dep : array();
+		$this->view->add( $dep ? $dep : array() );
 	}
 
 
 	public function get_root(){
-		$root = $this->db->fetch_query( "SELECT id, name FROM org_departments WHERE parent_id = 0 LIMIT 1" );
+		$root = $this->model->get_root();
+		if ( $root )
+			$root['children'] = $this->model->get_children( (int) $root['id'] );
 
-		if ( $root ){
-			$root_id = (int) $root['id'];
-			$root['children'] = $this->db->query("
-				SELECT id, name FROM org_departments WHERE parent_id = '$root_id'
-			");
-		}
-
-		return $root;
+		$this->view->add( $root ? $root : array() );
 	}
 
 }

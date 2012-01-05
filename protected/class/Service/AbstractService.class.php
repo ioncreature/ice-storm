@@ -9,38 +9,11 @@ use \Controller\AbstractController;
 
 abstract class AbstractService extends \Controller\AbstractController {
 
+	public $view;
 
-
-
-	/**
-	 * Calls defined method and send JSON response(die)
-	 * @return void
-	 */
-	public function response(){
-		die( json_encode($this->response) );
-	}
-
-
-	public function get_response(){
-		return $this->response;
-	}
-
-
-	public function empty_response( $msg = '' ){
-		return array(
-			'status' => false,
-			'error' => 'Unknown request path',
-			'msg' => $msg
-		);
-	}
-
-
-	public function access_denied_response( $msg = '' ){
-		return array(
-			'status' => false,
-			'error' => 'Access denied',
-			'msg' => $msg
-		);
+	public function __construct( \Request\Parser $request, $root_path = null ){
+		parent::__construct( $request, $root_path );
+		$this->view = new \View\Json();
 	}
 
 }

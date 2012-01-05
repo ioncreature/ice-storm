@@ -6,7 +6,8 @@
 
 namespace Controller;
 
+use \Controller\AbstractController as Controller;
 
-class TestController extends AbstractController {
+class TestController extends Controller {
 
 }

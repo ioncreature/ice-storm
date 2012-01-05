@@ -5,9 +5,9 @@
  */
 
 namespace Model;
-use \Model\AbstractModel;
+use \Model\AbstractModel as Model;
 
-class Department extends \Model\AbstractModel {
+class Department extends Model {
 
 	protected $table = 'org_departments';
 	protected $fields = array(
@@ -17,10 +17,38 @@ class Department extends \Model\AbstractModel {
 	protected $primary_key = 'id';
 
 	public function get_all(){
+		$this->db_connect();
 		return $this->db->query("
 			SELECT id, name
 			FROM org_departments
 			ORDER BY name
+		");
+	}
+
+
+	public function get_root(){
+		$this->db_connect();
+		$this->load( $this->db->fetch_query("
+			SELECT id, name
+			FROM org_departments
+			WHERE parent_id = 0
+			LIMIT 1
+		"));
+		return $this->exportArray();
+	}
+
+
+	public function get_children( $department_id = null ){
+		$this->db_connect();
+		if ( !$department_id and $this->exists() )
+			$department_id = $this->id;
+		else
+			$department_id = (int) $department_id;
+
+		return $this->db->query("
+			SELECT id, name
+			FROM org_departments
+			WHERE parent_id = '$department_id'
 		");
 	}
 

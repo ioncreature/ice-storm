@@ -5,6 +5,9 @@
  */
 ?>
 <style type="text/css">
+	div#body {
+		/*background-color: #EFAFAA;*/
+	}
 	div.access_denied {
 		font-size: 22px;
 		font-weight: bold;
@@ -16,5 +19,5 @@
 	}
 </style>
 <div class="access_denied">
-	<span>404 - Страница не найдена</span>
+	<span>500 - Произошла внутренняя ошибка, сообщите администратору</span>
 </div>
