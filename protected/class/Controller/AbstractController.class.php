@@ -124,8 +124,7 @@ abstract class AbstractController {
 				return $v->render_not_found();
 			case Response::STATUS_ERROR:
 				return $v->render_error();
-			// Response::STATUS_OK
-			default:
+			default: // STATUS_OK
 				return $v->render();
 		}
 	}

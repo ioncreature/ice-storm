@@ -39,10 +39,10 @@ try {
 		case "service":
 			switch ( $r->get(1) ){
 				case "department":
-					$service = new Service\Departments( $r, 'service/department' );
+					$service = new \Service\Departments( $r, 'service/department' );
 					echo $service->render(); die;
 				case "staff":
-					$service = new Service\Staff( $r, 'service/staff' );
+					$service = new \Service\Staff( $r, 'service/staff' );
 					echo $service->render(); die;
 				default:
 					redirect( WEBURL );
@@ -124,7 +124,7 @@ try {
 					redirect( WEBURL );
 			}
 			break;
-		
+
 		case "logout":
 			$a->logout();
 			redirect( WEBURL );
