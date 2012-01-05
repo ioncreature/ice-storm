@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Marenin Alex
- *         December 2011
+ *         January 2012
  */
 
 namespace View;
@@ -32,19 +32,16 @@ class WebPage extends View {
 
 
 	public function render_not_found(){
-		header( "HTTP/1.1 404 Not Found" );
 		return Template::template_to_block( 'body', 'page/not_found', $this->get_view_data() );
 	}
 
 
 	public function render_access_denied(){
-		header( "HTTP/1.1 403 Forbidden" );
 		return Template::template_to_block( 'body', 'page/access_denied', $this->get_view_data() );
 	}
 
 
 	public function render_error(){
-		header( "HTTP/1.1 500 Internal Server Error" );
 		return Template::template_to_block( 'body', 'page/error', $this->get_view_data() );
 	}
 }

@@ -1,11 +1,9 @@
 <?php
 /**
  * @author Marenin Alex
- *         December 2011
+ *         January 2012
  */
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html>
 <head>
 	<title><?= Template::title() ?></title>

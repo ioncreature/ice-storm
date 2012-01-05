@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Marenin Alex
- *         December 2011
+ *         January 2012
  */
 
 class Dispatcher {

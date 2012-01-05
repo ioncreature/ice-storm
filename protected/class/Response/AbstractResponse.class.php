@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Marenin Alex
- *         December 2011
+ *         January 2012
  */
 namespace Response;
 
@@ -25,6 +25,10 @@ abstract class AbstractResponse {
 	 */
 	public function set_status( $status ){
 		$this->status = $status;
+	}
+
+	public function get_status(){
+		return $this->status;
 	}
 
 	public function set_response( $response ){
