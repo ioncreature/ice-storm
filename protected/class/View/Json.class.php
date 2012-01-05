@@ -15,7 +15,6 @@ class Json extends View {
 
 
 	public function render_not_found(){
-		header( "HTTP/1.1 404 Not Found" );
 		return json_encode( array(
 			'status' => false,
 			'code' => 404,
@@ -25,7 +24,6 @@ class Json extends View {
 
 
 	public function render_access_denied(){
-		header( "HTTP/1.1 403 Forbidden" );
 		return json_encode( array(
 			'status' => false,
 			'code' => 403,
@@ -35,7 +33,6 @@ class Json extends View {
 
 
 	public function render_error(){
-		header( "HTTP/1.1 500 Internal Server Error" );
 		return json_encode( array(
 			'status' => false,
 			'code' => 500,
