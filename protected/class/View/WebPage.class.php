@@ -27,21 +27,24 @@ class WebPage extends View {
 
 	public function render(){
 		Template::template_to_block( 'body', $this->template, $this->get_view_data() );
-		return Template::template_to_block( '__temp_block', $this->layout );
+		return Template::tpl( $this->layout );
 	}
 
 
 	public function render_not_found(){
-		return Template::template_to_block( 'body', 'page/not_found', $this->get_view_data() );
+		Template::template_to_block( 'body', 'page/not_found', $this->get_view_data() );
+		return Template::tpl( $this->layout );
 	}
 
 
 	public function render_access_denied(){
-		return Template::template_to_block( 'body', 'page/access_denied', $this->get_view_data() );
+		Template::template_to_block( 'body', 'page/access_denied', $this->get_view_data() );
+		return Template::tpl( $this->layout );
 	}
 
 
 	public function render_error(){
-		return Template::template_to_block( 'body', 'page/error', $this->get_view_data() );
+		Template::template_to_block( 'body', 'page/error', $this->get_view_data() );
+		return Template::tpl( $this->layout );
 	}
 }

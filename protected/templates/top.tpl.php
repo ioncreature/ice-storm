@@ -9,7 +9,7 @@
 <?= Template::block( 'styles' ) ?>
 
 	<!-- JavaScript config -->
-<?= Template::show( 'js.config.tpl.php' ) ?>
+<?= Template::show( 'js.config' ) ?>
 
 	<!-- Libraries -->
 	<script type="text/javascript" src="<?= WEBURL ?>js/jquery-1.7.1.min.js"></script>
@@ -31,10 +31,12 @@
 	<div id="header">
 		<div class="h_wrapper">
 			<span class="logo"><a class="transition_all_03" href="<?= WEBURL ?>">Ice Storm</a></span>
-			<?= menu() ?>
+			<!-- TOP MENU -->
+			<?= Template::show( 'include/menu' ) ?>
 			<div class="left_section transition_all_03">
 				<div class="ls_wrapper">
-				<?= auth_form() ?>
+					<!--AUTH FORM -->
+					<?= Template::show( 'include/auth_form' ) ?>
 				</div>
 			</div>
 		</div>

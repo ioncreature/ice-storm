@@ -8,7 +8,7 @@
 	div.access_denied {
 		font-size: 22px;
 		font-weight: bold;
-		color: #444;
+		color: #610;
 		text-align: center;
 		padding: 20px 0px;
 	}

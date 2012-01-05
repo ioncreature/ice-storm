@@ -1,63 +1,4 @@
 <?php
-function menu(){?>
-	<!-- TOP MENU -->
-	<ul class="h_menu">
-		<!--
-		<li><a href="<?= WEBURL ?>">Главная</a></li>
-		-->
-		<li><span class="a">Учебный процесс</span>
-			<ul class="v_menu">
-				<li><a href="<?= WEBURL .'edu/marks' ?>">Оценки</a></li>
-				<li><a href="<?= WEBURL .'stat/edu' ?>">Статистика</a></li>
-				<li><a href="<?= WEBURL .'edu/schedule' ?>">Расписание</a></li>
-			</ul>
-		</li>
-		<li><span class="a">Организация учебы</span>
-			<ul class="v_menu">
-				<li><a href="<?= WEBURL .'edu/curriculums' ?>">Учебные планы</a></li>
-				<li><a href="<?= WEBURL .'edu/courses' ?>">Учебные курсы</a></li>
-				<li><a href="<?= WEBURL .'edu/groups' ?>">Группы</a></li>
-				<li><a href="<?= WEBURL .'edu/students' ?>">Студенты</a></li>
-			</ul>
-		</li>
-		<li><span class="a">Структура учреждения</span>
-			<ul class="v_menu">
-				<li><a href="<?= WEBURL .'org/staff' ?>">Сотрудники</a></li>
-				<li><a href="<?= WEBURL .'org/departments' ?>">Подразделения</a></li>
-			</ul>
-		</li>
-		<li><span class="a">Доступ</span>
-			<ul class="v_menu">
-				<li><a href="<?= WEBURL .'acl/groups' ?>">Группы</a></li>
-				<li><a href="<?= WEBURL .'acl/users' ?>">Пользователи</a></li>
-				<li><a href="<?= WEBURL .'acl/usersingroups' ?>">Группы/Пользователи</a></li>
-			</ul>
-		</li>
-		<!--
-		<li><a href="<?= WEBURL .'test' ?>">Тестовый модуль</a></li>
-		-->
-	</ul>
-	<?
-}
-
-
-function auth_form(){?>
-	<?php if ( Auth::is_logged() ): ?>
-	<form id="auth" class="logged" method="POST" action="<?= WEBURL .'logout' ?>">
-		<a href="<?= WEBURL . 'user/cabinet'?>" title="Мой Кабинет"><?= Auth::get_user()->login ?></a>
-		<input type="submit" name="logout" value="Выход" />
-	</form>
-	<?php else: ?>
-	<form id="auth" class="unlogged" method="POST" action="<?= WEBURL ?>">
-		<input type="text" name="login" value="" placeholder="Ваш логин" />
-		<input type="password" name="password" value="" placeholder="Пароль" /><br />
-		<input type="submit" class="submit" value="Войти" />
-		<a href="<?= WEBURL .'register' ?>" style="float:right;">регистрация</a>
-	</form>
-	<?php endif;
-}
-
-
 // Функция для вывода постраничной навигации
 function paginator( array $params ){
 	$defaults = array(
@@ -107,3 +48,4 @@ function paginator( array $params ){
 		</div>
 	<?php endif;
 }
+?>

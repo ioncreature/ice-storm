@@ -9,8 +9,6 @@ use \Response\AbstractResponse as Response;
 
 abstract class AbstractController {
 
-
-
 	/**
 	 * Instance of \Request\Parser
 	 * @var \Request\Parser
@@ -111,8 +109,12 @@ abstract class AbstractController {
 	 * @return string
 	 */
 	public function render(){
-		if ( $this->callback and $this->get_status() === Response::STATUS_OK )
-			call_user_func_array( array($this, $this->callback), $this->params );
+		if ( $this->callback ){
+			if ( $this->get_status() === Response::STATUS_OK )
+				call_user_func_array( array($this, $this->callback), $this->params );
+		}
+		else
+			$this->set_status( Response::STATUS_NOT_FOUND );
 
 		$v = $this->view;
 		switch ( $this->get_status() ){

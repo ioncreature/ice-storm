@@ -134,9 +134,10 @@ try {
 		case 'test':	// тестовая страница
 			include "protected/modules/test.module.php";
 			break;
-		case 'mvc':		// тестовая backbone страница
-			include "protected/modules/mvc.module.php";
-			break;
+		// Controller test!
+		case 'some_test':
+			$c = new \Controller\SomeTest( $r, 'some_test/' );
+			die( $c->render() );
 		default:		// по умолчанию - главная страница
 			include "protected/modules/index.module.php";
 			break;

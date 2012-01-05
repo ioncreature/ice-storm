@@ -101,12 +101,12 @@ class Template {
 
 
 	public static function top(){
-		static::show( 'top.tpl.php' );
+		static::show( 'top' );
 	}
 
 
 	public static function bottom(){
-		static::show( 'bottom.tpl.php' );
+		static::show( 'bottom' );
 	}
 
 
@@ -131,9 +131,22 @@ class Template {
 	 * @param bool $params
 	 * @return void
 	 */
-	public static function show( $path, $params = false ){
+	public static function show( $template_name, $params = array() ){
 		static::$output_started = true;
-		include TEMPLATES_PATH. $path;
+		include TEMPLATES_PATH. $template_name .'.tpl.php';
+	}
+
+
+	/**
+	 * @static
+	 * @param $template_name
+	 * @param $params
+	 * @return string
+	 */
+	public static function tpl( $template_name, $params = array() ){
+		ob_start();
+		include TEMPLATES_PATH. $template_name .'.tpl.php';
+		return ob_get_clean();
 	}
 
 
