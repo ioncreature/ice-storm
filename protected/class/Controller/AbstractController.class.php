@@ -125,8 +125,11 @@ abstract class AbstractController {
 	 */
 	public function render(){
 		if ( $this->callback ){
-			if ( $this->get_status() === Response::STATUS_OK )
-				call_user_func_array( array($this, $this->callback), $this->params );
+			if ( $this->get_status() === Response::STATUS_OK ){
+				$res = call_user_func_array( array($this, $this->callback), $this->params );
+				if ( is_array($res) )
+					$this->view->add( $res );
+			}
 		}
 		else
 			$this->set_status( Response::STATUS_NOT_FOUND );

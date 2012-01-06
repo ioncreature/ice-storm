@@ -31,9 +31,20 @@ class Employee extends Controller {
 
 	public function show_employee( $id ){
 		$employee = new \Model\Employee( $id );
-		$this->view->add( 'employee', $employee );
-		$this->view->add( 'human', $employee->Human );
-		$this->view->add( 'department', $employee->Department );
+		return array(
+			'employee'   => $employee,
+			'human'      => $employee->Human,
+			'department' => $employee->Department
+		);
+	}
+
+	public function show_add_employee(){
+		$employee = new \Model\Employee();
+		return array(
+			'employee'   => $employee,
+			'human'      => $employee->Human,
+			'department' => $employee->Department
+		);
 	}
 
 }

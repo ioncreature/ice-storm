@@ -47,6 +47,7 @@ class Human extends AbstractModel {
 
 
 	public function search_by_name( $name ){
+		$this->db_connect();
 		$name = $this->db->safe( $name );
 		return $this->db->query("
 			SELECT
@@ -60,6 +61,7 @@ class Human extends AbstractModel {
 	}
 
 	public function get_all(){
+		$this->db_connect();
 		return $this->db->query("
 			SELECT id, full_name as name FROM org_humans ORDER BY name
 		");

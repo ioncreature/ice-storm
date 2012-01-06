@@ -15,7 +15,7 @@ if ( Auth::is_logged() ): ?>
 <form id="auth" class="unlogged" method="POST" action="<?= WEBURL ?>">
 	<input type="text" name="login" value="" placeholder="Ваш логин" class="common" />
 	<input type="password" name="password" value="" placeholder="Пароль" class="common" /><br />
-	<input type="submit" class="submit" value="Войти" class="common" />
+	<input type="submit" class="submit common" value="Войти" />
 	<a href="<?= WEBURL .'register' ?>" style="float:right;">регистрация</a>
 </form>
 
