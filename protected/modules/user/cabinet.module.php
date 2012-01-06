@@ -42,17 +42,17 @@ Template::top();
 <form id="f_change_pass" action="<?= WEBURL .'user/cabinet/change_pass' ?>" method="POST">
 	<label>
 		<span style="display: inline-block; width: 250px;">Введите старый пароль</span>
-		<input type="password" name="pass_old" value="" />
+		<input type="password" name="pass_old" value="" class="common" />
 	</label>
 	<label>
 		<span style="display: inline-block; width: 250px;">Введите новый пароль</span>
-		<input type="password" name="pass_new" value="" />
+		<input type="password" name="pass_new" value="" class="common" />
 	</label>
 	<label>
 		<span style="display: inline-block; width: 250px;">Подтвердите новый пароль</span>
-		<input type="password" name="pass_confirm" value="" />
+		<input type="password" name="pass_confirm" value="" class="common" />
 	</label>
-	<input type="submit" value="Сменить пароль" />
+	<input type="submit" value="Сменить пароль" class="common" />
 	
 	<!-- СОБЩЕНИЕ ОБ ОШИБКЕ -->
 	<div class="error" style="<?= isset($error) ? '' : 'display: none;'?>">

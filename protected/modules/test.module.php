@@ -46,7 +46,7 @@ paginator(array(
 <h3>Hello! This is a test page.</h3>
 
 <form action="<?= WEBURL .'test/siski/10' ?>" method="POST">
-	<input type="submit" name="siski" value="4" />
+	<input type="submit" name="siski" value="4" class="common" />
 </form>
 
 <script type="text/javascript">

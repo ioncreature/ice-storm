@@ -299,7 +299,7 @@ Template::top();
 	{{#terms}}
 		<li termid="{{term_id}}">
 			<h3>{{order}} семестр</h3>
-			<button class="add_course" termid="{{id}}">Добавить учебный курс</button>
+			<button class="add_course common" termid="{{id}}">Добавить учебный курс</button>
 			<ul class="courses">
 			{{#courses}}
 				{{>t_course}}
@@ -325,9 +325,9 @@ Template::top();
 		</select>
 		Часть
 		<select name="course_term_id"></select>
-		<input type="hidden" name="term_id" value="{{term_id}}" />
-		<input type="submit" value="добавить" />
-		<input type="button" value="отмена" />
+		<input type="hidden" name="term_id" value="{{term_id}}" class="common" />
+		<input type="submit" value="добавить" class="common" />
+		<input type="button" value="отмена" class="common" />
 		<span class="loader"><div></div></span>
 	</form> 
 </script>

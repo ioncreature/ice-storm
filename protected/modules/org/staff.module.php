@@ -41,11 +41,11 @@ Template::ob_to_block( 'body' );
 		<h2 id="depatrment_name">Все сотрудики</h2>
 		<div style="overflow: hidden">
 			<div style="float:left">
-				<a href="<?= WEBURL .'org/employee/new' ?>"><button>Новый сотрудник</button></a>
+				<a href="<?= WEBURL .'org/employee/new' ?>"><button class="common">Новый сотрудник</button></a>
 			</div>
 			<div style="float: right; width: 50%; text-align: right; padding: 2px;">
 				<form id="staff_search" action="<?= WEBURL .'service/staff/search/' ?>" method="POST">
-					Поиск&nbsp;<input name="name" type="text" style="display: inline-block; width:200px; margin:0px; padding:0px;" />
+					Поиск&nbsp;<input name="name" type="text" class="common" style="display: inline-block; width:200px; margin:0px; padding:0px;" />
 				</form>
 			</div>
 		</div>

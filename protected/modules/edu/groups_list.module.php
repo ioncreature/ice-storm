@@ -97,7 +97,7 @@ Template::top();
 <form action="<?= WEBURL ."edu/groups_list/add" ?>" method="POST">
 	<label>
 		<span style="width: 150px; display: inline-block;">Название группы</span>
-		<input type="text" name="name" value="<?= $f_name ?>" />
+		<input type="text" name="name" value="<?= $f_name ?>" class="common" />
 	</label>
 	<label>
 		<span style="width: 150px; display: inline-block;">Подразделение</span>
@@ -112,7 +112,7 @@ Template::top();
 	<?php if ( isset($error) ): ?>
 		<div class="error"><?= htmlspecialchars($error) ?></div>
 	<?php endif; ?>
-	<input type="submit" value="Отправить" />
+	<input type="submit" value="Отправить" class="common" />
 </form><br /><br />
 
 

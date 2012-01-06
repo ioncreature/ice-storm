@@ -89,18 +89,18 @@ Template::top();
 <div id="c_container">
 	<form method="POST" action="<?= WEBURL .'edu/courses/add' ?>">
 		<label>Полное название курса<br />
-			<input type="text" name="name" placeholder="полное название" <?= $name ? 'value="'.strip_tags($name).'"' : ''?> />
+			<input type="text" name="name" placeholder="полное название" <?= $name ? 'value="'.strip_tags($name).'"' : ''?> class="common" />
 		</label><br />
 		<label>Короткое название курса (не более 20-и символов)<br />
-			<input type="text" name="shortname" placeholder="короткое название" <?= $shortname ? 'value="'.strip_tags($shortname).'"' : ''?> />
+			<input type="text" name="shortname" placeholder="короткое название" <?= $shortname ? 'value="'.strip_tags($shortname).'"' : ''?> class="common" />
 		</label><br />
 		<label>Количество семестров<br />
-			<input type="text" name="terms" placeholder="количество семестров" <?= $terms ? 'value="'.intval($terms).'"' : ''?> />
+			<input type="text" name="terms" placeholder="количество семестров" <?= $terms ? 'value="'.intval($terms).'"' : ''?> class="common" />
 		</label><br />
 		<label>Количество часов<br />
-			<input type="text" name="hours" placeholder="количество часов" <?= $hours ? 'value="'.intval($hours).'"' : ''?> />
+			<input type="text" name="hours" placeholder="количество часов" <?= $hours ? 'value="'.intval($hours).'"' : ''?> class="common" />
 		</label>
-		<input type="submit" value="Добавить" />
+		<input type="submit" value="Добавить" class="common" />
 	</form>
 	<div class="error" style="display:none;"></div>
 </div>

@@ -62,12 +62,12 @@ Template::top();
 <div id="c_container">
 	<form method="POST" action="<?= WEBURL .'edu/curriculums/add' ?>">
 		<label>Название плана<br />
-			<input type="text" name="name" placeholder="название плана" style="width: 350px" />
+			<input type="text" name="name" placeholder="название плана" style="width: 350px" class="common" />
 		</label><br />
 		<label>Количество семестров<br />
-			<input type="text" name="count" placeholder="количество семестров" style="width: 350px" />
+			<input type="text" name="count" placeholder="количество семестров" style="width: 350px" class="common" />
 		</label><br />
-		<input type="submit" value="Добавить" />
+		<input type="submit" value="Добавить" class="common" />
 	</form>
 	<div class="error" style="display:none;"></div>
 </div>

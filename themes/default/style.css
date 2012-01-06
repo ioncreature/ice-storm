@@ -37,7 +37,7 @@ h1, h2, h3{
 }
 
 /* COMMON FORMS STYLE */
-input[type=text], input[type=password] {
+input[type=text].common, input[type=password].common {
 	border: 1px solid #999;
 	background-color: #f9f9f9;
 	color: #333;
@@ -45,7 +45,7 @@ input[type=text], input[type=password] {
 	border-radius: 3px;
 	padding: 3px 4px;
 }
-input[type=submit], input[type=button], button{
+input[type=submit].common, input[type=button].common, button.common{
 	cursor: pointer;
 	border-radius: 3px;
 	font-size: 13px;
@@ -60,7 +60,7 @@ input[type=submit], input[type=button], button{
 	background: -ms-linear-gradient(top, #FCFCFC, #D3D3D3);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FCFCFC', endColorstr='#D3D3D3');
 }
-input[type="submit"]:hover, input[type="button"]:hover, button:hover{
+input[type="submit"].common:hover, input[type="button"].common:hover, button.common:hover{
 	background: -webkit-linear-gradient(top, #FFF, #BBC6E6);
 	background: -moz-linear-gradient(top, #FFF, #BBC6E6);
 	background: -o-linear-gradient(top, #FFF, #BBC6E6);
@@ -401,4 +401,36 @@ span.loader div{
 
 #staff_grid {
 	border: 0px;
+}
+
+
+
+.common_form {
+	dislay: block;
+	padding: 10px;
+}
+.common_form label {
+	display: block;
+	padding: 1px;
+	margin: 1px 0;
+	vertical-align: text-top;
+}
+.common_form label > span {
+	display: inline-block;
+	width: 250px;
+	max-width: 250px;
+}
+.common_form label > .common_input {
+	margin: 0px;
+	display: inline-block;
+	width: 240px;
+}
+.common_form > fieldset {
+	margin: 10px 0px;
+	padding: 4px;
+	border: 1px solid #aaa;
+	border-radius: 3px;
+}
+#exisiting_personalia, #new_personalia {
+	margin: 12px 6px 6px;
 }

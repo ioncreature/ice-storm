@@ -12,7 +12,8 @@
 		var djConfig = {
 			parseOnLoad: true,
 			isDebug: true,
-			gfxRenderer: "svg,silverlight,vml"
+			gfxRenderer: "svg,silverlight,vml",
+			locale: 'ru'
 		};
 		var dojoConfig = djConfig;
 

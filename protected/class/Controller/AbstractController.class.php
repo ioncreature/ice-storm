@@ -53,6 +53,8 @@ abstract class AbstractController {
 	 */
 	protected $status = Response::STATUS_OK;
 
+
+	// callback variables
 	protected $callback;
 	protected $params = array();
 
@@ -92,8 +94,21 @@ abstract class AbstractController {
 	}
 
 
+	/**
+	 * Get execution status
+	 * @return int
+	 */
 	public function get_status(){
 		return $this->status;
+	}
+
+
+	/**
+	 * Returns full path to controller
+	 * @return string
+	 */
+	public function get_controller_path(){
+		return WEBURL . $this->root_path;
 	}
 
 

@@ -26,9 +26,6 @@ class SomeTest extends Controller {
 	public function init(){
 		$this->view = new \View\WebPage();
 		$this->view->set_template( 'page/some_test' );
-//		echo $this->callback . '<br />';
-//		echo $this->get_status() . '<br />';
-//		$this->set_status( \Response\AbstractResponse::STATUS_FORBIDDEN );
 	}
 
 

@@ -54,18 +54,18 @@ Template::ob_to_block( 'body' ); ?>
 <!-- ФОРМА РЕГИСТРАЦИИ -->
 <form id="register" action="<?= WEBURL .'register' ?>" method="POST">
 	<label>login<br />
-		<input type="text" name="login" placeholder="логин" />
+		<input type="text" name="login" placeholder="логин" class="common" />
 	</label>
 	<label>password<br />
-		<input type="text" name="password" placeholder="пароль" />
+		<input type="text" name="password" placeholder="пароль" class="common" />
 	</label>
 	<label>retype password<br />
-		<input type="text" name="repassword" placeholder="пароль" />
+		<input type="text" name="repassword" placeholder="пароль" class="common" />
 	</label>
 	<label>email<br />
-		<input type="text" name="email" placeholder="email" />
+		<input type="text" name="email" placeholder="email" class="common" />
 	</label>
-	<input type="submit" value="Зарегистрироваться" />
+	<input type="submit" value="Зарегистрироваться" class="common" />
 	<div class="error" style="display:none"></div>
 </form>
 

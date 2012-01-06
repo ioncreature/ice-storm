@@ -118,8 +118,8 @@ try {
 					include "protected/modules/org/staff.module.php";
 					break;
 				case "employee":
-					include "protected/modules/org/employee.module.php";
-					break;
+					$c = new \Controller\org\Employee( $r, 'org/employee/' );
+					die( $c->render() );
 				default:
 					redirect( WEBURL );
 			}

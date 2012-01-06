@@ -411,12 +411,12 @@ $( document ).ready( function(){
 <!-- TEMPLATES -->
 <script type="text/html" id="t_form_theme">
 	<form class="add_theme_form" method="POST" action="<?= WEBURL ."edu/course/$cid/add_theme" ?>">
-		<input type="text" placeholder="название темы" name="name" value="" />
-		<input type="text" placeholder="кол-во часов" name="hours" value="" />
+		<input type="text" placeholder="название темы" name="name" value="" class="common" />
+		<input type="text" placeholder="кол-во часов" name="hours" value="" class="common" />
 		<input type="hidden" name="term_id" value="{{term_id}}" />
 		<input type="hidden" name="course_id" value="{{course_id}}" />
-		<input type="submit" value="сохранить"/>
-		<input type="button" value="отмена" />
+		<input type="submit" value="сохранить" class="common" />
+		<input type="button" value="отмена" class="common" />
 		<span class="loader"><div></div></span>
 	</form>
 </script>
@@ -426,7 +426,7 @@ $( document ).ready( function(){
 	{{#stages}}
 	<li stageid="{{id}}">
 		<h3>{{stage_name}} {{order}} семестр</h3>
-		<button class="add_theme" stageid="{{id}}" courseid="{{course_id}}">Добавить учебную тему</button>
+		<button class="add_theme common" stageid="{{id}}" courseid="{{course_id}}" >Добавить учебную тему</button>
 		<ol class="course_stage" stageid="{{id}}">
 		{{#themes}}
 			{{>t_theme}}
@@ -448,11 +448,11 @@ $( document ).ready( function(){
 <script type="text/html" id="t_form_edit_theme">
 	<li class="edit_form">
 	<form class="edit_theme_form" method="POST" action="<?= WEBURL ."edu/course/$cid/edit_theme" ?>">
-		<input type="text" placeholder="название темы" name="name" value="{{name}}" style="width: 300px;"/>
-		<input type="text" placeholder="кол-во часов" name="hours" value="{{hours}}" />
+		<input type="text" placeholder="название темы" name="name" value="{{name}}" style="width: 300px;" class="common" />
+		<input type="text" placeholder="кол-во часов" name="hours" value="{{hours}}" class="common" />
 		<input type="hidden" name="theme_id" value="{{theme_id}}" />
-		<input type="submit" value="редактировать"/>
-		<input type="button" value="отмена" />
+		<input type="submit" value="редактировать" class="common" />
+		<input type="button" value="отмена" class="common" />
 		<span class="loader"><div></div></span>
 	</form>
 	</li>
