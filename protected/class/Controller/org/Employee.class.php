@@ -11,8 +11,12 @@ class Employee extends Controller {
 	public $routes = array(
 		'get' => array(
 			'' => 'redirect',
+			'new' => 'show_add_employee',
 			'::int' => 'show_employee',
-			'new' => 'show_add_employee'
+			'::int/edit' => array(
+				'permission' => 'employee_edit',
+				'method' => 'show_edit_employee'
+			)
 		),
 		'post' => array(
 			'add' => array(
@@ -52,6 +56,18 @@ class Employee extends Controller {
 			'employee'   => $employee,
 			'human'      => $employee->Human,
 			'department' => $employee->Department
+		);
+	}
+
+
+	public function show_edit_employee( $id ){
+		$employee = new \Model\Employee( $id );
+		return array(
+			'employee'      => $employee,
+			'human'         => $employee->Human,
+			'department'    => $employee->Department,
+			'personal_data' => $employee->Human->exportArray(),
+			
 		);
 	}
 

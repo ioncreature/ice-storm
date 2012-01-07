@@ -50,55 +50,59 @@ $groups = $db->query("SELECT * FROM auth_groups");
 
 // список разрешений
 $perms = $db->query("SELECT * FROM auth_permissions");
-
+$i = 0;
 //
 // ВЫВОД
 //
 Template::top();
 ?>
 
-<table>
+<h2>Права групп</h2><br/>
+
+<table class="common">
 	<tr>
-		<td>Группа\разрешение</td>
-		<?php foreach ( $perms as $p ): ?>
-			<td><?= $p['description'] ?></td>
+		<th>Разрешение\Группа</th>
+		<?php foreach ( $groups as $g ): ?>
+			<th title="<?= $g['description'] ?>"><?= $g['name'] ?></th>
 		<?php endforeach; ?>
 	</tr>
-	<?php foreach ( $groups as $g ): 
-			$gps = $db->query("
-				SELECT type, group_id, permission_id
-				FROM auth_group_permissions
-				WHERE group_id = '{$g['id']}'
-			");
-			$gp = array();
-			foreach ( $gps as $g_p ){
-				$gp[$g_p['permission_id']] = $g_p['type'];
-			}
+
+	<?php foreach ( $perms as $p ):
+		$pgs = $db->query("
+			SELECT permission_id, group_id, type
+			FROM auth_group_permissions
+			WHERE permission_id = '{$p['id']}'
+		");
+		$pg = array();
+		foreach ( $pgs as $g_p )
+			$pg[$g_p['group_id']] = $g_p['type'];
 	?>
-	<tr>	
-		<td><?= $g['name'] ?></td>
-		<?php foreach ( $perms as $p ): ?>
-			<?php if ( isset($gp[$p['id']]) ): ?>
-				<td><input type="checkbox" name="gp_checkbox" checked="checked" value="<?= $p['id'] .','. $g['id'] ?>"/><br></td>
-			<?php else: ?>
-				<td><input type="checkbox" name="gp_checkbox" value="<?= $p['id'] .','. $g['id'] ?>"/><br></td>
-			<?php endif; ?>	
-		<?php endforeach; ?>
-	</tr>
+		<tr <?= $i++ % 2 === 1 ? 'class="odd"' : ''?>>
+			<td class="left"><?= $p['description'] ?></td>
+			<?php foreach ( $groups as $g ): ?>
+				<td>
+					<input
+						type="checkbox"
+						<?= isset( $pg[$g['id']] ) ? 'checked="checked"' : '' ?>
+						value="<?= $p['id'] .','. $g['id'] ?>"
+					/><br>
+				</td>
+			<?php endforeach; ?>
+		</tr>
 	<?php endforeach; ?>
 </table>
+
 
 <script type="text/javascript">
 	$(document).ready( function(){
 		$("input:checkbox").click( function(){
-			var index = $("input:checkbox").index(this);
-			var arr = ( $(this).val().split(',') );
-			var url = '<?= WEBURL .'acl/groups' ?>';
-			if ( $(this).is(':checked') )
-				$.post( url, { permission_id: arr[0], group_id: arr[1], stat: "allow" } );
-			else
-				$.post( url, { permission_id: arr[0], group_id: arr[1], stat: "deny" } );
-		});	
+			var arr = $( this ).val().split( ',' );
+			$.post( '<?= WEBURL .'acl/groups' ?>', {
+				permission_id: arr[0],
+				group_id: arr[1],
+				stat: $( this ).is(':checked') ? "allow" : "deny"
+			});
+		});
 	});
 </script>
 

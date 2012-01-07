@@ -25,6 +25,9 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 	method="POST"
 	data-dojo-type="dijit.form.Form"
 >
+	<?php if ( isset($params['employee']) and $params['employee']->id ): ?>
+		<input type="hidden" name="employee_id" value="<?= $params['employee']->id ?>" />
+	<?php endif; ?>
 	<label>
 		<span>Должность</span>
 		<input
