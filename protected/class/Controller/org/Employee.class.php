@@ -15,9 +15,13 @@ class Employee extends Controller {
 			'new' => 'show_add_employee'
 		),
 		'post' => array(
-
+			'add' => array(
+				'permission' => 'employee_add',
+				'method' => 'add_employee'
+			)
 		)
 	);
+
 
 	public function init(){
 		$this->view = new \View\WebPage();
@@ -25,18 +29,22 @@ class Employee extends Controller {
 		$this->view->set_template( 'page/employee' );
 	}
 
+
 	public function redirect(){
 		redirect( WEBURL );
 	}
 
+
 	public function show_employee( $id ){
 		$employee = new \Model\Employee( $id );
 		return array(
-			'employee'   => $employee,
-			'human'      => $employee->Human,
-			'department' => $employee->Department
+			'employee'      => $employee,
+			'human'         => $employee->Human,
+			'department'    => $employee->Department,
+			'personal_data' => $employee->Human->exportArray()
 		);
 	}
+
 
 	public function show_add_employee(){
 		$employee = new \Model\Employee();
@@ -44,6 +52,13 @@ class Employee extends Controller {
 			'employee'   => $employee,
 			'human'      => $employee->Human,
 			'department' => $employee->Department
+		);
+	}
+
+
+	public function add_employee(){
+		return array(
+			'fuck' => 'off'
 		);
 	}
 

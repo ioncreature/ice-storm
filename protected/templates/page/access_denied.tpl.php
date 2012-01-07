@@ -16,5 +16,5 @@
 	}
 </style>
 <div class="access_denied">
-	<span>403 - Доступ к запрашиваемой странице запрещен</span>
+	<span>403 - Доступ запрещен</span>
 </div>

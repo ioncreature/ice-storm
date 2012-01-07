@@ -4,26 +4,41 @@
  *         January 2012
  */
 
-Template::add_js( WEBURL .'js/dojo/dojo.js');
+Template::add_js(  WEBURL .'js/dojo/dojo.js');
 Template::add_css( WEBURL .'js/dijit/themes/dijit.css' );
 Template::add_css( WEBURL .'js/dijit/themes/claro/claro.css' );
+Template::add_to_block( 'js', 'dojo.require("dijit.form.Form");' );
 Template::add_to_block( 'js', 'dojo.require("dijit.form.DateTextBox");' );
 Template::add_to_block( 'js', 'dojo.require("dijit.form.TextBox");' );
+Template::add_to_block( 'js', 'dojo.require("dijit.form.Button");' );
+Template::add_to_block( 'js', 'dojo.require("dijit.form.CheckBox");' );
 Template::add_to_block( 'js', 'dojo.require("dijit.form.ValidationTextBox");' );
 Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 ?>
 
 
 <!-- FORM -->
-<form class="common_form" id="add_employee_form" action="<?= WEBURL .'org/employee/add' ?>" method="POST">
+<form
+	class="common_form"
+	id="employee_form"
+	action="<?= WEBURL .'org/employee/add' ?>"
+	method="POST"
+	data-dojo-type="dijit.form.Form"
+>
 	<label>
 		<span>Должность</span>
-		<input data-dojo-type="dijit.form.TextBox" value="" name="post" class="common_input"></input>
+		<input
+			value=""
+			name="post"
+			class="common_input"
+			data-dojo-type="dijit.form.ValidationTextBox"
+			data-dojo-props="required: true, regExp: '[a-zA-zа-яА-Я-]{2,50}'"
+		/>
 	</label>
 
 	<label>
 		<span>Подразделение</span>
-		<select name="department_id" data-dojo-type="dijit.form.Select" class="common_input" style="width: 240px;">
+		<select name="department_id" data-dojo-type="dijit.form.Select" style="width: 240px;" class="common_input">
 			<?php foreach( $params['department']->get_all() as $d ): ?>
 				<option value="<?= $d['id'] ?>"><?= $d['name'] ?></option>
 			<?php endforeach; ?>
@@ -36,13 +51,31 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 	</label>
 
 	<label>
-		<span>Дата приема</span>
+		<span>Дата приема на работу</span>
 		<div
 			name="adoption_date"
 			value="<?= date('Y-m-d') ?>"
 			class="common_input"
 			data-dojo-type="dijit.form.DateTextBox"
 			data-dojo-props="constraints: { max: '<?= date('Y-m-d') ?>', datePattern: 'yyyy.MM.dd' }"></div>
+	</label>
+
+	<label>
+		<span>Ставка</span>
+		<select name="work_rate" data-dojo-type="dijit.form.Select" style="width: 240px;" class="common_input">
+			<option value="full">Полная</option>
+			<option value="half">Одна вторая</option>
+			<option value="quarter">Одна четвертая</option>
+		</select>
+	</label>
+
+	<label>
+		<span>Руководитель подразделения</span>
+		<input
+			type="checkbox"
+			name="is_chief"
+			data-dojo-type="dijit.form.CheckBox"
+		/>
 	</label>
 
 	<!-- PERSONAL DATA -->
@@ -53,7 +86,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 			<input type="radio" name="human_source" value="existing" checked />Выбрать из списка
 		</label>
 		<label style="display: inline-block;">
-			<input type="radio" name="human_source" value="new" />Добавить новые
+			<input type="radio" name="human_source" value="new" />Добавить
 		</label>
 
 		<!-- EXISTING PERSONALIA -->
@@ -87,5 +120,16 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 		</script>
 	</fieldset>
 
-	<input type="submit" value="Добавить" class="common" />
+	<input type="submit" data-dojo-type="dijit.form.Button" label="Добавить" />
 </form>
+
+<script type="text/javascript">
+dojo.ready( function(){
+	dijit.byId( 'employee_form' ).onSubmit = function(){
+		if ( $( 'input[name=human_source]:checked' ).val() === 'existing' )
+			return this.validate( 'post' );
+		else
+			return this.validate();
+	};
+});
+</script>
