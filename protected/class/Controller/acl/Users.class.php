@@ -41,6 +41,7 @@ class Users extends Controller {
 
 
 	public function show( $user_id = null ){
+		$user_id = (int) $user_id;
 		$users = $this->db->query("
 			SELECT
 				auth_users.id,
@@ -49,6 +50,7 @@ class Users extends Controller {
 			FROM
 				auth_users
 				LEFT JOIN org_humans ON auth_users.human_id = org_humans.id
+			". ($user_id > 0 ? "WHERE auth_users.id = '$user_id'" : '') ."
 			ORDER BY org_humans.full_name
 			LIMIT 8
 		", "id" );
@@ -68,10 +70,12 @@ class Users extends Controller {
 			", 'id' );
 
 		$this->view->set_template( 'page/acl' );
-		$this->view->add( 'subjects', $users );
-		$this->view->add( 'permissions', $permissions );
-		$this->view->add( 'path', $this->get_controller_path() );
-		$this->view->add( 'type', 'users' );
+		return array(
+			'subjects' => $users,
+			'permissions' => $permissions,
+			'path' => $this->get_controller_path(),
+			'type' => 'users'
+		);
 	}
 
 
