@@ -29,12 +29,12 @@ class Department extends Model {
 	public function get_root(){
 		$this->db_connect();
 		$this->load( $this->db->fetch_query("
-			SELECT id, name
+			SELECT *
 			FROM org_departments
 			WHERE parent_id = 0
 			LIMIT 1
 		"));
-		return $this->exportArray();
+		return $this->export_array();
 	}
 
 

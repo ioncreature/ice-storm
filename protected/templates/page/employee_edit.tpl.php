@@ -37,13 +37,19 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 			name="post"
 			class="common_input"
 			data-dojo-type="dijit.form.ValidationTextBox"
-			data-dojo-props="required: true, regExp: '[a-zA-zа-яА-Я-]{2,50}'"
+			data-dojo-props="required: true, regExp: '[a-zA-zа-яА-Я0-9 -]{2,150}'"
 		/>
 	</label>
 
 	<label>
 		<span>Подразделение</span>
-		<select name="department_id" data-dojo-type="dijit.form.Select" style="width: 240px;" class="common_input">
+		<select
+			name="department_id"
+			data-dojo-type="dijit.form.Select"
+			style="width: 240px;"
+			class="common_input"
+			requred="true"
+		>
 			<?php foreach( $params['department']->get_all() as $d ): ?>
 				<option value="<?= $d['id'] ?>"><?= $d['name'] ?></option>
 			<?php endforeach; ?>
@@ -62,14 +68,22 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 			value="<?= date('Y-m-d') ?>"
 			class="common_input"
 			data-dojo-type="dijit.form.DateTextBox"
-			data-dojo-props="constraints: { max: '<?= date('Y-m-d') ?>', datePattern: 'yyyy.MM.dd' }"></div>
+			data-dojo-props="constraints: { max: '<?= date('Y-m-d') ?>', datePattern: 'yyyy.MM.dd' }, required: true"
+		></div>
 	</label>
 
 	<label>
 		<span>Ставка</span>
-		<select name="work_rate" data-dojo-type="dijit.form.Select" style="width: 240px;" class="common_input">
+		<select
+			name="work_rate"
+			data-dojo-type="dijit.form.Select"
+			style="width: 240px;"
+			class="common_input"
+			required="true"
+		>
 			<option value="full">Полная</option>
 			<option value="half">Одна вторая</option>
+			<option value="third">Одна третья</option>
 			<option value="quarter">Одна четвертая</option>
 		</select>
 	</label>

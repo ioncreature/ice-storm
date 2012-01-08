@@ -26,16 +26,16 @@ class Html extends View {
 
 
 	public function render_not_found(){
-		return Template::template_to_block( '__temp_block', 'page/not_found', $this->get_view_data() );
+		return Template::template_to_block( '__temp_block', 'error/not_found', $this->get_view_data() );
 	}
 
 
 	public function render_access_denied(){
-		return Template::template_to_block( '__temp_block', 'page/access_denied', $this->get_view_data() );
+		return Template::template_to_block( '__temp_block', 'error/access_denied', $this->get_view_data() );
 	}
 
 
 	public function render_error(){
-		return Template::template_to_block( 'body', 'page/error', $this->get_view_data() );
+		return Template::template_to_block( 'body', 'error/error', $this->get_view_data() );
 	}
 }

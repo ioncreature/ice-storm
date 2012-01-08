@@ -82,7 +82,7 @@ abstract class AbstractModel {
 	 */
 	public function __set( $key, $value ){
 		// TODO: добавить проверку типов
-		if ( isset($this->orig_data[$key], $this->data[$key]) and $this->data[$key] !== $value )
+		if ( isset($this->orig_data[$key]) and $this->orig_data[$key] !== $value )
 			$this->modified = true;
 		$this->data[$key] = $value;
 	}
@@ -137,7 +137,7 @@ abstract class AbstractModel {
 		if ( $this->orig_data )
 			$this->exists = true;
 
-		return $this->exportArray();
+		return $this->export_array();
 	}
 
 
@@ -179,11 +179,25 @@ abstract class AbstractModel {
 	}
 
 
-	public function load( $data ){
+	protected function load( $data ){
 		$this->exists = true;
+		$this->reset();
 		$this->data = array();
 		$this->orig_data = $data;
 		return true;
+	}
+
+
+	public function reset(){
+		$this->data = array();
+	}
+
+
+	public function apply( array $data ){
+		// TODO: добавить валидацию полей
+		foreach ( $data as $field => $value )
+			$this->$field = $value;
+		return $this;
 	}
 
 
@@ -219,7 +233,24 @@ abstract class AbstractModel {
 	}
 
 
-	public function exportArray(){
-		return $this->exists() ? $this->data + $this->orig_data : array();
+	public function export_array(){
+		return $this->data + $this->orig_data;
+	}
+
+
+	/**
+	 * Filters input array
+	 * @param $array
+	 * @param null|string $key_prefix
+	 * @return array
+	 */
+	public function filter( $array, $key_prefix = null ){
+		$out = array();
+		foreach ( $this->fields as $k => $v ){
+			$field = is_array($v) ? $k : $v;
+			$default = is_array($v) ? (isset($v['default']) ? $v['default'] : null) : null;
+			$out[$field] = isset( $array[$key_prefix.$field] ) ? $array[$key_prefix.$field] : $default;
+		}
+		return $out;
 	}
 }

@@ -32,19 +32,19 @@ class WebPage extends View {
 
 
 	public function render_not_found(){
-		Template::template_to_block( 'body', 'page/not_found', $this->get_view_data() );
+		Template::template_to_block( 'body', 'error/not_found', $this->get_view_data() );
 		return Template::tpl( $this->layout );
 	}
 
 
 	public function render_access_denied(){
-		Template::template_to_block( 'body', 'page/access_denied', $this->get_view_data() );
+		Template::template_to_block( 'body', 'error/access_denied', $this->get_view_data() );
 		return Template::tpl( $this->layout );
 	}
 
 
 	public function render_error(){
-		Template::template_to_block( 'body', 'page/error', $this->get_view_data() );
+		Template::template_to_block( 'body', 'error/error', $this->get_view_data() );
 		return Template::tpl( $this->layout );
 	}
 }

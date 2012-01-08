@@ -18,3 +18,7 @@
 <div class="access_denied">
 	<span>403 - Доступ запрещен</span>
 </div>
+<?php
+if ( isset($params['msg']) )
+	var_dump( $params['msg'] );
+?>

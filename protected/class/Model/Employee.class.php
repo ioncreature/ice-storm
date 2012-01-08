@@ -5,8 +5,9 @@
  */
 
 namespace Model;
+use \Model\AbstractModel as Model;
 
-class Employee extends AbstractModel {
+class Employee extends Model {
 
 	protected $table = 'org_staff';
 	protected $fields = array(
@@ -68,6 +69,14 @@ class Employee extends AbstractModel {
 				org_humans.full_name LIKE '%$name%'
 			LIMIT 10
 		");
+	}
+
+
+	protected function before_save(){
+		$fields = array( 'state', 'chief', 'leave_date' );
+		foreach ( $fields as $f )
+			if ( empty($this->data[$f]) )
+				unset( $this->data[$f] );
 	}
 	
 }

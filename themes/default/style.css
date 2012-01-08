@@ -22,6 +22,8 @@ body {
 		-o-linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
 	background:
 		-moz-linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
+	background:
+		-ms-linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
 	background-color: #c8e8ff;
 }
 
@@ -303,6 +305,7 @@ table.common tr th{
 	text-align: center;
 	background-color: #EDEDED;
 	padding: 6px 3px;
+	border-bottom: 1px solid #DDD;
 }
 table.common tr td{
 	padding: 5px;

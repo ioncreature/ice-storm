@@ -125,7 +125,7 @@ class Parser {
 
 
 	public function get_all(){
-		return $this->$request_data;
+		return $this->request_data;
 	}
 
 

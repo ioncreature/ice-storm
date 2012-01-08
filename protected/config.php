@@ -24,7 +24,7 @@ if ( isset($_SERVER['ENV']) and ($_SERVER['ENV'] == "muchacho_home" or $_SERVER[
 
 	define( 'ADMIN_EMAIL', 'admin@ice' );
 	
-	// Путь до файла лога
+	define( 'IS_DEBUG', true );
 	error_reporting( E_ALL );
 	ini_set( "display_errors", true );
 }
@@ -52,7 +52,8 @@ else {
 	define( 'TEMPLATES_PATH', PROTECTED_PATH .'templates/' );
 	
 	define( 'ADMIN_EMAIL', 'admin@spvi.vv' );
-	
+
+	define( 'IS_DEBUG', true );
 	error_reporting( E_ALL );
 	ini_set( "display_errors", true );
 }

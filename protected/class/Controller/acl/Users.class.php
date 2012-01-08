@@ -27,9 +27,7 @@ class Users extends Controller {
 				'view' => '\View\Json'
 			)
 		),
-		'delete' => array(
-
-		)
+		'delete' => array()
 	);
 
 
@@ -87,7 +85,7 @@ class Users extends Controller {
 		$r = $this->request;
 		$db = $this->db;
 
-		if ( isset( $r->permission_id, $r->subject_id, $r->type ) ){
+		if ( isset($r->permission_id, $r->subject_id, $r->type) ){
 			$permission_id = (int) $r->permission_id;
 			$subject_id = (int) $r->subject_id;
 			$type = mb_strtolower($r->type) === 'allow' ? 'allow' : 'deny';
@@ -128,4 +126,3 @@ class Users extends Controller {
 			);
 	}
 }
-

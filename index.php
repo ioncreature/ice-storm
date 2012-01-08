@@ -30,8 +30,6 @@ try {
 					$service = new \Controller\acl\Users( $r, 'acl/users' );
 					$response->send_controller( $service );
 					die;
-//					include "protected/modules/acl/users.module.php";
-//					break;
 				case "usersingroups":
 					include "protected/modules/acl/usersingroups.module.php";
 					break;
@@ -159,7 +157,7 @@ try {
 catch ( CacheException $e ){
 	echo "Ошибка кеширования: ". $e->getMessage();
 }
-catch ( SQLException $e ){
+catch ( \Exception\SQL $e ){
 	echo "Ошибка БД: ". $e->getMessage();
 }
 catch ( Exception $e ){
