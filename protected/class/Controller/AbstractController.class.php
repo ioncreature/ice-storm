@@ -19,6 +19,7 @@ abstract class AbstractController {
 	 * @var \View\AbstractView
 	 */
 	protected $view;
+	protected $default_view = '\View\WebPage';
 
 	/**
 	 * List of routes from root $path
@@ -32,7 +33,8 @@ abstract class AbstractController {
 	 * 			'add' => 'some_add_method',
 	 *          'edit' => array(
 	 *              'method' => 'method_name',
-	 *              'permission' => 'permission_name'
+	 *              'permission' => 'permission_name',
+	 * 				'view' => '\View\Json'
 	 *          )
 	 * 		),
 	 *      'put' => ...,
@@ -59,6 +61,10 @@ abstract class AbstractController {
 	protected $params = array();
 
 
+	/**
+	 * @param \Request\Parser $request
+	 * @param null|string $root_path
+	 */
 	public function __construct( \Request\Parser $request, $root_path = null ){
 		$this->request = $request;
 		$root_path and $this->root_path = $root_path;
@@ -69,14 +75,23 @@ abstract class AbstractController {
 				$params = $this->request->equal( $path, true );
 				if ( $params and $this->request->method() === $method ){
 
-					// проверка прав доступа
 					if ( is_array($fn) ){
+						// проверка прав доступа
 						if ( isset($fn['permission']) and !\Auth::$acl->{$fn['permission']} )
 							$this->set_status( Response::STATUS_FORBIDDEN );
+
+						// проверка view
+						if ( isset($fn['view']) )
+							$this->view = new $fn['view'];
+
 						$this->callback = $fn['method'];
 					}
 					else
 						$this->callback = $fn;
+
+					if ( !$this->view and $this->default_view )
+						$this->view = new $this->default_view;
+
 					$this->params = is_array( $params ) ? $params : $this->params;
 					break;
 				}
@@ -104,26 +119,27 @@ abstract class AbstractController {
 
 
 	/**
-	 * Returns full path to controller
+	 * Returns path to controller
 	 * @return string
 	 */
 	public function get_controller_path(){
-		return WEBURL . $this->root_path;
+		return $this->root_path;
 	}
 
 
 	/**
 	 * Some controller init code,
 	 * redeclare in descendants
+	 * @return void
 	 */
 	public function init(){}
 
 
 	/**
-	 * Renders output
+	 * Run controller and render output
 	 * @return string
 	 */
-	public function render(){
+	public function run(){
 		if ( $this->callback ){
 			if ( $this->get_status() === Response::STATUS_OK ){
 				$res = call_user_func_array( array($this, $this->callback), $this->params );

@@ -42,7 +42,7 @@ $groups = $db->query("SELECT * FROM auth_groups");
 
 // список пользователей
 $users = $db->query("SELECT * FROM auth_users");
-
+$i = 0;
 
 //
 // ВЫВОД
@@ -50,11 +50,13 @@ $users = $db->query("SELECT * FROM auth_users");
 Template::top();
 ?>
 
-<table>
+<h2>Пользователи и группы</h2><br/>
+
+<table class="common">
 	<tr>
-		<td>Пользователь\группа</td>
+		<th>Пользователь\группа</th>
 		<?php foreach ( $groups as $g ): ?>
-			<td><?= $g['name'] ?></td>
+			<th><?= $g['name'] ?></th>
 		<?php endforeach; ?>
 	</tr>
 	<?php foreach ( $users as $u ): 
@@ -68,7 +70,7 @@ Template::top();
 				$gp[$gp_us['group_id']] = 1;
 			}
 	?>
-	<tr>	
+	<tr <?= $i++ % 2 === 1 ? 'class="odd"' : '' ?>>
 		<td><?= $u['login'] ?></td>
 		<?php foreach ( $groups as $gr ): ?>
 			<?php if ( isset($gp[$gr['id']]) ): ?>

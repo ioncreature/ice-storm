@@ -5,8 +5,10 @@
  */
 
 Template::add_js(  WEBURL .'js/dojo/dojo.js');
+Template::add_js(  WEBURL .'js/app/init.js');
 Template::add_css( WEBURL .'js/dijit/themes/dijit.css' );
 Template::add_css( WEBURL .'js/dijit/themes/claro/claro.css' );
+Template::add_to_block( 'js', 'dojo.require("app.widget.Form");' );
 Template::add_to_block( 'js', 'dojo.require("dijit.form.Form");' );
 Template::add_to_block( 'js', 'dojo.require("dijit.form.DateTextBox");' );
 Template::add_to_block( 'js', 'dojo.require("dijit.form.TextBox");' );
@@ -23,7 +25,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 	id="employee_form"
 	action="<?= WEBURL .'org/employee/add' ?>"
 	method="POST"
-	data-dojo-type="dijit.form.Form"
+	data-dojo-type="app.widget.Form"
 >
 	<?php if ( isset($params['employee']) and $params['employee']->id ): ?>
 		<input type="hidden" name="employee_id" value="<?= $params['employee']->id ?>" />

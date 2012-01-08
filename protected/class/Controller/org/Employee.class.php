@@ -67,7 +67,7 @@ class Employee extends Controller {
 			'human'         => $employee->Human,
 			'department'    => $employee->Department,
 			'personal_data' => $employee->Human->exportArray(),
-			
+
 		);
 	}
 

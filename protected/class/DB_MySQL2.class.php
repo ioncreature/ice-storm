@@ -100,7 +100,7 @@ class DB_MySQL2 implements ISQL_DB{
 	
 	// Simple query without caching
 	// @return все данные запроса( если SELECT )
-	public function query( $query ){
+	public function query( $query, $fetch_key = null ){
 		if ( !$this->connected )
 			$this->_connect();
 
@@ -111,7 +111,7 @@ class DB_MySQL2 implements ISQL_DB{
 		if ( !$this->query_id )
 			throw new SQLException( 'Ошибка &lt;'. mysqli_error( $this->db_id ).'&gt; при выполнениии запроса &lt;'.$query.'&gt; ');
 		// преобразуем результат в массив
-		$this->fetch_all();
+		$this->fetch_all( $fetch_key );
 		
 		$this->end_query();
 		return $this->get_all();
@@ -153,7 +153,7 @@ class DB_MySQL2 implements ISQL_DB{
 	// @param $query - query
 	// @param $ttl - time to query live
 	// @return если SELECT, то все данные запроса. Иначе хм...
-	public function cached_query( $query, $ttl = 60 ){
+	public function cached_query( $query, $ttl = 60, $fetch_key = null ){
 		$this->start_query();
 		
 		// Получаем ключ запроса
@@ -179,7 +179,7 @@ class DB_MySQL2 implements ISQL_DB{
 			throw new SQLException( '123123Ошибка &lt;'. mysqli_error( $this->db_id ).'&gt; при выполнениии запроса &lt;'.$query.'&gt; ');
 		
 		// преобразуем результат в массив
-		$this->fetch_all();
+		$this->fetch_all( $fetch_key );
 		
 		// Кешируем запрос
 		$this->memcache->set( $this->mmc_prefix . $query_key, serialize($this->query_data), $ttl );
@@ -240,11 +240,15 @@ class DB_MySQL2 implements ISQL_DB{
 	
 	
 	// Преобразует все данные запроса в массив
-	protected function fetch_all(){
+	protected function fetch_all( $fetch_key = null ){
 		if ( !is_bool($this->query_id) ){
 			$data = array();
-			while( $row = mysqli_fetch_assoc( $this->query_id ) )
-				$data[] = $row;
+			if ( $fetch_key )
+				while( $row = mysqli_fetch_assoc( $this->query_id ) )
+					$data[$row[$fetch_key]] = $row;
+			else
+				while( $row = mysqli_fetch_assoc( $this->query_id ) )
+					$data[] = $row;
 			unset( $this->query_data );
 			$this->query_data = $data;
 		}

@@ -13,23 +13,22 @@ class Departments extends Service {
 		'get' => array(
 			'::int' => array(
 				'method' => 'get_department',
-				'permission' => 'siski'
+				'permission' => 'department_read'
 			),
 			'' => array(
 				'method' => 'get_root',
-				'permission' => 'siski'
+				'permission' => 'department_read'
 			)
 		),
 		'delete' => array(
 			'::int' => array(
 				'method' => 'delete_department',
-				'permission' => 'departments_delete'
+				'permission' => 'department_delete'
 			)
 		)
 	);
 
 	protected $model = null;
-
 
 	public function init(){
 		$this->model = new \Model\Department();

@@ -25,6 +25,7 @@ abstract class AbstractResponse {
 	 */
 	public function set_status( $status ){
 		$this->status = $status;
+		return $this;
 	}
 
 	public function get_status(){
@@ -33,10 +34,18 @@ abstract class AbstractResponse {
 
 	public function set_response( $response ){
 		$this->response_data = $response;
+		return $this;
 	}
 
 	public function get_response(){
 		return $this->response_data;
+	}
+
+	public function send_controller( \Controller\AbstractController $c ){
+		$this
+			->set_status( $c->get_status() )
+			->set_response( $c->run() )
+			->send();
 	}
 
 

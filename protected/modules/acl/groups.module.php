@@ -57,7 +57,7 @@ $i = 0;
 Template::top();
 ?>
 
-<h2>Права групп</h2><br/>
+<h2>Права доступа групп</h2><br/>
 
 <table class="common">
 	<tr>

@@ -64,12 +64,12 @@ class Staff extends AbstractService {
 
 
 	public function get_department_staff( $department_id ){
-		$this->view->add( $this->model->get_by_department_id((int) $department_id) );
+		return $this->model->get_by_department_id( (int) $department_id );
 	}
 
 
 	public function search_by_name( $name ){
-		$this->view->add( $this->model->search_by_name($name) );
+		return $this->model->search_by_name( $name );
 	}
 
 

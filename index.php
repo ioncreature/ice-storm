@@ -11,6 +11,7 @@ try {
 	define( "APP_HASH", $r->get_hash() );	
 
 	Template::title( APP_TITLE );
+	$response = new \Response\Http();
 	// usleep(500*1000);
 
 	// -------
@@ -26,8 +27,11 @@ try {
 					include "protected/modules/acl/groups.module.php";
 					break;
 				case "users":
-					include "protected/modules/acl/users.module.php";
-					break;
+					$service = new \Controller\acl\Users( $r, 'acl/users' );
+					$response->send_controller( $service );
+					die;
+//					include "protected/modules/acl/users.module.php";
+//					break;
 				case "usersingroups":
 					include "protected/modules/acl/usersingroups.module.php";
 					break;
@@ -40,10 +44,12 @@ try {
 			switch ( $r->get(1) ){
 				case "department":
 					$service = new \Service\Departments( $r, 'service/department' );
-					echo $service->render(); die;
+					$response->send_controller( $service );
+					die;
 				case "staff":
 					$service = new \Service\Staff( $r, 'service/staff' );
-					echo $service->render(); die;
+					$response->send_controller( $service );
+					die;
 				default:
 					redirect( WEBURL );
 			}
@@ -119,7 +125,7 @@ try {
 					break;
 				case "employee":
 					$c = new \Controller\org\Employee( $r, 'org/employee/' );
-					die( $c->render() );
+					die( $c->run() );
 				default:
 					redirect( WEBURL );
 			}
@@ -137,7 +143,7 @@ try {
 		// Controller test!
 		case 'some_test':
 			$c = new \Controller\SomeTest( $r, 'some_test/' );
-			die( $c->render() );
+			die( $c->run() );
 		default:		// по умолчанию - главная страница
 			include "protected/modules/index.module.php";
 			break;
