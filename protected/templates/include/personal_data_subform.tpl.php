@@ -62,7 +62,7 @@ Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
 <label>
 	<span>Дата рождения</span>
 	<div
-		name="human_bitrh_date"
+		name="human_birth_date"
 		value="<?= date('Y-m-d', strtotime('-18 years')) ?>"
 		required="true"
 		class="common_input"

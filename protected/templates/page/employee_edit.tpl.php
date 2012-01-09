@@ -37,7 +37,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 			name="post"
 			class="common_input"
 			data-dojo-type="dijit.form.ValidationTextBox"
-			data-dojo-props="required: true, regExp: '[a-zA-zа-яА-Я0-9 -]{2,150}'"
+			data-dojo-props="required: true, regExp: '[a-zA-zа-яА-Я0-9,\. -]{2,200}'"
 		/>
 	</label>
 

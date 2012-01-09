@@ -17,12 +17,12 @@
 	</div>
 	<div style="float:left">
 		<ul style="list-style: none; list-style-position: inside;">
-			<li><?= $params['post'] ?></li>
-			<li><?= $params['department'] ?></li>
-			<li>Дата начала работы: <?= $params['adoption_date'] ?></li>
-			<li>Руководитель подразделения: <?= $params['chief'] === 'yes' ? 'да' : 'нет' ?></li>
-			<?php if ( isset($params['phone']) ): ?>
-				<li>Телефон: <?= $params['phone'] ?></li>
+			<li><?= $params['employee']['post'] ?></li>
+			<li><?= $params['department']['name'] ?></li>
+			<li>Дата начала работы: <?= $params['employee']['adoption_date'] ?></li>
+			<li>Руководитель подразделения: <?= $params['employee']['chief'] === 'yes' ? 'да' : 'нет' ?></li>
+			<?php if ( isset($params['employee']['phone']) ): ?>
+				<li>Телефон: <?= $params['employee']['phone'] ?></li>
 			<?php endif; ?>
 		</ul>
 	</div>

@@ -53,6 +53,7 @@ else {
 	
 	define( 'ADMIN_EMAIL', 'admin@spvi.vv' );
 
+
 	define( 'IS_DEBUG', true );
 	error_reporting( E_ALL );
 	ini_set( "display_errors", true );

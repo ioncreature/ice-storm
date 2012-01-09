@@ -21,3 +21,8 @@
 <div class="access_denied">
 	<span>500 - Произошла внутренняя ошибка, сообщите администратору</span>
 </div>
+
+<?php
+if ( isset($params['msg']) and IS_DEBUG )
+	echo $params['msg'];
+?>

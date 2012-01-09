@@ -43,8 +43,9 @@ class Employee extends Controller {
 		$employee = new \Model\Employee( $id );
 		$this->view->set_template( 'page/employee_show' );
 		return array(
-			'personal'	=> $employee->Human->export_array(),
-			'employee'  => $employee->export_array()
+			'personal'	 => $employee->Human->export_array(),
+			'employee'   => $employee->export_array(),
+			'department' => $employee->Department->export_array(),
 		);
 	}
 
@@ -73,7 +74,7 @@ class Employee extends Controller {
 			if ( isset($r['human_source']) and $r['human_source'] === 'new' ){
 				unset( $r['human_id'] );
 				$employee->Human
-					->apply( $this->employee->Human->filter($r, 'human_') )
+					->apply( $employee->Human->filter($r, 'human_') )
 					->save();
 			}
 			else
@@ -81,7 +82,6 @@ class Employee extends Controller {
 
 			if ( $employee->Human->exists() ){
 				$data = $employee->filter( $r );
-				$data['adoption_date'] = date( 'Y-m-d', strtotime($data['adoption_date']) );
 				$employee->apply( $data );
 				$employee->human_id = $employee->Human->id;
 				$employee->save();
@@ -94,7 +94,7 @@ class Employee extends Controller {
 		}
 		catch ( \Exception\AbstractException $e ){
 			$db->rollback();
-			$this->set_status( \Response\AbstractResponse::STATUS_FORBIDDEN );
+			$this->set_status( \Response\AbstractResponse::STATUS_ERROR );
 			return array( 'msg' => $e->getMessage() );
 		}
 
@@ -119,11 +119,12 @@ class Employee extends Controller {
 	 * @param array $r
 	 * @throws \Exception\Validate
 	 */
-	public function validate( array $r ){
+	public function validate( array &$r ){
 		if ( isset($r['post'], $r['department_id'], $r['adoption_date'], $r['work_rate']) ){
-
 			if ( strtotime($r['adoption_date']) === -1 or strtotime($r['adoption_date']) > time() )
 				throw new \Exception\Validate( 'Incorrect adoption date' );
+
+			$r['adoption_date'] = date( 'Y-m-d', strtotime($r['adoption_date']) );
 		}
 		else
 			throw new \Exception\Validate( 'Required fields are not received' );

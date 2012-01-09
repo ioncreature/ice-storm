@@ -18,3 +18,8 @@
 <div class="access_denied">
 	<span>404 - Страница не найдена</span>
 </div>
+
+<?php
+if ( isset($params['msg']) and IS_DEBUG )
+	echo $params['msg'];
+?>
