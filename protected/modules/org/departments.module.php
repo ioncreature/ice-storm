@@ -119,7 +119,7 @@ elseif ( $r->equal('org/departments/remove') and isset($r->id) ){
 
 
 // первоначальное состояние дерева
-$departments = $db->query( "SELECT * FROM org_departments", 5 );
+$departments = $db->query( "SELECT * FROM org_departments" );
 $dep = array();
 foreach ( $departments as $k => $d ){
 	$dep[] = array(
