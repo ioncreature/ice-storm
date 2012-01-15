@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 html, body, div {
     margin: 0px;
     padding: 0px;
@@ -14,16 +16,11 @@ body {
 	font-size: 14px;
 	font-family: Verdana, Arial, sans;
 	color: #333;
-	background:
-		-webkit-linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
-	background:
-		linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
-	background:
-		-o-linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
-	background:
-		-moz-linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
-	background:
-		-ms-linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
+	background: -webkit-linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
+	background:    -moz-linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
+	background:     -ms-linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
+	background:      -o-linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
+	background:         linear-gradient(left, rgba(0,0,0,0.15) 0, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 100%);
 	background-color: #c8e8ff;
 }
 
@@ -57,9 +54,9 @@ input[type=submit].common, input[type=button].common, button.common{
 	color: #222;
 	padding: 2px 4px;
 	background: -webkit-linear-gradient(top, #FCFCFC, #D3D3D3);
-	background: -moz-linear-gradient(top, #FCFCFC, #D3D3D3);
-	background: -o-linear-gradient(top, #FCFCFC, #D3D3D3);
-	background: -ms-linear-gradient(top, #FCFCFC, #D3D3D3);
+	background:    -moz-linear-gradient(top, #FCFCFC, #D3D3D3);
+	background:     -ms-linear-gradient(top, #FCFCFC, #D3D3D3);
+	background:      -o-linear-gradient(top, #FCFCFC, #D3D3D3);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FCFCFC', endColorstr='#D3D3D3');
 }
 input[type="submit"].common:hover, input[type="button"].common:hover, button.common:hover{
@@ -79,11 +76,11 @@ div#header {
 	background-color: #247;
 	z-index: 50;
 	border-bottom: 1px solid #000;
-	background-image: linear-gradient(bottom, #2e558c 1%, #3463a3 51%, #224477 100%);
-	background-image: -o-linear-gradient(bottom, #2e558c 1%, #3463a3 51%, #224477 100%);
-	background-image: -moz-linear-gradient(bottom, #2e558c 1%, #3463a3 51%, #224477 100%);
-	background-image: -webkit-linear-gradient(bottom, #2e558c 1%, #3463a3 51%, #224477 100%);
-	background-image: -ms-linear-gradient(bottom, #2e558c 1%, #3463a3 51%, #224477 100%);
+	background-image: -webkit-linear-gradient(bottom, #2e558c 0%, #3463a3 51%, #224477 100%);
+	background-image:    -moz-linear-gradient(bottom, #2e558c 0%, #3463a3 51%, #224477 100%);
+	background-image:     -ms-linear-gradient(bottom, #2e558c 0%, #3463a3 51%, #224477 100%);
+	background-image:      -o-linear-gradient(bottom, #2e558c 0%, #3463a3 51%, #224477 100%);
+	background-image:         linear-gradient(bottom, #2e558c 0%, #3463a3 51%, #224477 100%);
 }
 div#header > .h_wrapper {
     height: 100%;
@@ -135,11 +132,11 @@ div#header .left_section .ls_wrapper {
 div.body_wrapper {
     overflow: hidden;
 	padding-bottom: 110px;
-	background-image: linear-gradient(top, rgba(0,0,0,0.22) 0, rgba(0,0,0,0) 12px);
 	background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.22) 0, rgba(0,0,0,0) 12px);
-	background-image: -o-linear-gradient(top, rgba(0,0,0,0.22) 0, rgba(0,0,0,0) 12px);
-	background-image: -moz-linear-gradient(top, rgba(0,0,0,0.22) 0, rgba(0,0,0,0) 12px);
-	background-image: -ms-linear-gradient(top, rgba(0,0,0,0.22) 0, rgba(0,0,0,0) 12px);
+	background-image:    -moz-linear-gradient(top, rgba(0,0,0,0.22) 0, rgba(0,0,0,0) 12px);
+	background-image:     -ms-linear-gradient(top, rgba(0,0,0,0.22) 0, rgba(0,0,0,0) 12px);
+	background-image:      -o-linear-gradient(top, rgba(0,0,0,0.22) 0, rgba(0,0,0,0) 12px);
+	background-image:         linear-gradient(top, rgba(0,0,0,0.22) 0, rgba(0,0,0,0) 12px);
 }
 div#body {
     margin: 30px auto;
@@ -168,11 +165,11 @@ div#footer {
 	height: 110px;
 	width: 100%;
 	overflow:  hidden;
-	background-image: linear-gradient(top, rgba(0,0,0,0) 8px, rgba(0,0,0,0.22) 20px);
 	background-image: -webkit-linear-gradient(top, rgba(0,0,0,0) 8px, rgba(0,0,0,0.22) 20px);
-	background-image: -o-linear-gradient(top, rgba(0,0,0,0) 8px, rgba(0,0,0,0.22) 20px);
-	background-image: -moz-linear-gradient(top, rgba(0,0,0,0) 8px, rgba(0,0,0,0.22) 20px);
-	background-image: -ms-linear-gradient(top, rgba(0,0,0,0) 8px, rgba(0,0,0,0.22) 20px);
+	background-image:    -moz-linear-gradient(top, rgba(0,0,0,0) 8px, rgba(0,0,0,0.22) 20px);
+	background-image:     -ms-linear-gradient(top, rgba(0,0,0,0) 8px, rgba(0,0,0,0.22) 20px);
+	background-image:      -o-linear-gradient(top, rgba(0,0,0,0) 8px, rgba(0,0,0,0.22) 20px);
+	background-image:         linear-gradient(top, rgba(0,0,0,0) 8px, rgba(0,0,0,0.22) 20px);
 }
 div#footer .content {
 	margin-top: 20px;
@@ -183,11 +180,11 @@ div#footer .content {
 	color: #def;
 	font-size: 12px;
 	background-color: #5a5a5a;
-	background-image: linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 30%);
 	background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 30%);
-	background-image: -o-linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 30%);
-	background-image: -moz-linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 30%);
-	background-image: -ms-linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 30%);
+	background-image:    -moz-linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 30%);
+	background-image:     -ms-linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 30%);
+	background-image:      -o-linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 30%);
+	background-image:         linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 30%);
 }
 
 
@@ -436,4 +433,38 @@ span.loader div{
 }
 #exisiting_personalia, #new_personalia {
 	margin: 12px 6px 6px;
+}
+
+
+.a-button {
+	background-color: #3463af;
+	font-size: 12px;
+    color: #E0F0FF;
+    position: relative;
+    padding: 6px 12px;
+    border-radius: 5px;
+	background-image: -webkit-linear-gradient(bottom, rgba(44,160,202,0.6) 0%, rgba(62,184,229,0.6) 100%);
+	background-image:    -moz-linear-gradient(bottom, rgba(44,160,202,0.6) 0%, rgba(62,184,229,0.6) 100%);
+	background-image:     -ms-linear-gradient(bottom, rgba(44,160,202,0.6) 0%, rgba(62,184,229,0.6) 100%);
+	background-image:      -o-linear-gradient(bottom, rgba(44,160,202,0.6) 0%, rgba(62,184,229,0.6) 100%);
+	background-image:         linear-gradient(bottom, rgba(44,160,202,0.6) 0%, rgba(62,184,229,0.6) 100%);
+	-webkit-box-shadow: inset 0px 1px 0px #3463a3, 0px 4px 0px 0px #2ab7ec, 0px 8px 4px #999;
+	   -moz-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 4px 0px 0px #2ab7ec, 0px 8px 4px #999;
+	     -o-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 4px 0px 0px #156785, 0px 8px 4px #999;
+	        box-shadow: inset 0px 1px 0px #2ab7ec, 0px 4px 0px 0px #156785, 0px 8px 4px #999;
+}
+.a-button:active {
+    top: 3px;
+	background-image: -webkit-linear-gradient(bottom, rgba(44,160,202,0.9) 0%, rgba(62,184,229,0.9) 100%);
+	background-image:    -moz-linear-gradient(bottom, rgba(44,160,202,0.9) 0%, rgba(62,184,229,0.9) 100%);
+	background-image:     -ms-linear-gradient(bottom, rgba(44,160,202,0.9) 0%, rgba(62,184,229,0.9) 100%);
+	background-image:      -o-linear-gradient(bottom, rgba(44,160,202,0.9) 0%, rgba(62,184,229,0.9) 100%);
+	background-image:         linear-gradient(bottom, rgba(44,160,202,0.9) 0%, rgba(62,184,229,0.9) 100%);
+	-webkit-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #156785, 0px 4px 3px #999;
+	   -moz-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #156785, 0px 4px 3px #999;
+	     -o-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #156785, 0px 4px 3px #999;
+	        box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #156785, 0px 4px 3px #999;
+}
+.a-button:hover {
+	text-decoration: none;
 }

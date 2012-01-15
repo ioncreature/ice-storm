@@ -5,7 +5,7 @@
  * @author Marenin Alex
  * 2011
  *
- * TODO: Add block content caching(Memcache or Redis)
+ * TODO: Add block content caching
  */
 class Template {
 	
@@ -128,10 +128,10 @@ class Template {
 	 * method output a template
 	 * @static
 	 * @param $path
-	 * @param bool $params
+	 * @param bool $data
 	 * @return void
 	 */
-	public static function show( $template_name, $params = array() ){
+	public static function show( $template_name, $data = array() ){
 		static::$output_started = true;
 		include TEMPLATES_PATH. $template_name .'.tpl.php';
 	}
@@ -140,17 +140,17 @@ class Template {
 	/**
 	 * @static
 	 * @param $template_name
-	 * @param $params
+	 * @param $data
 	 * @return string
 	 */
-	public static function tpl( $template_name, $params = array() ){
+	public static function tpl( $template_name, $data = array() ){
 		ob_start();
 		include TEMPLATES_PATH. $template_name .'.tpl.php';
 		return ob_get_clean();
 	}
 
 
-	public static function template_to_block( $block_name, $template_name, $params = array() ){
+	public static function template_to_block( $block_name, $template_name, $data = array() ){
 		Template::ob_to_block( $block_name );
 		include TEMPLATES_PATH. $template_name .'.tpl.php';
 		Template::ob_end();

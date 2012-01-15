@@ -27,8 +27,8 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 	method="POST"
 	data-dojo-type="app.widget.Form"
 >
-	<?php if ( isset($params['employee']) and $params['employee']->id ): ?>
-		<input type="hidden" name="employee_id" value="<?= $params['employee']->id ?>" />
+	<?php if ( isset($data['employee']) and $data['employee']->id ): ?>
+		<input type="hidden" name="employee_id" value="<?= $data['employee']->id ?>" />
 	<?php endif; ?>
 	<label>
 		<span>Должность</span>
@@ -50,7 +50,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 			class="common_input"
 			requred="true"
 		>
-			<?php foreach( $params['department']->get_all() as $d ): ?>
+			<?php foreach( $data['department']->get_all() as $d ): ?>
 				<option value="<?= $d['id'] ?>"><?= $d['name'] ?></option>
 			<?php endforeach; ?>
 		</select>
@@ -97,6 +97,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 		/>
 	</label>
 
+<?php if ( !isset($data['edit']) or !$data['edit'] ): ?>
 	<!-- PERSONAL DATA -->
 	<fieldset>
 		<legend>Персональные данные</legend>
@@ -111,7 +112,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 		<!-- EXISTING PERSONALIA -->
 		<div id="exisiting_personalia">
 			<select name="human_id" data-dojo-type="dijit.form.Select" style="width: 350px;">
-				<?php foreach( $params['human']->get_all() as $h ): ?>
+				<?php foreach( $data['human']->get_all() as $h ): ?>
 					<option value="<?= $h['id'] ?>"><?= $h['name'] ?></option>
 				<?php endforeach; ?>
 			</select>
@@ -121,7 +122,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 		<div id="new_personalia" style="display:none;">
 			<?= Template::show(
 				'include/personal_data_subform',
-				isset($params['personal_data']) ? $params['personal_data'] : array()
+				isset($data['personal_data']) ? $data['personal_data'] : array()
 			) ?>
 		</div>
 
@@ -138,8 +139,9 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 			});
 		</script>
 	</fieldset>
-
-	<input type="submit" data-dojo-type="dijit.form.Button" label="Добавить" />
+<?php endif; ?>
+	<br/>
+	<input type="submit" data-dojo-type="dijit.form.Button" label="<?= isset($data['edit']) && $data['edit'] ? 'Редактировать' : 'Добавить' ?>" />
 </form>
 
 <script type="text/javascript">

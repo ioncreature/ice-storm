@@ -39,10 +39,10 @@ Template::ob_to_block( 'body' );
 	<!-- CENTER PANE -->
 	<section id="center_pane" dojoType="dijit.layout.ContentPane" region="center">
 		<h2 id="depatrment_name">Все сотрудики</h2>
-		<div style="overflow: hidden">
-			<div style="float:left">
-				<a href="<?= WEBURL .'org/employee/new' ?>"><button class="common">Новый сотрудник</button></a>
-			</div>
+		<div style="overflow: hidden; padding: 4px 0px 12px 0px;">
+			<?php if ( Auth::$acl->employee_add ): ?>
+				<a class="a-button" href="<?= WEBURL .'org/employee/new' ?>">Новый сотрудник</a>
+			<?php endif; ?>
 			<div style="float: right; width: 50%; text-align: right; padding: 2px;">
 				<form id="staff_search" action="<?= WEBURL .'service/staff/search/' ?>" method="POST">
 					Поиск&nbsp;<input name="name" type="text" class="common" style="display: inline-block; width:200px; margin:0px; padding:0px;" />

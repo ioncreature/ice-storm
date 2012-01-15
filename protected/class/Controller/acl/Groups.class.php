@@ -7,11 +7,15 @@
 namespace Controller\acl;
 use \Controller\AbstractController as Controller;
 
-class Group extends Controller {
+class Groups extends Controller {
 
 	protected $routes = array(
 		'get' => array(
 			'' => array(
+				'method' => 'show',
+				'permission' => 'acl_read',
+			),
+			'::int' => array(
 				'method' => 'show',
 				'permission' => 'acl_read',
 			)
@@ -23,9 +27,7 @@ class Group extends Controller {
 				'view' => '\View\Json'
 			)
 		),
-		'delete' => array(
-
-		)
+		'delete' => array()
 	);
 
 
@@ -36,37 +38,70 @@ class Group extends Controller {
 	}
 
 
-	public function show(){
+	public function show( $group_id = null ){
+		$group_id = (int) $group_id;
+		$groups = $this->db->query("
+			SELECT
+				auth_groups.id,
+				auth_groups.name,
+				auth_groups.description
+			FROM
+				auth_groups
+			". ($group_id > 0 ? "WHERE auth_groups.id = '$group_id'" : '') ."
+			ORDER BY auth_groups.name
+			LIMIT 8
+		", "id" );
+		$permissions = $this->db->query( "SELECT id, name, description FROM auth_permissions", "id" );
+
+		$in = implode( ',', array_keys($groups) );
+		foreach ( $permissions as $id => &$p )
+			$p['subjects'] = $this->db->query("
+				SELECT
+					permission_id,
+					group_id as id,
+					type
+				FROM auth_group_permissions
+				WHERE
+					group_id IN ($in) AND
+					permission_id = '$id'
+			", 'id' );
+
+		$this->view->set_template( 'page/acl' );
+		return array(
+			'subjects' => $groups,
+			'permissions' => $permissions,
+			'path' => $this->get_controller_path(),
+			'type' => 'groups'
+		);
 	}
 
 
 	/**
-	 * Edit user rights
+	 * Edit group rights
 	 * @return array
 	 */
 	public function edit(){
 		$r = $this->request;
 		$db = $this->db;
 
-		if ( isset( $r->permission_id, $r->group_id, $r->stat ) ){
+		if ( isset($r->permission_id, $r->subject_id, $r->type) ){
 			$permission_id = (int) $r->permission_id;
-			$group_id = (int) $r->group_id;
-			$type = mb_strtolower($r->stat) === 'allow' ? 'allow' : 'deny';
+			$subject_id = (int) $r->subject_id;
+			$type = mb_strtolower($r->type) === 'allow' ? 'allow' : 'deny';
 
-			if ( mb_strtolower($r->stat) === 'allow' ){
+			if ( mb_strtolower($r->type) === 'allow' ){
 				// проверка
 				$perm = $db->fetch_query("
 					SELECT *
 					FROM auth_group_permissions
 					WHERE
-						group_id = '$group_id' and
+						group_id = '$subject_id' and
 						permission_id = '$permission_id'
 					LIMIT 1
 				");
-
 				if ( !$perm )
 					$db->insert( 'auth_group_permissions', array(
-						'group_id' => $group_id,
+						'group_id' => $subject_id,
 						'permission_id' => $permission_id,
 						'type' => 'allow'
 					));
@@ -76,7 +111,7 @@ class Group extends Controller {
 					DELETE
 					FROM auth_group_permissions
 					WHERE
-						group_id = '$group_id' and
+						group_id = '$subject_id' and
 						permission_id = '$permission_id'
 					LIMIT 1
 				");

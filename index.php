@@ -24,11 +24,12 @@ try {
 		case "acl":
 			switch ( $r->get(1) ){
 				case "groups":
-					include "protected/modules/acl/groups.module.php";
-					break;
+					$response->send_controller( new \Controller\acl\Groups($r, 'acl/groups') );
+					die;
+//					include "protected/modules/acl/groups.module.php";
+//					break;
 				case "users":
-					$service = new \Controller\acl\Users( $r, 'acl/users' );
-					$response->send_controller( $service );
+					$response->send_controller( new \Controller\acl\Users( $r, 'acl/users' ) );
 					die;
 				case "usersingroups":
 					include "protected/modules/acl/usersingroups.module.php";

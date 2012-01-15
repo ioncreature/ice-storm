@@ -20,6 +20,6 @@
 </div>
 
 <?php
-if ( isset($params['msg']) and IS_DEBUG )
-	echo $params['msg'];
+if ( isset($data['msg']) and IS_DEBUG )
+	echo $data['msg'];
 ?>

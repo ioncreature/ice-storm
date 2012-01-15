@@ -5,9 +5,13 @@
  */
 ?>
 
-<h2><?= $params['personal']['full_name'] ?></h2><br/>
+<?php if ( isset($data['edit']) ): ?>
+	<a class="a-button" style="float: right;" href="<?= $data['edit'] ?>">редактировать</a>
+<?php endif; ?>
 
-<?php if ( isset($params['successfully_added']) and $params['successfully_added'] ): ?>
+<h2><?= $data['personal']['full_name'] ?></h2><br/>
+
+<?php if ( isset($data['successfully_added']) and $data['successfully_added'] ): ?>
 	<div class="success">Сотрудник успешно добавлен</div>
 <?php endif; ?>
 
@@ -17,12 +21,12 @@
 	</div>
 	<div style="float:left">
 		<ul style="list-style: none; list-style-position: inside;">
-			<li><?= $params['employee']['post'] ?></li>
-			<li><?= $params['department']['name'] ?></li>
-			<li>Дата начала работы: <?= $params['employee']['adoption_date'] ?></li>
-			<li>Руководитель подразделения: <?= $params['employee']['chief'] === 'yes' ? 'да' : 'нет' ?></li>
-			<?php if ( isset($params['employee']['phone']) ): ?>
-				<li>Телефон: <?= $params['employee']['phone'] ?></li>
+			<li><?= $data['employee']['post'] ?></li>
+			<li><?= $data['department']['name'] ?></li>
+			<li>Дата начала работы: <?= $data['employee']['adoption_date'] ?></li>
+			<li>Руководитель подразделения: <?= $data['employee']['chief'] === 'yes' ? 'да' : 'нет' ?></li>
+			<?php if ( isset($data['employee']['phone']) ): ?>
+				<li>Телефон: <?= $data['employee']['phone'] ?></li>
 			<?php endif; ?>
 		</ul>
 	</div>

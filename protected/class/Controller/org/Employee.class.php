@@ -22,6 +22,17 @@ class Employee extends Controller {
 			'add' => array(
 				'permission' => 'employee_add',
 				'method' => 'add_employee'
+			),
+			'::int' => array(
+				'permission' => 'employee_edit',
+				'method' => 'show_edit_employee',
+				'view' => '\View\Json'
+			)
+		),
+		'delete' => array(
+			'::int' => array(
+				'permission' => 'employee_delete',
+				'method' => 'delete_employee'
 			)
 		)
 	);
@@ -46,6 +57,7 @@ class Employee extends Controller {
 			'personal'	 => $employee->Human->export_array(),
 			'employee'   => $employee->export_array(),
 			'department' => $employee->Department->export_array(),
+			'edit'       => \Auth::$acl->employee_edit ? WEBURL . $this->get_controller_path() . $id .'/edit' : false
 		);
 	}
 
@@ -64,11 +76,12 @@ class Employee extends Controller {
 		$r = $this->request->get_all();
 		$employee = new \Model\Employee();
 		$db = \Fabric::get( 'db' );
+		if ( $this->validate($r) !== true )
+			// TODO: сделать нормальный вывод во вью
+			return false;
 
 		try {
 			$db->start();
-
-			$this->validate( $r );
 
 			// add new human
 			if ( isset($r['human_source']) and $r['human_source'] === 'new' ){
@@ -85,14 +98,13 @@ class Employee extends Controller {
 				$employee->apply( $data );
 				$employee->human_id = $employee->Human->id;
 				$employee->save();
-				var_dump($data, $employee->export_array(), $employee->exists(), $employee->Human->export_array() );
 			}
 			else
-				throw new \Exception\Validate( 'Human for employee not defined' );
+				throw new \Exception\SQL( 'Human for employee not defined' );
 
 			$db->commit();
 		}
-		catch ( \Exception\AbstractException $e ){
+		catch ( \Exception\SQL $e ){
 			$db->rollback();
 			$this->set_status( \Response\AbstractResponse::STATUS_ERROR );
 			return array( 'msg' => $e->getMessage() );
@@ -107,26 +119,28 @@ class Employee extends Controller {
 	public function show_edit_employee( $id ){
 		$employee = new \Model\Employee( $id );
 		return array(
+			'edit'          => true,
 			'employee'      => $employee,
 			'human'         => $employee->Human,
 			'department'    => $employee->Department,
-			'personal_data' => $employee->Human->exportArray()
+			'personal_data' => $employee->Human->export_array()
 		);
 	}
 
 
 	/**
 	 * @param array $r
-	 * @throws \Exception\Validate
+	 * @return string|true
 	 */
 	public function validate( array &$r ){
 		if ( isset($r['post'], $r['department_id'], $r['adoption_date'], $r['work_rate']) ){
 			if ( strtotime($r['adoption_date']) === -1 or strtotime($r['adoption_date']) > time() )
-				throw new \Exception\Validate( 'Incorrect adoption date' );
+				return 'Incorrect adoption date';
 
 			$r['adoption_date'] = date( 'Y-m-d', strtotime($r['adoption_date']) );
 		}
 		else
-			throw new \Exception\Validate( 'Required fields are not received' );
+			return 'Required fields are not received';
+		return true;
 	}
 }

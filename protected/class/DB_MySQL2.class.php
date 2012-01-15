@@ -19,7 +19,7 @@ class DB_MySQL2 implements ISQL_DB{
 	protected static	$query_count	= 0;		// Global number of queries
 	protected static	$query_time		= 0;		// All queries execution time
 	protected			$last_query_time= 0;		// Last query time
-	protected			$memcache		= null;		// Link to Memcache
+	protected			$cache			= null;		// Link to Memcache
 	protected			$mmc_prefix		= 'qc_';	// Prefix to memchace query names
 	protected			$query_data		= array();	// Last query data
 	protected			$last_query		= '';		// Last SQL query (plain text)
@@ -64,6 +64,11 @@ class DB_MySQL2 implements ISQL_DB{
 			$this->connection['pass'],
 			$this->connection['name']
 		);
+	}
+
+	protected function connect_cache(){
+		if ( !$this->cache )
+			$this->cache = Cache::get_instance();
 	}
 	
 	
@@ -158,12 +163,11 @@ class DB_MySQL2 implements ISQL_DB{
 		
 		// Получаем ключ запроса
 		$query_key = md5( $query );
-		
-		if ( !$this->memcache )
-			$this->memcache = Cache::get_instance();
-		
+
+		$this->connect_cache();
+
 		// Проверяем есть ли запрос в кеше
-		$res = $this->memcache->get( $this->mmc_prefix . $query_key );
+		$res = $this->cache->get( $this->mmc_prefix . $query_key );
 		if ( $res ){
 			$this->query_data = unserialize( $res );
 			$this->end_query();
@@ -182,7 +186,7 @@ class DB_MySQL2 implements ISQL_DB{
 		$this->fetch_all( $fetch_key );
 		
 		// Кешируем запрос
-		$this->memcache->set( $this->mmc_prefix . $query_key, serialize($this->query_data), $ttl );
+		$this->cache->set( $this->mmc_prefix . $query_key, serialize($this->query_data), $ttl );
 		
 		$this->end_query();
 		return $this->get_all();
@@ -192,13 +196,11 @@ class DB_MySQL2 implements ISQL_DB{
 	
 	// Обнуляет ранее кэшированный запрос
 	public function reset_cached_query( $query, $time = 0 ){
-		if ( !$this->memcache )
-			$this->memcache = Cache::get_instance();
+		$this->connect_cache();
 		
 		// Получаем ключ запроса
 		$query_key = md5( $query );
-		
-		$this->memcache->delete( $this->mmc_prefix . $query_key, $time );
+		$this->cache->delete( $this->mmc_prefix . $query_key, $time );
 	}
 	
 	
