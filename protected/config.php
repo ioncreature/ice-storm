@@ -1,9 +1,10 @@
 <?php
 // DEVELOPER
 if ( isset($_SERVER['ENV']) and ($_SERVER['ENV'] == "muchacho_home" or $_SERVER['ENV'] == "MUCHACHO") ){
-
 	// Application title
 	define( 'APP_TITLE', 'Ice Storm' );
+
+	define( 'APP_CHARSET', 'UTF-8' );
 
 	// Database
 	define( 'DB_HOST',		"localhost" );
@@ -34,6 +35,8 @@ else {
 	// Application title
 	define( 'APP_TITLE', 'Ice Storm' );
 
+	define( 'APP_CHARSET', 'UTF-8' );
+
 	// Database
 	define( 'DB_HOST',		"localhost" );
 	define( 'DB_USER',		"root" );
@@ -63,5 +66,5 @@ else {
 
 // КОНФИГУРАЦИЯ PHP-EXTENSIONS
 // MB_STRING
-mb_internal_encoding("UTF-8");
+mb_internal_encoding( APP_CHARSET );
 ?>

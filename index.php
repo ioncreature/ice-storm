@@ -26,8 +26,6 @@ try {
 				case "groups":
 					$response->send_controller( new \Controller\acl\Groups($r, 'acl/groups') );
 					die;
-//					include "protected/modules/acl/groups.module.php";
-//					break;
 				case "users":
 					$response->send_controller( new \Controller\acl\Users( $r, 'acl/users' ) );
 					die;
