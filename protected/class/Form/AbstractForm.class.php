@@ -7,8 +7,20 @@
 namespace Form;
 use \Html\Element;
 
-class Form extends Element {
+class AbstractForm extends Element {
 
+
+	/**
+	 * array(
+	 * 		'field1_name' => 'value',
+  	 * 		'field2_name' => array(
+	 *			'value' => some value,
+	 * 			'data_source' => ,
+	 * 			'validators' => array( 'NotNull' )
+	 * 		)
+	 * )
+	 * @var array
+	 */
 	protected $fields;
 
 	public $error_tpl_start = '<div class="error">';
@@ -59,15 +71,17 @@ class Form extends Element {
 
 
 	/**
-	 * Returns textual representation
+	 * Returns field value
 	 * @param $field
 	 * @param null $value
+	 * @return mixed
+	 * @throws \Exception\Form
 	 */
 	public function val( $field, $value = null ){
-		if ( isset($this->fields[$name]) )
-			return $this->fields[$name]->get_value();
+		if ( isset($this->fields[$field]) )
+			return $this->fields[$field]->get_value();
 		else
-			throw new \Exception\Form( "Field $name is not set" );
+			throw new \Exception\Form( "Field $field is not set" );
 	}
 
 
