@@ -9,7 +9,11 @@ use \Form\AbstractField as Field;
 
 class Input extends Field {
 
-	function validate(){
+	protected $tag_name;
 
+
+
+	function validate(){
+		return true;
 	}
 }

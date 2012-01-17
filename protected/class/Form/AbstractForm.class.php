@@ -12,16 +12,19 @@ class AbstractForm extends Element {
 
 	/**
 	 * array(
-	 * 		'field1_name' => 'value',
   	 * 		'field2_name' => array(
+	 * 			'type' => '\Form\Field\Input'
 	 *			'value' => some value,
-	 * 			'data_source' => ,
-	 * 			'validators' => array( 'NotNull' )
+	 * 			'constraints' => array( 'is_not_empty' ),
+	 * 			'attributes' => array( 'some' => 'attribute' )
 	 * 		)
 	 * )
 	 * @var array
 	 */
 	protected $fields;
+
+	// TODO: добавить обработку субформ
+	protected $subforms;
 
 	public $error_tpl_start = '<div class="error">';
 	public $error_tpl_separator = '<br/>';
@@ -37,12 +40,36 @@ class AbstractForm extends Element {
 	 * @param array $attributes
 	 * @param array $children
 	 */
-	public function __construct( $action, $method = 'post', $attributes = array(), $children = array() ){
-		// TODO: normalize URL
+	public function __construct( $action, $method = 'post', array $attributes = array() ){
+		// TODO: normalize $action URL
 		$this->set_attribute( 'action', $action );
 		$this->set_attribute( 'method', mb_strtoupper($method) );
 		unset( $attributes['action'], $attributes['method'] );
+
+		// парсинг полей формы
+		$this->parse_fields( $this->fields );
+
 		parent::__construct( 'form', $attributes, $children );
+	}
+
+
+
+	public function parse_fields( $fields ){
+		foreach ( $fields as $name => $props ){
+			unset( $this->fields[$name]);
+			$this->fields[$name] = $props;
+
+			$value = isset($props['value']) ? $props['value'] : null;
+			$constraints = isset($props['constraints']) ? $props['constraints'] : array();
+			$this->fields[$name]['instance'] = new $this->fields[$name]['type']( $name, $value, $constraints );
+			// TODO: дописать парсинг полей формы
+		}
+	}
+
+
+	public function get_field( $name ){
+		if ( !isset($this->fields[$name]) )
+			throw new \Exception\Form( "Unknown field with name '$name" );
 	}
 
 
@@ -61,7 +88,20 @@ class AbstractForm extends Element {
 
 
 	/**
+	 * Fetch fields values from $fields_values
+	 * @param array $fields_values
+	 * TODO: дописать
+	 */
+	public function fetch( array $fields_values ){
+		foreach ( $fields_values as $val ){
+
+		}
+	}
+
+
+	/**
 	 * Validate form
+	 * TODO: дописать
 	 */
 	public function validate(){
 		foreach ( $this->field as $name => $field )

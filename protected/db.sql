@@ -3,7 +3,7 @@
 -- Server version:               5.1.51-community - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             6.0.0.4018
--- Date/time:                    2012-01-10 22:51:47
+-- Date/time:                    2012-01-17 23:14:38
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -49,12 +49,11 @@ CREATE TABLE IF NOT EXISTS `auth_group_permissions` (
   KEY `auth_group_permissions_auth_permissions` (`permission_id`),
   CONSTRAINT `auth_group_permissions_auth_groups` FOREIGN KEY (`group_id`) REFERENCES `auth_groups` (`id`),
   CONSTRAINT `auth_group_permissions_auth_permissions` FOREIGN KEY (`permission_id`) REFERENCES `auth_permissions` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table ice-storm.auth_group_permissions: ~18 rows (approximately)
 /*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
 INSERT INTO `auth_group_permissions` (`id`, `group_id`, `permission_id`, `type`) VALUES
-	(1, 1, 1, 'allow'),
 	(4, 2, 3, 'allow'),
 	(5, 1, 5, 'allow'),
 	(6, 1, 4, 'allow'),
@@ -63,7 +62,6 @@ INSERT INTO `auth_group_permissions` (`id`, `group_id`, `permission_id`, `type`)
 	(11, 1, 6, 'allow'),
 	(13, 1, 9, 'allow'),
 	(14, 1, 8, 'allow'),
-	(15, 1, 2, 'allow'),
 	(16, 2, 7, 'allow'),
 	(17, 2, 6, 'allow'),
 	(18, 2, 8, 'allow'),
@@ -71,7 +69,9 @@ INSERT INTO `auth_group_permissions` (`id`, `group_id`, `permission_id`, `type`)
 	(20, 2, 4, 'allow'),
 	(21, 2, 2, 'allow'),
 	(22, 2, 1, 'allow'),
-	(23, 1, 3, 'allow');
+	(23, 1, 3, 'allow'),
+	(24, 1, 2, 'allow'),
+	(25, 1, 1, 'allow');
 /*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
 
 
@@ -224,9 +224,9 @@ CREATE TABLE IF NOT EXISTS `edu_course_themes` (
   KEY `term_id_index` (`term_id`),
   CONSTRAINT `edu_course_themes_edu_courses` FOREIGN KEY (`course_id`) REFERENCES `edu_courses` (`id`),
   CONSTRAINT `edu_course_themes_edu_course_terms` FOREIGN KEY (`term_id`) REFERENCES `edu_course_terms` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Темы из учебных курсов';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='Темы из учебных курсов';
 
--- Dumping data for table ice-storm.edu_course_themes: ~12 rows (approximately)
+-- Dumping data for table ice-storm.edu_course_themes: ~13 rows (approximately)
 /*!40000 ALTER TABLE `edu_course_themes` DISABLE KEYS */;
 INSERT INTO `edu_course_themes` (`id`, `course_id`, `term_id`, `name`, `hours`, `order`) VALUES
 	(1, 1, 1, 'Алфавит', 2, 1),
@@ -235,12 +235,13 @@ INSERT INTO `edu_course_themes` (`id`, `course_id`, `term_id`, `name`, `hours`, 
 	(4, 1, 1, 'Слоги', 2, 4),
 	(5, 1, 1, 'Слова', 3, 5),
 	(6, 1, 1, 'Части речи', 5, 2),
-	(7, 2, 5, 'Введение в предмет', 1, 1),
-	(8, 2, 5, 'Пюпитр и сюсюпитр', 2, 2),
-	(9, 2, 5, 'Песня про Голубой Вагончик', 2, 3),
+	(7, 2, 5, 'Введение в предмет', 1, 2),
+	(8, 2, 5, 'Пюпитр и сюсюпитр', 2, 3),
+	(9, 2, 5, 'Песня про Голубой Вагончик', 2, 1),
 	(10, 1, 2, 'test', 3, 1),
 	(11, 3, 9, 'Введение', 1, 1),
-	(12, 2, 7, 'asdasd', 5, 1);
+	(12, 2, 7, 'asdasd', 5, 1),
+	(13, 3, 10, 'Выведение', 6, 1);
 /*!40000 ALTER TABLE `edu_course_themes` ENABLE KEYS */;
 
 

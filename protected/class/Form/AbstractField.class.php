@@ -15,14 +15,19 @@ abstract class AbstractField extends \Html\Element {
 
 	protected $error_message;
 
+	protected $constraints;
+
 	/**
 	 * Constructor
 	 * @param $name
 	 * @param $value
 	 */
-	public function __construct( $name, $value = null ){
+	public function __construct( $name, $value = null, array $constraints = array() ){
 		$this->name = $name;
 		$this->value = $value;
+		$this->constraints = $constraints;
+
+		parent::__construct( $this->tag_name, array( 'type' ) );
 	}
 
 
@@ -55,9 +60,15 @@ abstract class AbstractField extends \Html\Element {
 	}
 
 
+	public function set_constraints( array $c ){
+		$this->constraints = $c;
+	}
+
+
 	/**
-	 * @abstract
 	 * @return boolean
 	 */
-	abstract public function validate();
+	public function validate(){
+
+	}
 }

@@ -9,6 +9,6 @@ namespace Form;
 class Employee extends Form {
 
 	protected $fields = array(
-
+		'post'
 	);
 }

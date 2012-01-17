@@ -75,20 +75,25 @@ class Element {
 
 
 	public function render_start(){
-		return '<'. $this->tag_name .' '. $this->render_attributes() .'>';
+		return '<'. $this->tag_name .' '. $this->render_attributes() ;
 	}
 
 
 	public function render_body(){
-		$out = '';
-		foreach ( $this->children as $id => $child )
-			$out .= $child->render();
-		return $out;
+		if ( $this->children ){
+			// TODO: добавить возможность рендеринга в шаблон
+			$out = '>';
+			foreach ( $this->children as $id => $child )
+				$out .= $child->render();
+			return $out;
+		}
+		else
+			return '';
 	}
 
 
 	public function render_end(){
-		return '</'. $this->tag_name .'>';
+		return $this->children ? '</'. $this->tag_name .'>' : '/>';
 	}
 
 
