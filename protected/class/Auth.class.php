@@ -37,7 +37,7 @@ class Auth{
 			if ( isset($this->session->acl_guest) )
 				static::$acl = unserialize( $this->session->acl_guest );
 			else{
-				static::$acl = new ACL_Guest();
+				static::$acl = new \Acl\Guest();
 				$this->session->acl_guest = serialize( static::$acl );
 			}
 		}
@@ -53,12 +53,12 @@ class Auth{
 	
 	
 	public function login( $login, $pass ){
-		$user = new Model\User;
+		$user = new \Model\User;
 		$user->get_by_login_password( $login, $pass );
 		if ( $user->exists() ){
 			static::$logged = true;
 			static::$user = $user;
-			static::$acl = new ACL( $user->id );
+			static::$acl = new \Acl\User( $user->id );
 			$this->session->user = serialize( static::$user );
 			$this->session->acl = serialize( static::$acl );
 			unset( $this->session->acl_guest );

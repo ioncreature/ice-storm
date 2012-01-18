@@ -13,21 +13,23 @@ abstract class AbstractField extends \Html\Element {
 
 	protected $name;
 
+	protected $constraints;
+
 	protected $error_message;
 
-	protected $constraints;
 
 	/**
 	 * Constructor
 	 * @param $name
-	 * @param $value
+	 * @param null $value
+	 * @param array $constraints
 	 */
 	public function __construct( $name, $value = null, array $constraints = array() ){
 		$this->name = $name;
 		$this->value = $value;
 		$this->constraints = $constraints;
 
-		parent::__construct( $this->tag_name, array( 'type' ) );
+		parent::__construct( $this->tag_name, array('type' => '') );
 	}
 
 

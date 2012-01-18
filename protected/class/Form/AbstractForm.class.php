@@ -7,7 +7,7 @@
 namespace Form;
 use \Html\Element;
 
-class AbstractForm extends Element {
+abstract class AbstractForm extends Element {
 
 
 	/**
@@ -21,7 +21,7 @@ class AbstractForm extends Element {
 	 * )
 	 * @var array
 	 */
-	protected $fields;
+	protected $fields = array();
 
 	// TODO: добавить обработку субформ
 	protected $subforms;
@@ -38,16 +38,16 @@ class AbstractForm extends Element {
 	 * @param $action
 	 * @param string $method
 	 * @param array $attributes
-	 * @param array $children
 	 */
 	public function __construct( $action, $method = 'post', array $attributes = array() ){
 		// TODO: normalize $action URL
 		$this->set_attribute( 'action', $action );
+		// TODO: validate method
 		$this->set_attribute( 'method', mb_strtoupper($method) );
 		unset( $attributes['action'], $attributes['method'] );
 
 		// парсинг полей формы
-		$this->parse_fields( $this->fields );
+		$children = $this->add_fields( $this->fields );
 
 		parent::__construct( 'form', $attributes, $children );
 	}
@@ -55,15 +55,18 @@ class AbstractForm extends Element {
 
 
 	public function parse_fields( $fields ){
+		$children = array();
 		foreach ( $fields as $name => $props ){
-			unset( $this->fields[$name]);
+			unset( $this->fields[$name] );
 			$this->fields[$name] = $props;
 
 			$value = isset($props['value']) ? $props['value'] : null;
 			$constraints = isset($props['constraints']) ? $props['constraints'] : array();
 			$this->fields[$name]['instance'] = new $this->fields[$name]['type']( $name, $value, $constraints );
-			// TODO: дописать парсинг полей формы
+			$children[] = $this->fields[$name]['instance'];
 		}
+
+		return $children;
 	}
 
 
@@ -104,9 +107,15 @@ class AbstractForm extends Element {
 	 * TODO: дописать
 	 */
 	public function validate(){
-		foreach ( $this->field as $name => $field )
-			if ( !$field->validate() )
+		$valid = true;
+		foreach ( $this->fields as $name => $field ){
+			if ( !$field['instance']->validate() ){
 				$this->add_error( $name, $field->get_error() );
+				$valid = false;
+			}
+		}
+
+		return $valid;
 	}
 
 

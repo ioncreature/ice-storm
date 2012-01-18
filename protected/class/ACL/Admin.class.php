@@ -1,12 +1,14 @@
 <?php
-/*
-	Admin access list
-	Класс для полного доступа - Аццкий Одмин
-	Marenin Alex
-	July 2011
-*/
+/**
+ * Admin access list
+ * Класс для полного доступа - Аццкий Одмин
+ * Marenin Alex
+ * July 2011
+ */
 
-class ACL_Admin extends ACL{
+namespace Acl;
+
+class Admin extends \Acl\User {
 	
 	public function __construct(){
 		parent::__construct( 0 );

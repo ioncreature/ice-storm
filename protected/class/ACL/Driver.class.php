@@ -1,11 +1,13 @@
 <?php
-/*
-	Abstarct implementation fo ACL driver
-	Marenin Alex
-	July 2011
-	
-*/
-abstract class ACL_Driver {
+/**
+ * Abstarct implementation fo Acl driver
+ * Marenin Alex
+ * July 2011
+ */
+
+namespace Acl;
+
+abstract class Driver {
 	
 	// Возвращает все разрешения
 	// массив вида: array( <perm_code_name>: <perm_full_name>, ... )
@@ -63,7 +65,4 @@ abstract class ACL_Driver {
 	// Возвращает true|false
 	abstract public function user_in_group( $user_id, $group_id );
 	
-	
-	
 }
-?>

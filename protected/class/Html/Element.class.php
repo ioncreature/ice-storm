@@ -8,7 +8,7 @@ namespace Html;
 
 class Element {
 
-	protected $tag_name;
+	protected $tag_name = 'div';
 
 	/**
 	 * @var array
