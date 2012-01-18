@@ -13,7 +13,7 @@ abstract class AbstractField extends \Html\Element {
 
 	protected $name;
 
-	protected $constraints;
+	protected $constraints = array();
 
 	protected $error_message;
 
@@ -27,6 +27,7 @@ abstract class AbstractField extends \Html\Element {
 	public function __construct( $name, $value = null, array $constraints = array() ){
 		$this->name = $name;
 		$this->value = $value;
+		// TODO: merge constraints
 		$this->constraints = $constraints;
 
 		parent::__construct( $this->tag_name, array('type' => '') );
@@ -71,6 +72,7 @@ abstract class AbstractField extends \Html\Element {
 	 * @return boolean
 	 */
 	public function validate(){
-
+		// make validation
+		return \Helper\Validator::validate( $this->value, $this->constraints );
 	}
 }

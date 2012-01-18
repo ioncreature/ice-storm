@@ -8,7 +8,7 @@ namespace Helper;
 
 /**
  * Класс для валидации.
- * По всеё видимости скоро станет абстрактным
+ * По всей видимости скоро станет абстрактным
  * и от него будут наследоваться другие валидаторы, а пока так
  * TODO: добавить добавление ошибок
  */
@@ -38,7 +38,37 @@ class Validator {
 	}
 
 
+	/**
+	 * @static
+	 * @param $c1
+	 * @param $c2
+	 * @return array
+	 * TODO: дописать
+	 */
+	public static function merge_constraints( $c1, $c2 ){
+		$c_res = array();
+		foreach ( $c1 as $k => $v ){
+			if ( is_array($v) ){
+
+			}
+		}
+		$c_res = $c1 + $c2;
+		return $c_res;
+	}
+
+
 	public static function is_not_empty( $value ){
 		return !empty( $value );
 	}
+
+
+	public static function is_numeric( $value ){
+		return is_numeric( $value );
+	}
+
+
+	public static function not_zero( $value ){
+		return (int) $value !== 0;
+	}
+
 }

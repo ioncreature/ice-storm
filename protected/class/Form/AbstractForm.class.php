@@ -42,7 +42,7 @@ abstract class AbstractForm extends Element {
 	public function __construct( $action, $method = 'post', array $attributes = array() ){
 		// TODO: normalize $action URL
 		$this->set_attribute( 'action', $action );
-		// TODO: validate method
+		// TODO: validate http method
 		$this->set_attribute( 'method', mb_strtoupper($method) );
 		unset( $attributes['action'], $attributes['method'] );
 
@@ -84,7 +84,7 @@ abstract class AbstractForm extends Element {
 	 */
 	public function field( $name ){
 		if ( isset($this->fields[$name]) )
-			return $this->fields[$name];
+			return $this->fields[$name]['instance'];
 		else
 			throw new \Exception\Form( "Field $name is not set" );
 	}
@@ -96,9 +96,9 @@ abstract class AbstractForm extends Element {
 	 * TODO: дописать
 	 */
 	public function fetch( array $fields_values ){
-		foreach ( $fields_values as $val ){
-
-		}
+		foreach ( $fields_values as $name => $value )
+			if ( isset($this->fields[$name]) )
+				$this->fields[$name]['instance']->set_value( $value );
 	}
 
 
@@ -127,8 +127,12 @@ abstract class AbstractForm extends Element {
 	 * @throws \Exception\Form
 	 */
 	public function val( $field, $value = null ){
-		if ( isset($this->fields[$field]) )
-			return $this->fields[$field]->get_value();
+		if ( isset($this->fields[$field]) ){
+			if ( $value !== null )
+				return $this->fields[$field]['instance']->set_value( $value );
+			else
+				return $this->fields[$field]['instance']->get_value();
+		}
 		else
 			throw new \Exception\Form( "Field $field is not set" );
 	}
