@@ -20,7 +20,6 @@ class Validator {
 		$valid = true;
 
 		foreach ( $constraints as $k => $v ){
-
 			if ( is_array($v) )
 				$res = call_user_func_array( array(self, $k), array($v) );
 			else {
@@ -43,17 +42,13 @@ class Validator {
 	 * @param $c1
 	 * @param $c2
 	 * @return array
-	 * TODO: дописать
 	 */
 	public static function merge_constraints( $c1, $c2 ){
-		$c_res = array();
-		foreach ( $c1 as $k => $v ){
-			if ( is_array($v) ){
-
-			}
-		}
-		$c_res = $c1 + $c2;
-		return $c_res;
+		$res = $c1;
+		foreach ( $c2 as $v )
+			if ( !in_array($v, $c1, true) )
+				$res[] = $v;
+		return $res;
 	}
 
 
