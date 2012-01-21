@@ -22,6 +22,13 @@ class Element {
 
 
 	/**
+	 * Link to parent html element
+	 * @var \Html\Element
+	 */
+	protected $parent;
+
+
+	/**
 	 * Constructor
 	 * @param $tag_name
 	 * @param array $attributes

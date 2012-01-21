@@ -20,17 +20,17 @@ abstract class AbstractField extends \Html\Element {
 
 	/**
 	 * Constructor
-	 * @param $name
-	 * @param null $value
+	 * @param       $name
+	 * @param null  $value
 	 * @param array $constraints
+	 * @param array $attributes
 	 */
-	public function __construct( $name, $value = null, array $constraints = array() ){
+	public function __construct( $name, $value = null, array $constraints = array(), array $attributes = array() ){
 		$this->name = $name;
 		$this->value = $value;
-		// TODO: merge constraints
-		$this->constraints = $constraints;
+		$this->set_constraints( $constraints );
 
-		parent::__construct( $this->tag_name, array('type' => '') );
+		parent::__construct( $this->tag_name, $attributes );
 	}
 
 
@@ -64,7 +64,8 @@ abstract class AbstractField extends \Html\Element {
 
 
 	public function set_constraints( array $c ){
-		$this->constraints = $c;
+		$this->constraints = \Helper\Validator::merge_constraints( $this->constraints, $c );
+		return $this;
 	}
 
 
