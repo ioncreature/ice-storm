@@ -91,7 +91,7 @@ abstract class AbstractModel {
 	/**
 	 * Mega getter. Returns field value or some model instance
 	 * @param $key
-	 * @return bool|Model|field_value
+	 * @return bool|string|\Model\AbstractModel
 	 */
 	public function __get( $key ){
 		if ( isset($this->data[$key]) )
@@ -118,8 +118,6 @@ abstract class AbstractModel {
 		);
 	}
 
-	public function __wakeup(){
-	}
 
 	public function exists(){
 		return $this->exists;
@@ -179,6 +177,10 @@ abstract class AbstractModel {
 	}
 
 
+	/**
+	 * @param $data
+	 * @return bool
+	 */
 	protected function load( $data ){
 		$this->exists = true;
 		$this->reset();
@@ -188,7 +190,11 @@ abstract class AbstractModel {
 	}
 
 
+	/**
+	 * Удаляет изменения в модели.
+	 */
 	public function reset(){
+		unset( $this->data );
 		$this->data = array();
 	}
 
@@ -210,6 +216,9 @@ abstract class AbstractModel {
 	}
 
 
+	/**
+	 * Callback fired before calling Model->save()
+	 */
 	protected function before_save(){
 		// redefine in descendants
 	}
@@ -233,6 +242,10 @@ abstract class AbstractModel {
 	}
 
 
+	/**
+	 * Returns model fields values as array( <field_name> => <field_value> )
+	 * @return array
+	 */
 	public function export_array(){
 		return $this->data + $this->orig_data;
 	}

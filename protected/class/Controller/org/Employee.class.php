@@ -13,13 +13,14 @@ class Employee extends Controller {
 			'' => 'redirect',
 			'new' => 'show_add_employee',
 			'::int' => 'show_employee',
+			'::int/success' => 'show_employee_added',
 			'::int/edit' => array(
 				'permission' => 'employee_edit',
 				'method' => 'show_edit_employee'
 			)
 		),
 		'post' => array(
-			'add' => array(
+			'' => array(
 				'permission' => 'employee_add',
 				'method' => 'add_employee'
 			),
@@ -62,6 +63,13 @@ class Employee extends Controller {
 	}
 
 
+	public function show_employee_added( $id ){
+		$res = $this->show_employee( $id );
+		$res['successfully_added'] = true;
+		return $res;
+	}
+
+
 	public function show_add_employee(){
 		$employee = new \Model\Employee();
 		return array(
@@ -79,6 +87,8 @@ class Employee extends Controller {
 		if ( $this->validate($r) !== true )
 			// TODO: сделать нормальный вывод во вью
 			return false;
+
+		$form = new \Form\Employee( WEBURL. $this->get_controller_path(), 'POST' );
 
 		try {
 			$db->start();
@@ -110,9 +120,8 @@ class Employee extends Controller {
 			return array( 'msg' => $e->getMessage() );
 		}
 
-		$res = $this->show_employee( $employee->id );
-		$res['successfully_added'] = true;
-		return $res;
+		// TODO: придумать красивый способ для редиректа (мб через \Response\AbstractResponse)
+		redirect( WEBURL . $this->get_controller_path() . $employee->id .'/success' );
 	}
 
 

@@ -19,6 +19,10 @@ abstract class AbstractController {
 	 * @var \View\AbstractView
 	 */
 	protected $view;
+
+	/**
+	 * @var string - view class name
+	 */
 	protected $default_view = '\View\WebPage';
 
 	/**
@@ -54,7 +58,6 @@ abstract class AbstractController {
 	 * @var int status code
 	 */
 	protected $status = Response::STATUS_OK;
-
 
 	// callback variables
 	protected $callback;

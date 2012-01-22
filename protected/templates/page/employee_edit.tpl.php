@@ -23,7 +23,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 <form
 	class="common_form"
 	id="employee_form"
-	action="<?= WEBURL .'org/employee/add' ?>"
+	action="<?= WEBURL .'org/employee' ?>"
 	method="POST"
 	data-dojo-type="app.widget.Form"
 >

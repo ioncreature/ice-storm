@@ -6,9 +6,13 @@
 
 namespace Form;
 
-class Employee extends Form {
+class Employee extends AbstractForm {
 
 	protected $fields = array(
-		'post'
+		'post' => array(
+			'type' => '\Form\Field\Input',
+			'value' => ''
+		)
 	);
+
 }

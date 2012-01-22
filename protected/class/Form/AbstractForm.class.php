@@ -41,7 +41,7 @@ abstract class AbstractForm extends Element {
 	 * @param string $method
 	 * @param array  $attributes
 	 */
-	public function __construct( $action, $method = 'post', array $attributes = array() ){
+	public function __construct( $action, $method = 'POST', array $attributes = array() ){
 		// TODO: normalize $action URL
 		$this->set_attribute( 'action', $action );
 		$this->set_attribute( 'method', $this->validate_http_method($method) );
