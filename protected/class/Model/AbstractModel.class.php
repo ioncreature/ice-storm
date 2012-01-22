@@ -262,7 +262,7 @@ abstract class AbstractModel {
 		foreach ( $this->fields as $k => $v ){
 			$field = is_array($v) ? $k : $v;
 			$default = is_array($v) ? (isset($v['default']) ? $v['default'] : null) : null;
-			$out[$field] = isset( $array[$key_prefix.$field] ) ? $array[$key_prefix.$field] : $default;
+			$out[$field] = isset( $array[$key_prefix.$field] ) ? $array[$key_prefix . $field] : $default;
 		}
 		return $out;
 	}

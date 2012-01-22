@@ -33,7 +33,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 	<label>
 		<span>Должность</span>
 		<input
-			value=""
+			value="<?= $data['form']->val( 'post' ); ?>"
 			name="post"
 			class="common_input"
 			data-dojo-type="dijit.form.ValidationTextBox"

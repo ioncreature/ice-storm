@@ -11,11 +11,22 @@ abstract class AbstractField extends \Html\Element {
 
 	protected $value;
 
+	/**
+	 * @var string
+	 */
 	protected $name;
 
+
+	/**
+	 * @var array
+	 */
 	protected $constraints = array();
 
 	protected $error_message;
+
+
+
+	protected $data_source;
 
 
 	/**
@@ -46,6 +57,11 @@ abstract class AbstractField extends \Html\Element {
 
 	public function get_name(){
 		return $this->name;
+	}
+
+
+	public function set_data_source( /*Some Class*/ $ds ){
+		$this->data_source = $ds;
 	}
 
 

@@ -9,7 +9,7 @@ use \Controller\AbstractController as Controller;
 
 class Employee extends Controller {
 	public $routes = array(
-		'get' => array(
+		'GET' => array(
 			'' => 'redirect',
 			'new' => 'show_add_employee',
 			'::int' => 'show_employee',
@@ -19,18 +19,17 @@ class Employee extends Controller {
 				'method' => 'show_edit_employee'
 			)
 		),
-		'post' => array(
+		'POST' => array(
 			'' => array(
 				'permission' => 'employee_add',
 				'method' => 'add_employee'
 			),
 			'::int' => array(
 				'permission' => 'employee_edit',
-				'method' => 'show_edit_employee',
-				'view' => '\View\Json'
+				'method' => 'edit_employee'
 			)
 		),
-		'delete' => array(
+		'DELETE' => array(
 			'::int' => array(
 				'permission' => 'employee_delete',
 				'method' => 'delete_employee'
@@ -75,7 +74,8 @@ class Employee extends Controller {
 		return array(
 			'employee'   => $employee,
 			'human'      => $employee->Human,
-			'department' => $employee->Department
+			'department' => $employee->Department,
+			'form'       => new \Form\Employee( $this->get_controller_path(), 'POST' )
 		);
 	}
 
@@ -88,7 +88,7 @@ class Employee extends Controller {
 			// TODO: сделать нормальный вывод во вью
 			return false;
 
-		$form = new \Form\Employee( WEBURL. $this->get_controller_path(), 'POST' );
+		$form = new \Form\Employee( $this->get_controller_path(), 'POST' );
 
 		try {
 			$db->start();
@@ -125,14 +125,34 @@ class Employee extends Controller {
 	}
 
 
+	public function edit_employee( $id ){
+		$out = $this->show_edit_employee( $id );
+		$form = $out['form'];
+		$employee = $out['employee'];
+
+		$form->fetch( $this->request->export_array() );
+		if ( $form->validate() ){
+			$employee->apply( $employee->filter($form->export_array()) );
+			$employee->save();
+			redirect( $this->get_controller_path() . $employee->id .'/success' );
+		}
+		else
+			return $out;
+	}
+
+
 	public function show_edit_employee( $id ){
 		$employee = new \Model\Employee( $id );
+		$form = new \Form\Employee( $this->get_controller_path(), 'POST' );
+		$form->fetch( $employee->export_array() );
+
 		return array(
 			'edit'          => true,
 			'employee'      => $employee,
 			'human'         => $employee->Human,
 			'department'    => $employee->Department,
-			'personal_data' => $employee->Human->export_array()
+			'personal_data' => $employee->Human->export_array(),
+			'form'			=> $form
 		);
 	}
 

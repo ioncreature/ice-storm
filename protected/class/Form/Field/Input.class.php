@@ -8,6 +8,5 @@ namespace Form\Field;
 use \Form\AbstractField as Field;
 
 class Input extends Field {
-
 	protected $tag_name = 'input';
 }

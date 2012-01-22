@@ -29,11 +29,11 @@ abstract class AbstractController {
 	 * List of routes from root $path
 	 * This param must looks like:
 	 * array(
-	 * 		'get' => array(
+	 * 		'GET' => array(
 	 * 			'::int' => 'method_name',
 	 * 			'children/::int' => 'get_children'
 	 * 		),
-	 * 		'post' => array(
+	 * 		'POST' => array(
 	 * 			'add' => 'some_add_method',
 	 *          'edit' => array(
 	 *              'method' => 'method_name',
@@ -41,8 +41,8 @@ abstract class AbstractController {
 	 * 				'view' => '\View\Json'
 	 *          )
 	 * 		),
-	 *      'put' => ...,
-	 *      'delete' => ...
+	 *      'PUT' => ...,
+	 *      'DELETE' => ...
 	 * )
 	 * @var array
 	 */

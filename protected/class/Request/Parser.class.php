@@ -12,7 +12,7 @@ namespace Request;
 class Parser {
 
 	// HTTP request method
-	protected $method = 'get';
+	protected $method = 'GET';
 
 	// Request data
 	protected $request_data = array();
@@ -45,7 +45,7 @@ class Parser {
 		foreach ( $_REQUEST as $key => $value ){
 			$this->request_data[ $key ] = $value;
 		}
-		$this->method = strtolower( $_SERVER['REQUEST_METHOD'] );
+		$this->method = $_SERVER['REQUEST_METHOD'];
 		$this->actions = $this->get_actions( $this->hash );
 	}
 
@@ -125,6 +125,15 @@ class Parser {
 
 
 	public function get_all(){
+		return $this->export_array();
+	}
+
+
+	/**
+	 * Exports data as array
+	 * @return array
+	 */
+	public function export_array(){
 		return $this->request_data;
 	}
 
