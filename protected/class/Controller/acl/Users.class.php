@@ -10,7 +10,7 @@ use \Controller\AbstractController as Controller;
 class Users extends Controller {
 
 	protected $routes = array(
-		'get' => array(
+		'GET' => array(
 			'' => array(
 				'method' => 'show',
 				'permission' => 'acl_read',
@@ -20,14 +20,14 @@ class Users extends Controller {
 				'permission' => 'acl_read',
 			)
 		),
-		'post' => array(
+		'POST' => array(
 			'' => array(
 				'method' => 'edit',
 				'permission' => 'acl_edit',
 				'view' => '\View\Json'
 			)
 		),
-		'delete' => array()
+		'DELETE' => array()
 	);
 
 

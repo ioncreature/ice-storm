@@ -186,16 +186,17 @@ abstract class AbstractModel {
 		$this->reset();
 		$this->data = array();
 		$this->orig_data = $data;
-		return true;
+		return $this;
 	}
 
 
 	/**
 	 * Удаляет изменения в модели.
+	 * @return \Model\AbstractModel
 	 */
 	public function reset(){
-		unset( $this->data );
 		$this->data = array();
+		return $this;
 	}
 
 
@@ -209,10 +210,11 @@ abstract class AbstractModel {
 
 	/**
 	 * Reloads data from database
-	 * @return void
+	 * @return \Model\AbstractModel
 	 */
 	public function update(){
 		$this->get_by_id( $this->{$this->primary_key} );
+		return $this;
 	}
 
 

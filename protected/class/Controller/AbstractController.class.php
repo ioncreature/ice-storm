@@ -76,7 +76,7 @@ abstract class AbstractController {
 			foreach ( $routes as $route => $fn ){
 				$path = ($this->root_path ? $this->root_path .'/' : '') . $route;
 				$params = $this->request->equal( $path, true );
-				if ( $params and $this->request->method() === $method ){
+				if ( $params and $this->request->method() === mb_strtoupper($method) ){
 
 					if ( is_array($fn) ){
 						// проверка прав доступа
