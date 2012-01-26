@@ -15,7 +15,8 @@ abstract class AbstractForm extends Element {
 	 * 			'type' => '\Form\Field\Input'
 	 *			'value' => some value,
 	 * 			'constraints' => array( 'is_not_empty' ),
-	 * 			'attributes' => array( 'some' => 'attribute' )
+	 * 			'attributes' => array( 'some' => 'attribute' ),
+	 * 			'data_source' => ''
 	 * 		)
 	 * )
 	 * @var array

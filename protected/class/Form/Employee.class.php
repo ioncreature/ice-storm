@@ -11,6 +11,11 @@ class Employee extends AbstractForm {
 	protected $fields = array(
 		'post' => array(
 			'type' => '\Form\Field\Input',
+			'value' => '',
+			'constraints' => ''
+		),
+		'departments' => array(
+			'type' => '\Form\Field\Select',
 			'value' => ''
 		)
 	);
