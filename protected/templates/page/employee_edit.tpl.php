@@ -58,7 +58,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 
 	<label>
 		<span>Рабочий телефон</span>
-		<input data-dojo-type="dijit.form.TextBox" value="" name="phone" class="common_input"></input>
+		<input data-dojo-type="dijit.form.TextBox" value="" name="phone" class="common_input">
 	</label>
 
 	<label>

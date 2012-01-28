@@ -10,13 +10,15 @@ class Element {
 
 	protected $tag_name = 'div';
 
+	protected $may_have_children = true;
+
 	/**
 	 * @var array
 	 */
 	protected $attributes;
 
 	/**
-	 * Array of \Html\Element objects
+	 * @var \Html\Element[]
 	 */
 	protected $children = array();
 
@@ -82,14 +84,17 @@ class Element {
 
 
 	public function render_start(){
-		return '<'. $this->tag_name .' '. $this->render_attributes() ;
+		$out  = '<'. $this->tag_name .' ';
+		$out .= $this->render_attributes();
+		$out .= $this->may_have_children ? '>' : ' />';
+		return $out;
 	}
 
 
 	public function render_body(){
 		if ( $this->children ){
 			// TODO: добавить возможность рендеринга в шаблон
-			$out = '>';
+			$out = '';
 			foreach ( $this->children as $id => $child )
 				$out .= $child->render();
 			return $out;
@@ -100,7 +105,7 @@ class Element {
 
 
 	public function render_end(){
-		return $this->children ? '</'. $this->tag_name .'>' : '/>';
+		return '</'. $this->tag_name .'>';
 	}
 
 
@@ -109,7 +114,7 @@ class Element {
 	 * @return string
 	 */
 	public function render(){
-		return $this->render_start() . $this->render_body() . $this->render_end();
+		return $this->render_start() . ($this->may_have_children ? ($this->render_body() . $this->render_end()) : '');
 	}
 
 

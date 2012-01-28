@@ -11,13 +11,18 @@ class Select extends \Form\AbstractField {
 
 	protected $options = array();
 
-	public function __construct( $name, $value = null, array $constraints = array(), array $attributes = array() ){
-		if ( $this->data_source ){
-		}
-		parent::__construct( $name, $value, $constraints, $attributes );
+
+	/**
+	 * @param array $options
+	 */
+	public function set_options( array $options ){
+		$this->options = $options;
 	}
 
-	public function render_body(){
 
+	public function render_body(){
+		$out = '';
+		foreach ( $this->options as $o )
+			$out .= "<option value='{$o['value']}'>{$o['name']}</option>";
 	}
 }

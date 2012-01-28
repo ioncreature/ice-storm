@@ -42,7 +42,15 @@ abstract class AbstractField extends \Html\Element {
 		$this->set_constraints( $constraints );
 
 		parent::__construct( $this->tag_name, $attributes );
+
+		$this->init();
 	}
+
+
+	/**
+	 * Calls after $this->_constructor()
+	 */
+	public function init(){}
 
 
 	public function get_value(){
