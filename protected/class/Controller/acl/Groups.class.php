@@ -53,6 +53,11 @@ class Groups extends Controller {
 		", "id" );
 		$permissions = $this->db->query( "SELECT id, name, description FROM auth_permissions", "id" );
 
+		if ( !$groups ){
+			$this->set_status( \Response\AbstractResponse::STATUS_NOT_FOUND );
+			return false;
+		}
+
 		$in = implode( ',', array_keys($groups) );
 		foreach ( $permissions as $id => &$p )
 			$p['subjects'] = $this->db->query("

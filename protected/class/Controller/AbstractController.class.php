@@ -82,23 +82,21 @@ abstract class AbstractController {
 						// проверка прав доступа
 						if ( isset($fn['permission']) and !\Auth::$acl->{$fn['permission']} )
 							$this->set_status( Response::STATUS_FORBIDDEN );
-
 						// проверка view
 						if ( isset($fn['view']) )
 							$this->view = new $fn['view'];
-
 						$this->callback = $fn['method'];
 					}
 					else
 						$this->callback = $fn;
 
-					if ( !$this->view and $this->default_view )
-						$this->view = new $this->default_view;
-
 					$this->params = is_array( $params ) ? $params : $this->params;
 					break;
 				}
 			}
+
+		if ( !$this->view and $this->default_view )
+			$this->view = new $this->default_view;
 		$this->init();
 	}
 

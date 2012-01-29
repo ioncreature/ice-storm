@@ -7,7 +7,7 @@
 namespace Form;
 use \Html\Element;
 
-abstract class AbstractForm extends Element {
+abstract class AbstractForm extends Element implements \I\Exportable {
 
 	/**
 	 * array(
@@ -33,7 +33,9 @@ abstract class AbstractForm extends Element {
 	protected $_fields = array();
 
 
-	// TODO: добавить в форму методы для прямой работы с моделью
+	/**
+	 * @var \Model\AbstractModel
+	 */
 	protected $model;
 
 
@@ -42,16 +44,19 @@ abstract class AbstractForm extends Element {
 	 * @param string $method
 	 * @param array  $attributes
 	 */
-	public function __construct( $action, $method = 'POST', array $attributes = array() ){
+	public function __construct( $action, $method = 'POST', array $attributes = array(), \Model\AbstractModel $model = null ){
 		// TODO: normalize $action URL
 		$this->set_attribute( 'action', $action );
 		$this->set_attribute( 'method', $this->validate_http_method($method) );
 		unset( $attributes['action'], $attributes['method'] );
+		$this->set_model( $model );
 
 		// парсинг полей формы
 		$this->parse_fields( $this->fields );
 
 		parent::__construct( 'form', $attributes, $this->_fields );
+
+		$this->init();
 	}
 
 
@@ -90,7 +95,7 @@ abstract class AbstractForm extends Element {
 	 */
 	public function get_field( $name ){
 		if ( isset($this->_fields[$name]) )
-			return $this->_fields[$name]['instance'];
+			return $this->_fields[$name];
 		else
 			throw new \Exception\Form( "Field $name is not set" );
 	}
@@ -98,12 +103,19 @@ abstract class AbstractForm extends Element {
 
 	/**
 	 * Fetch fields values from $fields_values
-	 * @param array $fields_values
+	 * @param array $values
 	 */
-	public function fetch( array $fields_values ){
-		foreach ( $fields_values as $name => $value )
-			if ( isset($this->fields[$name]) )
+	public function fetch( array $values ){
+		foreach ( $this->fields as $name => $params ){
+			$field = $this->_fields[$name];
+			if ( !isset($values[$name]) and $field instanceof \Form\Field\Checkbox )
+				$field->set_unchecked();
+			else {}
+		}
+		foreach ( $values as $name => $value )
+			if ( isset($this->fields[$name]) ){
 				$this->_fields[$name]->set_value( $value );
+			}
 	}
 
 
@@ -157,6 +169,14 @@ abstract class AbstractForm extends Element {
 		foreach ( $this->_fields as $field )
 			$out[$field->get_name()] = $field->get_value();
 		return $out;
+	}
+
+
+	/**
+	 * @param \Model\AbstractModel|null $model
+	 */
+	public function set_model( \Model\AbstractModel $model = null ){
+		$this->model = $model;
 	}
 }
 

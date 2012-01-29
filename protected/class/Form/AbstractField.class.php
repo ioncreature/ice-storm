@@ -16,15 +16,12 @@ abstract class AbstractField extends \Html\Element {
 	 */
 	protected $name;
 
-
 	/**
 	 * @var array
 	 */
 	protected $constraints = array();
 
 	protected $error_message;
-
-
 
 	protected $data_source;
 

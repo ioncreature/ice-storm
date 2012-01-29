@@ -9,6 +9,5 @@ use \Form\AbstractField as Field;
 
 class Input extends Field {
 	protected $tag_name = 'input';
-
 	protected $may_have_children = false;
 }

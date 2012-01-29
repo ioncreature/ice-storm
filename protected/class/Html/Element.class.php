@@ -8,14 +8,20 @@ namespace Html;
 
 class Element {
 
+	/**
+	 * @var string
+	 */
 	protected $tag_name = 'div';
 
+	/**
+	 * @var bool
+	 */
 	protected $may_have_children = true;
 
 	/**
 	 * @var array
 	 */
-	protected $attributes;
+	protected $attributes = array();
 
 	/**
 	 * @var \Html\Element[]
@@ -38,12 +44,15 @@ class Element {
 	 */
 	public function __construct( $tag_name, $attributes = array(), $children = array() ){
 		$this->set_tag( $tag_name );
-		$this->set_attributes( $attributes );
+		$this->set_attributes( $attributes + $this->attributes );
 		foreach ( $children as $id => $child )
 			$this->add_child( $child, $id );
 	}
 
 
+	/**
+	 * @param string $tag_name
+	 */
 	public function set_tag( $tag_name ){
 		// TODO: normalize tag name
 		$this->tag_name = $tag_name;
@@ -53,19 +62,33 @@ class Element {
 		return $this->tag_name;
 	}
 
+	/**
+	 * @param array $attr
+	 */
 	public function set_attributes( array $attr ){
 		foreach ( $attr as $name => $value )
 			$this->attributes[$name] = $value;
 	}
 
+	/**
+	 * @param string $name
+	 * @param mixed $value
+	 */
 	public function set_attribute( $name, $value ){
 		$this->attributes[$name] = $value;
 	}
 
+	/**
+	 * @param string $name
+	 */
 	public function remove_attribute( $name ){
 		unset( $this->attributes[$name] );
 	}
 
+	/**
+	 * @param string $name
+	 * @return null|mixed
+	 */
 	public function get_attribute( $name ){
 		return isset($this->attributes[$name]) ? $this->attributes[$name] : null;
 	}
@@ -81,8 +104,10 @@ class Element {
 			$this->children[$id] = $child;
 	}
 
-
-
+	/**
+	 * Renders tag name with attributes
+	 * @return string
+	 */
 	public function render_start(){
 		$out  = '<'. $this->tag_name .' ';
 		$out .= $this->render_attributes();
@@ -90,7 +115,10 @@ class Element {
 		return $out;
 	}
 
-
+	/**
+	 * Renders element children
+	 * @return string
+	 */
 	public function render_body(){
 		if ( $this->children ){
 			// TODO: добавить возможность рендеринга в шаблон
@@ -103,11 +131,13 @@ class Element {
 			return '';
 	}
 
-
+	/**
+	 * Renders closing tag
+	 * @return string
+	 */
 	public function render_end(){
 		return '</'. $this->tag_name .'>';
 	}
-
 
 	/**
 	 * Renders html element into string
@@ -118,10 +148,14 @@ class Element {
 	}
 
 
-	protected function render_attributes(){
+	public function render_attributes(){
 		$a = '';
 		foreach ( $this->attributes as $name => $value )
-			$a .= $name .'="'. \Helper\Html::encode_attr( $value ) .'" ';
+			$a .= $this->render_attribute( $name );
 		return $a;
+	}
+
+	public function render_attribute( $name ){
+		return $name .'="'. \Helper\Html::encode_attr( $this->attributes[$name] ) .'" ';
 	}
 }

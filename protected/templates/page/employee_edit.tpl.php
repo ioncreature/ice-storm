@@ -37,7 +37,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 			name="post"
 			class="common_input"
 			data-dojo-type="dijit.form.ValidationTextBox"
-			data-dojo-props="required: true, regExp: '[a-zA-zа-яА-Я0-9,\. -]{2,200}'"
+			data-dojo-props="required: true, regExp: '[a-zA-zа-яА-Я0-9,;\. -]{2,200}'"
 		/>
 	</label>
 
@@ -49,16 +49,12 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 			style="width: 240px;"
 			class="common_input"
 			requred="true"
-		>
-			<?php foreach( $data['department']->get_all() as $d ): ?>
-				<option value="<?= $d['id'] ?>"><?= $d['name'] ?></option>
-			<?php endforeach; ?>
-		</select>
+		><?= $data['form']->get_field('department_id')->render_body() ?></select>
 	</label>
 
 	<label>
 		<span>Рабочий телефон</span>
-		<input data-dojo-type="dijit.form.TextBox" value="" name="phone" class="common_input">
+		<input data-dojo-type="dijit.form.TextBox" value="<?= $data['form']->val( 'phone' ); ?>" name="phone" class="common_input">
 	</label>
 
 	<label>
@@ -94,6 +90,8 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 			type="checkbox"
 			name="is_chief"
 			data-dojo-type="dijit.form.CheckBox"
+			value="<?= $data['form']->val( 'is_chief' ) ?>"
+			<?= $data['form']->get_field( 'is_chief' )->render_attribute( 'checked' ) ?>
 		/>
 	</label>
 
@@ -120,10 +118,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 
 		<!-- NEW PERSONALIA -->
 		<div id="new_personalia" style="display:none;">
-			<?= Template::show(
-				'include/personal_data_subform',
-				isset($data['personal_data']) ? $data['personal_data'] : array()
-			) ?>
+			<?= Template::show( 'include/personal_data_subform', $data['personal_data'] ) ?>
 		</div>
 
 		<script type="text/javascript">

@@ -14,15 +14,23 @@ class Select extends \Form\AbstractField {
 
 	/**
 	 * @param array $options
+	 * @param string $value_key
+	 * @param string $title_key
 	 */
-	public function set_options( array $options ){
-		$this->options = $options;
+	public function set_options( array $options, $value_key = 'value', $title_key = 'title' ){
+		$this->options = array();
+		foreach ( $options as $o )
+			$this->options[] = array(
+				'title' => $o[$title_key],
+				'value' => $o[$value_key]
+			);
 	}
 
 
 	public function render_body(){
 		$out = '';
 		foreach ( $this->options as $o )
-			$out .= "<option value='{$o['value']}'>{$o['name']}</option>";
+			$out .= "<option value='{$o['value']}'>{$o['title']}</option>";
+		return $out;
 	}
 }

@@ -54,6 +54,11 @@ class Users extends Controller {
 		", "id" );
 		$permissions = $this->db->query( "SELECT id, name, description FROM auth_permissions", "id" );
 
+		if ( !$users ){
+			$this->set_status( \Response\AbstractResponse::STATUS_NOT_FOUND );
+			return false;
+		}
+
 		$in = implode( ',', array_keys($users) );
 		foreach ( $permissions as $id => &$p )
 			$p['subjects'] = $this->db->query("

@@ -150,6 +150,14 @@ class Template {
 	}
 
 
+	/**
+	 * Outputs template into block
+	 * @static
+	 * @param $block_name
+	 * @param $template_name
+	 * @param array $data
+	 * @return string
+	 */
 	public static function template_to_block( $block_name, $template_name, $data = array() ){
 		Template::ob_to_block( $block_name );
 		include TEMPLATES_PATH. $template_name .'.tpl.php';
@@ -181,6 +189,11 @@ class Template {
 	}
 
 
+	/**
+	 * Start catching output
+	 * @static
+	 * @param $name
+	 */
 	public static function ob_to_block( $name ){
 		if ( static::$ob_block_name )
 			static::ob_end();
@@ -190,6 +203,10 @@ class Template {
 	}
 
 
+	/**
+	 * Stop catching output and save into block;
+	 * @static
+	 */
 	public static function ob_end(){
 		if ( static::$ob_block_name )
 			static::add_to_block( static::$ob_block_name, ob_get_clean() );
