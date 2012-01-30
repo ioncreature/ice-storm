@@ -86,7 +86,6 @@ abstract class AbstractField extends \Html\Element {
 
 	public function set_constraints( array $c ){
 		$this->constraints = \Helper\Validator::merge_constraints( $this->constraints, $c );
-		return $this;
 	}
 
 

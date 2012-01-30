@@ -155,7 +155,9 @@ class Element {
 		return $a;
 	}
 
+
 	public function render_attribute( $name ){
-		return $name .'="'. \Helper\Html::encode_attr( $this->attributes[$name] ) .'" ';
+		return isset($this->attributes[$name]) ?
+			($name .'="'. \Helper\Html::encode_attr( $this->attributes[$name] ) .'"') : '';
 	}
 }

@@ -40,9 +40,10 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 
 
 	/**
-	 * @param        $action
-	 * @param string $method
-	 * @param array  $attributes
+	 * @param                           $action
+	 * @param string                    $method
+	 * @param array                     $attributes
+	 * @param \Model\AbstractModel|null $model
 	 */
 	public function __construct( $action, $method = 'POST', array $attributes = array(), \Model\AbstractModel $model = null ){
 		// TODO: normalize $action URL
@@ -58,6 +59,12 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 
 		$this->init();
 	}
+
+
+	/**
+	 * Redeclare in descendants
+	 */
+	public function init(){}
 
 
 	private function validate_http_method( $method ){
@@ -102,20 +109,19 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 
 
 	/**
-	 * Fetch fields values from $fields_values
+	 * Fetch fields values from $values
 	 * @param array $values
 	 */
 	public function fetch( array $values ){
 		foreach ( $this->fields as $name => $params ){
 			$field = $this->_fields[$name];
-			if ( !isset($values[$name]) and $field instanceof \Form\Field\Checkbox )
-				$field->set_unchecked();
-			else {}
-		}
-		foreach ( $values as $name => $value )
-			if ( isset($this->fields[$name]) ){
-				$this->_fields[$name]->set_value( $value );
+			if ( !isset($values[$name]) ){
+				if ( $field instanceof \Form\Field\Checkbox )
+					$field->set_value( false );
 			}
+			else
+				$this->_fields[$name]->set_value( $values[$name] );
+		}
 	}
 
 
