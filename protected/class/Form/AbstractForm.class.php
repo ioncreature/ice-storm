@@ -90,6 +90,10 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 			$constraints = isset($props['constraints']) ? $props['constraints'] : array();
 			$attributes = isset($props['attributes']) ? $props['attributes'] : array();
 			$this->_fields[$name] = new $this->fields[$name]['type']( $name, $value, $constraints, $attributes );
+			unset( $props['value'], $props['constraints'], $props['attributes'], $props['type'] );
+
+			foreach ( $props as $p => $value )
+				$this->_fields[$name]->{'set_'.$p}( $value );
 		}
 	}
 
@@ -113,15 +117,8 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 	 * @param array $values
 	 */
 	public function fetch( array $values ){
-		foreach ( $this->fields as $name => $params ){
-			$field = $this->_fields[$name];
-			if ( !isset($values[$name]) ){
-				if ( $field instanceof \Form\Field\Checkbox )
-					$field->set_value( false );
-			}
-			else
-				$this->_fields[$name]->set_value( $values[$name] );
-		}
+		foreach ( $this->fields as $name => $params )
+			$this->_fields[$name]->set_value( isset($values[$name]) ? $values[$name] : null );
 	}
 
 
@@ -183,6 +180,11 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 	 */
 	public function set_model( \Model\AbstractModel $model = null ){
 		$this->model = $model;
+	}
+
+
+	public function get_action(){
+		return $this->get_attribute( 'action' );
 	}
 }
 

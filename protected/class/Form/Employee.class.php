@@ -35,9 +35,16 @@ class Employee extends AbstractForm {
 			'value' => 'full'
 		),
 
-		'is_chief' => array(
+		'chief' => array(
 			'type' => '\Form\Field\Checkbox',
-			'value' => 'no'
+			'value' => 'no',
+			'attributes' => array(
+				'type' => "checkbox",
+				'name' => "chief",
+				'data-dojo-type' => "dijit.form.CheckBox"
+			),
+			'checked_value' => 'yes',
+			'unchecked_value' => 'no'
 		)
 	);
 

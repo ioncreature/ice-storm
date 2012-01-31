@@ -163,7 +163,7 @@ abstract class AbstractModel {
 		// Обновляем существующую запись
 		$set = '';
 		foreach( $this->data as $key => $value )
-			if ( $this->data[$key] !== $this->orig_data[$key] )
+			if ( $this->data[$key] !== $this->orig_data[$key] and $key !== $this->primary_key )
 				$set .= "`$key` = '". $this->db->safe( $this->data[$key] ) ."',";
 		$set = substr( $set, 0, -1 );
 

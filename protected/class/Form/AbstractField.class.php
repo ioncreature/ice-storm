@@ -25,6 +25,8 @@ abstract class AbstractField extends \Html\Element {
 
 	protected $data_source;
 
+	protected $empty = false;
+
 
 	/**
 	 * Constructor
@@ -35,7 +37,7 @@ abstract class AbstractField extends \Html\Element {
 	 */
 	public function __construct( $name, $value = null, array $constraints = array(), array $attributes = array() ){
 		$this->name = $name;
-		$this->value = $value;
+		$this->set_value( $value );
 		$this->set_constraints( $constraints );
 
 		parent::__construct( $this->tag_name, $attributes );
@@ -86,6 +88,11 @@ abstract class AbstractField extends \Html\Element {
 
 	public function set_constraints( array $c ){
 		$this->constraints = \Helper\Validator::merge_constraints( $this->constraints, $c );
+	}
+
+
+	public function set_empty_value(){
+		$this->empty = true;
 	}
 
 

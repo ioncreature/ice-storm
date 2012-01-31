@@ -73,7 +73,7 @@ class Employee extends Model {
 
 
 	protected function before_save(){
-		$fields = array( 'state', 'chief', 'leave_date' );
+		$fields = array( 'state', 'chief', 'leave_date', 'human_id' );
 		foreach ( $fields as $f )
 			if ( empty($this->data[$f]) )
 				unset( $this->data[$f] );

@@ -28,7 +28,8 @@ class Validator {
 		foreach ( $constraints as $c ){
 			if ( is_array($c) ){
 				$method = array_shift( $c );
-				$res = call_user_func_array( array(self, $method), $c );
+				array_unshift( $c, $value );
+				$res = call_user_func_array( array('\Helper\Validator', $method), $c );
 			}
 			else
 				$res = self::$c( $value );
@@ -50,11 +51,11 @@ class Validator {
 	 * @return array
 	 */
 	public static function merge_constraints( $c1, $c2 ){
-				$res = $c1;
-				foreach ( $c2 as $v )
-					if ( !in_array($v, $c1, true) )
-						$res[] = $v;
-				return $res;
+		$res = $c1;
+		foreach ( $c2 as $v )
+			if ( !in_array($v, $c1, true) )
+				$res[] = $v;
+		return $res;
 	}
 
 
@@ -90,6 +91,10 @@ class Validator {
 
 	public static function date( $value ){
 		return !!strtotime( $value );
+	}
+
+	public function in_array( $value, array $array ){
+		return in_array( $value, $array );
 	}
 
 }

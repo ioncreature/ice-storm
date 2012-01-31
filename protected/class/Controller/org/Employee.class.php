@@ -88,7 +88,7 @@ class Employee extends Controller {
 			// TODO: сделать нормальный вывод во вью
 			return false;
 
-		$form = new \Form\Employee( $this->get_controller_path(), 'POST' );
+		$form = new \Form\Employee( WEBURL . $this->get_controller_path(), 'POST' );
 
 		try {
 			$db->start();
@@ -134,7 +134,7 @@ class Employee extends Controller {
 		if ( $form->validate() ){
 			$employee->apply( $employee->filter($form->export_array()) );
 			$employee->save();
-			redirect( $this->get_controller_path() . $employee->id .'/success' );
+			redirect( WEBURL . $this->get_controller_path() . $employee->id .'/success' );
 		}
 		else
 			return $out;
@@ -143,9 +143,8 @@ class Employee extends Controller {
 
 	public function show_edit_employee( $id ){
 		$employee = new \Model\Employee( $id );
-		$form = new \Form\Employee( $this->get_controller_path(), 'POST' );
+		$form = new \Form\Employee( WEBURL . $this->get_controller_path() . $id, 'POST' );
 		$form->fetch( $employee->export_array() );
-
 		return array(
 			'edit'          => true,
 			'employee'      => $employee,

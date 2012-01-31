@@ -23,7 +23,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 <form
 	class="common_form"
 	id="employee_form"
-	action="<?= WEBURL .'org/employee' ?>"
+	action="<?= $data['form']->get_action() ?>"
 	method="POST"
 	data-dojo-type="app.widget.Form"
 >
@@ -88,10 +88,10 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 		<span>Руководитель подразделения</span>
 		<input
 			type="checkbox"
-			name="is_chief"
+			name="chief"
 			data-dojo-type="dijit.form.CheckBox"
-			value="<?= $data['form']->val( 'is_chief' ) ?>"
-			<?= $data['form']->get_field( 'is_chief' )->render_attribute( 'checked' ) ?>
+			value="<?= $data['form']->val( 'chief' ) ?>"
+			<?= $data['form']->get_field( 'chief' )->render_attribute( 'checked' ) ?>
 		/>
 	</label>
 
