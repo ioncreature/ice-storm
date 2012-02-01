@@ -158,6 +158,6 @@ class Element {
 
 	public function render_attribute( $name ){
 		return isset($this->attributes[$name]) ?
-			($name .'="'. \Helper\Html::encode_attr( $this->attributes[$name] ) .'"') : '';
+			($name .'="'. \Helper\Html::encode_attr( $this->attributes[$name] ) .'" ') : '';
 	}
 }

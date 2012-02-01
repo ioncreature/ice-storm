@@ -11,15 +11,20 @@ class Checkbox extends \Form\AbstractField {
 	protected $may_have_children = false;
 
 	protected $checked = false;
-	protected $checked_value = 'yes';
-	protected $unchecked_value = 'no';
+	protected $checked_value = 'on';
+	protected $unchecked_value = null;
+
+	public function init(){
+		parent::set_value( $this->checked_value );
+		$this->set_attribute( 'name', $this->get_name() );
+		$this->set_attribute( 'value', $this->value );
+	}
 
 	public function set_value( $value ){
-		if ( $this->checked_value === $value )
-			$this->set_attribute( 'checked', 'checked' );
+		if ( $value === $this->checked_value )
+			$this->set_checked();
 		else
-			$this->remove_attribute( 'checked' );
-		parent::set_value( $value );
+			$this->set_unchecked();
 	}
 
 	public function set_checked_value( $value ){
@@ -34,10 +39,12 @@ class Checkbox extends \Form\AbstractField {
 
 	public function set_checked(){
 		$this->checked = true;
+		$this->set_attribute( 'checked', 'checked' );
 	}
 
 	public function set_unchecked(){
 		$this->checked = false;
+		$this->remove_attribute( 'checked' );
 	}
 
 	public function checked(){
@@ -45,6 +52,9 @@ class Checkbox extends \Form\AbstractField {
 	}
 
 	public function get_value(){
-		return $this->checked_value;
+		if ( $this->checked() )
+			return $this->checked_value;
+		else
+			return $this->unchecked_value;
 	}
 }

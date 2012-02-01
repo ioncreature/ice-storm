@@ -86,13 +86,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 
 	<label>
 		<span>Руководитель подразделения</span>
-		<input
-			type="checkbox"
-			name="chief"
-			data-dojo-type="dijit.form.CheckBox"
-			value="<?= $data['form']->val( 'chief' ) ?>"
-			<?= $data['form']->get_field( 'chief' )->render_attribute( 'checked' ) ?>
-		/>
+		<?= $data['form']->get_field('chief')->render() ?>
 	</label>
 
 <?php if ( !isset($data['edit']) or !$data['edit'] ): ?>
