@@ -88,7 +88,7 @@ class Employee extends Controller {
 			// TODO: сделать нормальный вывод во вью
 			return false;
 
-		$form = new \Form\Employee( WEBURL . $this->get_controller_path(), 'POST' );
+		$form = new \Form\Employee( WEBURL . $this->get_controller_path(), 'POST', array(), $employee );
 
 		try {
 			$db->start();

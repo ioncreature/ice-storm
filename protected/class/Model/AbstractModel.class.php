@@ -7,7 +7,7 @@
 
 namespace Model;
 
-abstract class AbstractModel {
+abstract class AbstractModel implements \I\Exportable {
 
 	// ----------
 	// fields for redefining in descendant classes
@@ -39,7 +39,11 @@ abstract class AbstractModel {
 	protected $models = array();
 	protected $modified = false;
 	protected $exists = false;
-	protected $db = null;
+
+	/**
+	 * @var I
+	 */
+	protected $db;
 
 
 	public function __construct( $object_id = false ){

@@ -9,9 +9,9 @@
 	использование класса для выборок более чем 1000 строк за раз.
 */
 
-class DB_MySQL2 implements ISQL_DB{
-	
-	
+class DB_MySQL2 implements \I\SqlDb {
+
+
 	protected 			$connection		= null;
 	protected 			$connected		= false;	// Is DB connection set
 	protected 			$db_id			= null;		// DB connection identifier

@@ -12,7 +12,18 @@ class Input extends Field {
 	protected $may_have_children = false;
 
 	public function init(){
-		$this->set_attribute( 'name', $this->get_name() );
 		$this->set_attribute( 'value', $this->get_value() );
+	}
+
+
+	public function set_value( $value ){
+		parent::set_value( $value );
+		$this->set_attribute( 'value', $value );
+	}
+
+
+	public function set_name( $name ){
+		parent::set_name( $name );
+		$this->set_attribute( 'name', $name );
 	}
 }

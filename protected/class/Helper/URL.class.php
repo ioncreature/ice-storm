@@ -6,6 +6,16 @@
 
 namespace Helper;
 
-class URL {
+class Url {
+
+	/**
+	 * @static
+	 * @param string $url
+	 * @return string
+	 * TODO: написать!!!
+	 */
+	public static function normalize( $url ){
+		return $url;
+	}
 
 }

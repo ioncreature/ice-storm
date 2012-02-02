@@ -77,10 +77,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 			class="common_input"
 			required="true"
 		>
-			<option value="full">Полная</option>
-			<option value="half">Одна вторая</option>
-			<option value="third">Одна третья</option>
-			<option value="quarter">Одна четвертая</option>
+			<?= $data['form']->get_field( 'work_rate' )->render_body(); ?>
 		</select>
 	</label>
 

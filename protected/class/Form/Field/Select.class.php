@@ -26,11 +26,19 @@ class Select extends \Form\AbstractField {
 			);
 	}
 
+	public function set_name( $name ){
+		parent::set_name( $name );
+		$this->set_attribute( 'name', $name );
+	}
+
 
 	public function render_body(){
 		$out = '';
 		foreach ( $this->options as $o )
-			$out .= "<option value='{$o['value']}'>{$o['title']}</option>";
+			$out .=
+				"<option value='{$o['value']}' ".
+					($this->get_value() === $o['value'] ? 'selected="selected"' : '') .
+				 ">{$o['title']}</option>";
 		return $out;
 	}
 }

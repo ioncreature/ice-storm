@@ -46,8 +46,7 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 	 * @param \Model\AbstractModel|null $model
 	 */
 	public function __construct( $action, $method = 'POST', array $attributes = array(), \Model\AbstractModel $model = null ){
-		// TODO: normalize $action URL
-		$this->set_attribute( 'action', $action );
+		$this->set_attribute( 'action', \Helper\Url::normalize($action) );
 		$this->set_attribute( 'method', $this->validate_http_method($method) );
 		unset( $attributes['action'], $attributes['method'] );
 		$this->set_model( $model );
@@ -101,7 +100,7 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 	/**
 	 * Returns field object
 	 * @param $name
-	 * @return \Form\Field
+	 * @return \Form\AbstractField
 	 * @throws \Exception\Form
 	 */
 	public function get_field( $name ){

@@ -36,7 +36,7 @@ abstract class AbstractField extends \Html\Element {
 	 * @param array $attributes
 	 */
 	public function __construct( $name, $value = null, array $constraints = array(), array $attributes = array() ){
-		$this->name = $name;
+		$this->set_name( $name );
 		$this->set_value( $value );
 		$this->set_constraints( $constraints );
 
@@ -59,6 +59,11 @@ abstract class AbstractField extends \Html\Element {
 
 	public function set_value( $value ){
 		$this->value = $value;
+	}
+
+
+	public function set_name( $name ){
+		$this->name = $name;
 	}
 
 

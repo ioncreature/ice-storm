@@ -7,5 +7,9 @@
 namespace I;
 
 interface Exportable {
+	/**
+	 * @abstract
+	 * @return array
+	 */
 	function export_array();
 }
