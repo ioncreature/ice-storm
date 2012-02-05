@@ -57,7 +57,7 @@ class Employee extends Controller {
 			'personal'	 => $employee->Human->export_array(),
 			'employee'   => $employee->export_array(),
 			'department' => $employee->Department->export_array(),
-			'edit'       => \Auth::$acl->employee_edit ? WEBURL . $this->get_controller_path() . $id .'/edit' : false
+			'edit'       => \Auth::$acl->employee_edit ? WEBURL . $this->get_path() . $id .'/edit' : false
 		);
 	}
 
@@ -75,34 +75,40 @@ class Employee extends Controller {
 			'employee'   => $employee,
 			'human'      => $employee->Human,
 			'department' => $employee->Department,
-			'form'       => new \Form\Employee( $this->get_controller_path(), 'POST' )
+			'form'       => new \Form\Employee( WEBURL . $this->get_path(), 'POST' ),
+			'human_form' => new \Form\Human( WEBURL . $this->get_path(), 'POST' ),
 		);
 	}
 
 
 	public function add_employee(){
-		$r = $this->request->get_all();
+		$r = $this->request->export_array();
 		$employee = new \Model\Employee();
 		$db = \Fabric::get( 'db' );
-		if ( $this->validate($r) !== true )
-			// TODO: сделать нормальный вывод во вью
-			return false;
-
-		$form = new \Form\Employee( WEBURL . $this->get_controller_path(), 'POST', array(), $employee );
+		$form = new \Form\Employee( WEBURL . $this->get_path(), 'POST', array(), $employee );
+		$form->fetch( $r );
+		$human_form = new \Form\Human( WEBURL . $this->get_path(), 'POST', array(), $employee->Human );
+		$human_form->fetch( $r );
 
 		try {
+			if ( !$form->validate() )
+				throw new \Exception\Validate( 'Shit' );
+
 			$db->start();
 
 			// add new human
 			if ( isset($r['human_source']) and $r['human_source'] === 'new' ){
-				unset( $r['human_id'] );
-				$employee->Human
-					->apply( $employee->Human->filter($r, 'human_') )
-					->save();
+				if ( $human_form->validate() ){
+					unset( $r['human_id'] );
+					$employee->Human->apply( $employee->Human->filter($r, 'human_') )->save();
+				}
+				else
+					throw new \Exception\Validate( 'Sux' );
 			}
 			else
 				$employee->Human->get_by_id( $r['human_id'] );
 
+			// add new employee
 			if ( $employee->Human->exists() ){
 				$data = $employee->filter( $r );
 				$employee->apply( $data );
@@ -120,8 +126,7 @@ class Employee extends Controller {
 			return array( 'msg' => $e->getMessage() );
 		}
 
-		// TODO: придумать красивый способ для редиректа (мб через \Response\AbstractResponse)
-		redirect( WEBURL . $this->get_controller_path() . $employee->id .'/success' );
+		$this->redirect( WEBURL . $this->get_path() . $employee->id .'/success' );
 	}
 
 
@@ -134,7 +139,7 @@ class Employee extends Controller {
 		if ( $form->validate() ){
 			$employee->apply( $employee->filter($form->export_array()) );
 			$employee->save();
-			redirect( WEBURL . $this->get_controller_path() . $employee->id .'/success' );
+			$this->redirect( WEBURL . $this->get_path() . $employee->id .'/success' );
 		}
 		else
 			return $out;
@@ -143,7 +148,7 @@ class Employee extends Controller {
 
 	public function show_edit_employee( $id ){
 		$employee = new \Model\Employee( $id );
-		$form = new \Form\Employee( WEBURL . $this->get_controller_path() . $id, 'POST' );
+		$form = new \Form\Employee( WEBURL . $this->get_path() . $id, 'POST' );
 		$form->fetch( $employee->export_array() );
 		return array(
 			'edit'          => true,

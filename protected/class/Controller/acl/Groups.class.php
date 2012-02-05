@@ -75,7 +75,7 @@ class Groups extends Controller {
 		return array(
 			'subjects' => $groups,
 			'permissions' => $permissions,
-			'path' => $this->get_controller_path(),
+			'path' => $this->get_path(),
 			'type' => 'groups'
 		);
 	}

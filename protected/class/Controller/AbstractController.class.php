@@ -123,8 +123,17 @@ abstract class AbstractController {
 	 * Returns path to controller
 	 * @return string
 	 */
-	public function get_controller_path(){
+	public function get_path(){
 		return $this->root_path;
+	}
+
+
+	/**
+	 * TODO: придумать красивый метод для редиректа (AbstractResponse)
+	 * @param string $path
+	 */
+	public function redirect( $path ){
+		redirect( $path );
 	}
 
 

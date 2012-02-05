@@ -46,7 +46,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 		<select
 			name="department_id"
 			data-dojo-type="dijit.form.Select"
-			style="width: 240px;"
+			style="width: 300px;"
 			class="common_input"
 			requred="true"
 		><?= $data['form']->get_field('department_id')->render_body() ?></select>
@@ -54,14 +54,20 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 
 	<label>
 		<span>Рабочий телефон</span>
-		<input data-dojo-type="dijit.form.TextBox" value="<?= $data['form']->val( 'phone' ); ?>" name="phone" class="common_input">
+		<input
+			data-dojo-type="dijit.form.ValidationTextBox"
+			value="<?= $data['form']->val( 'phone' ); ?>"
+			name="phone"
+			class="common_input"
+			data-dojo-props="required: false, regExp: '\\s*[\+]?[0-9 \(\)-]{2,20}\\s*'"
+			>
 	</label>
 
 	<label>
 		<span>Дата приема на работу</span>
 		<div
 			name="adoption_date"
-			value="<?= date('Y-m-d') ?>"
+			value="<?= $data['form']->val('adoption_date') ?>"
 			class="common_input"
 			data-dojo-type="dijit.form.DateTextBox"
 			data-dojo-props="constraints: { max: '<?= date('Y-m-d') ?>', datePattern: 'yyyy.MM.dd' }, required: true"
@@ -73,7 +79,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 		<select
 			name="work_rate"
 			data-dojo-type="dijit.form.Select"
-			style="width: 240px;"
+			style="width: 300px;"
 			class="common_input"
 			required="true"
 		>
@@ -109,7 +115,7 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 
 		<!-- NEW PERSONALIA -->
 		<div id="new_personalia" style="display:none;">
-			<?= Template::show( 'include/personal_data_subform', $data['personal_data'] ) ?>
+			<?= Template::show( 'include/personal_data_subform', $data['human_form'] ) ?>
 		</div>
 
 		<script type="text/javascript">

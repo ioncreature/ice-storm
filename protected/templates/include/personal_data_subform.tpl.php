@@ -4,6 +4,8 @@
  *         January 2012
  */
 
+Template::add_to_block( 'js', 'dojo.require( "dijit.form.ValidationTextBox" );' );
+Template::add_to_block( 'js', 'dojo.require( "dijit.form.DateTextBox" );' );
 Template::add_to_block( 'js', 'dojo.require( "dojox.validate.regexp" );' );
 Template::add_to_block( 'js', 'dojo.require( "dijit.form.Button" );' );
 Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
@@ -13,7 +15,7 @@ Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
 	<input
 		type="text"
 		name="human_last_name"
-		value=""
+		value="<?= $data->val( 'human_last_name' ) ?>"
 		class="common_input"
 		data-dojo-type="dijit.form.ValidationTextBox"
 		data-dojo-props="required: true, regExp: '[a-zA-zа-яА-Я-]{2,50}'"
@@ -25,7 +27,7 @@ Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
 	<input
 		type="text"
 		name="human_first_name"
-		value=""
+		value="<?= $data->val( 'human_first_name' ) ?>"
 		class="common_input"
 		data-dojo-type="dijit.form.ValidationTextBox"
 		data-dojo-props="required: true, regExp: '[a-zA-zа-яА-Я-]{2,50}'"
@@ -37,7 +39,7 @@ Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
 	<input
 		type="text"
 		name="human_middle_name"
-		value=""
+		value="<?= $data->val( 'human_middle_name' ) ?>"
 		class="common_input"
 		data-dojo-type="dijit.form.ValidationTextBox"
 		data-dojo-props="required: true, regExp: '[a-zA-zа-яА-Я-]{2,50}'"
@@ -61,13 +63,13 @@ Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
 
 <label>
 	<span>Дата рождения</span>
-	<div
+	<input
 		name="human_birth_date"
-		value="<?= date('Y-m-d', strtotime('-18 years')) ?>"
-		required="true"
+		value="<?= $data->val( 'human_birth_date' ) ?>"
 		class="common_input"
 		data-dojo-type="dijit.form.DateTextBox"
-		data-dojo-props="constraints: { max: '<?= date('Y-m-d', strtotime('-16 years')) ?>', datePattern: 'yyyy.MM.dd' }"></div>
+		data-dojo-props="required: true, constraints: { max: '<?= date('Y-m-d', strtotime('-16 years')) ?>', datePattern: 'yyyy.MM.dd' }"
+		/>
 </label>
 
 <label>
@@ -75,7 +77,7 @@ Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
 	<input
 		type="text"
 		name="human_phone"
-		value=""
+		value="<?= $data->val( 'human_phone' ) ?>"
 		class="common_input"
 		data-dojo-type="dijit.form.ValidationTextBox"
 		data-dojo-props="required: false, regExp: '\\s*[\+]?[0-9 \(\)-]{2,20}\\s*'"
@@ -87,7 +89,7 @@ Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
 	<input
 		type="text"
 		name="human_email"
-		value=""
+		value="<?= $data->val( 'human_email' ) ?>"
 		class="common_input"
 		data-dojo-type="dijit.form.ValidationTextBox"
 		data-dojo-props="required: false, regExpGen: dojox.validate.regexp.emailAddress"
@@ -99,7 +101,7 @@ Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
 	<input
 		type="text"
 		name="human_skype"
-		value=""
+		value="<?= $data->val( 'human_skype' ) ?>"
 		class="common_input"
 		data-dojo-type="dijit.form.ValidationTextBox"
 		data-dojo-props="required: false, regExp: '[\\w0-9_-]{2,25}'"
@@ -111,7 +113,7 @@ Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
 	<input
 		type="text"
 		name="human_icq"
-		value=""
+		value="<?= $data->val( 'human_icq' ) ?>"
 		class="common_input"
 		data-dojo-type="dijit.form.ValidationTextBox"
 		data-dojo-props="required: false, regExp: '[0-9]{4,9}'"
@@ -122,11 +124,10 @@ Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
 	<span>Адрес страницы во vkontakte.ru</span>
 	<input
 		type="text"
-		name="human_vkontakte"
-		value=""
+		name="human_vkcom"
+		value="<?= $data->val( 'human_vkcom' ) ?>"
 		class="common_input"
-		data-dojo-type="dijit.form.ValidationTextBox"
-		data-dojo-props="required: false, regExp: '[0-9]{4,9}'"
+		data-dojo-props="required: false"
 		promptMessage="Ссылка на страницу ВКонтакте, например <i>vkontakte.ru/id1</i> или <i>http://vkontakte.ru/durov</i>"
 	/>
 </label>
@@ -136,10 +137,10 @@ Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
 	<input
 		type="text"
 		name="human_facebook"
-		value=""
+		value="<?= $data->val( 'human_facebook' ) ?>"
 		class="common_input"
 		data-dojo-type="dijit.form.ValidationTextBox"
-		data-dojo-props="required: false, regExp: '[0-9]{4,9}'"
+		data-dojo-props="required: false"
 		promptMessage="Ссылка на страницу в facebook.com, например <i>http://www.facebook.com/christianjossiel</i>"
 	/>
 </label>

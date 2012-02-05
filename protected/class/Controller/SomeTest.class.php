@@ -14,6 +14,7 @@ class SomeTest extends Controller {
 		'get' => array(
 			'' => 'run_page',
 			'ololo' => 'run_ololo',
+			'redirect' => 'run_redirect',
 			'test' => 'run_test'
 		)
 	);
@@ -35,10 +36,14 @@ class SomeTest extends Controller {
 
 	public function run_test(){
 		$this->view = new \View\Json();
-		$this->view->add( 'some_key', 'Sweety!' );
+		return array( 'some_key' => 'Sweety!' );
 	}
 
 	public function run_ololo(){
 		$this->set_status( \Response\AbstractResponse::STATUS_FORBIDDEN );
+	}
+
+	public function run_redirect(){
+		$this->redirect( WEBURL . 'some_test' );
 	}
 }

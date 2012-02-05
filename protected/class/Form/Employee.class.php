@@ -10,7 +10,7 @@ class Employee extends AbstractForm {
 
 	protected $fields = array(
 		'post' => array(
-			'type' => '\Form\Field\Input',
+			'type' => '\Form\Field\Text',
 			'constraints' => array( 'not_empty', array('regexp', '[a-zA-zа-яА-Я0-9,;\. -]{2,200}') )
 		),
 
@@ -20,12 +20,12 @@ class Employee extends AbstractForm {
 		),
 
 		'phone' => array(
-			'type' => '\Form\Field\Input',
+			'type' => '\Form\Field\Text',
 			'value' => ''
 		),
 
 		'adoption_date' => array(
-			'type' => '\Form\Field\Input',
+			'type' => '\Form\Field\Text',
 			'constraints' => array( 'date' )
 		),
 
@@ -64,6 +64,8 @@ class Employee extends AbstractForm {
 		$deps = $this->model->Department;
 		$this->fetch( $this->model->export_array() );
 		$this->get_field( 'department_id' )->set_options( $deps->get_all(), 'id', 'name' );
-		$this->get_field( 'adoption_date' )->set_value( date('Y-m-d') );
+
+		if ( ! $this->model->adoption_date )
+			$this->get_field( 'adoption_date' )->set_value( date('Y-m-d') );
 	}
 }

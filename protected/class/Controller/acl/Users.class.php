@@ -76,7 +76,7 @@ class Users extends Controller {
 		return array(
 			'subjects' => $users,
 			'permissions' => $permissions,
-			'path' => $this->get_controller_path(),
+			'path' => $this->get_path(),
 			'type' => 'users'
 		);
 	}

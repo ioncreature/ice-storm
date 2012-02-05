@@ -49,10 +49,10 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 		$this->set_attribute( 'action', \Helper\Url::normalize($action) );
 		$this->set_attribute( 'method', $this->validate_http_method($method) );
 		unset( $attributes['action'], $attributes['method'] );
-		$this->set_model( $model );
 
 		// парсинг полей формы
 		$this->parse_fields( $this->fields );
+		$this->set_model( $model );
 
 		parent::__construct( 'form', $attributes, $this->_fields );
 
