@@ -70,9 +70,11 @@ abstract class AbstractController {
 	 */
 	public function __construct( \Request\Parser $request, $root_path = null ){
 		$this->request = $request;
+		$method = $request->method();
 		$root_path and $this->root_path = $root_path;
 
-		foreach ( $this->routes as $method => &$routes )
+		if ( isset($this->routes[$method]) ){
+			$routes = $this->routes[$method];
 			foreach ( $routes as $route => $fn ){
 				$path = ($this->root_path ? $this->root_path .'/' : '') . $route;
 				$params = $this->request->equal( $path, true );
@@ -94,6 +96,7 @@ abstract class AbstractController {
 					break;
 				}
 			}
+		}
 
 		if ( !$this->view and $this->default_view )
 			$this->view = new $this->default_view;
@@ -128,12 +131,9 @@ abstract class AbstractController {
 	}
 
 
-	/**
-	 * TODO: придумать красивый метод для редиректа (AbstractResponse)
-	 * @param string $path
-	 */
+
 	public function redirect( $path ){
-		redirect( $path );
+
 	}
 
 

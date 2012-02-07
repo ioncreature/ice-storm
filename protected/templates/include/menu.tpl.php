@@ -18,6 +18,7 @@
 			<li><a href="<?= WEBURL .'edu/courses' ?>">Учебные курсы</a></li>
 			<li><a href="<?= WEBURL .'edu/groups' ?>">Группы</a></li>
 			<li><a href="<?= WEBURL .'edu/students' ?>">Студенты</a></li>
+			<li><a href="<?= WEBURL .'edu/teachers' ?>">Преподаватели</a></li>
 		</ul>
 	</li>
 	<li><span class="a">Структура учреждения</span>

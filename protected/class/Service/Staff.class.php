@@ -8,14 +8,14 @@ namespace Service;
 class Staff extends AbstractService {
 
 	protected $routes = array(
-		'get' => array(
+		'GET' => array(
 			'' => 'get_all',
 			'::int' => 'get_employee',
 			'department/::int' => 'get_department_staff',
 			'department/::int/recursive' => 'get_department_staff_recursive',
 			'search/::str' => 'search_by_name'
 		),
-		'put' => array(
+		'PUT' => array(
 			'::int' => 'update_employee'
 		)
 	);

@@ -10,7 +10,7 @@ use \Service\AbstractService as Service;
 class Departments extends Service {
 
 	protected $routes = array(
-		'get' => array(
+		'GET' => array(
 			'::int' => array(
 				'method' => 'get_department',
 				'permission' => 'department_read'
@@ -20,7 +20,7 @@ class Departments extends Service {
 				'permission' => 'department_read'
 			)
 		),
-		'delete' => array(
+		'DELETE' => array(
 			'::int' => array(
 				'method' => 'delete_department',
 				'permission' => 'department_delete'

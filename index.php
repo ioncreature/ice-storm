@@ -96,6 +96,8 @@ try {
 				case "student":
 					include "protected/modules/edu/student.module.php";
 					break;
+				case "teachers":
+					$response->send_controller( new \Controller\edu\Teachers($r, 'edu/teachers') );
     			default:
 					redirect( WEBURL );
 			}

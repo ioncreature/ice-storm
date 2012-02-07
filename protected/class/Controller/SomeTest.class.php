@@ -11,7 +11,7 @@ use \Controller\AbstractController as Controller;
 class SomeTest extends Controller {
 
 	protected $routes = array(
-		'get' => array(
+		'GET' => array(
 			'' => 'run_page',
 			'ololo' => 'run_ololo',
 			'redirect' => 'run_redirect',
