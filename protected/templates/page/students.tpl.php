@@ -1,18 +1,15 @@
 <?php
 /**
- * Staff module
- * Marenin Alex
- * November 2011
+ * @author Marenin Alex
+ *         January 2012
  */
 
 // PREPARE
 Template::add_css( WEBURL .'js/dijit/themes/claro/claro.css' );
-Template::add_js(  WEBURL .'js/dojo/dojo.js' );
-Template::add_js(  WEBURL .'js/app/page/Staff.js' );
-
-// OUTPUT
-Template::ob_to_block( 'body' );
+Template::add_js ( WEBURL .'js/dojo/dojo.js' );
+Template::add_js ( WEBURL .'js/app/page/Students.js' );
 ?>
+
 <div
 	dojoType="dijit.layout.BorderContainer"
 	gutters="true"
@@ -35,18 +32,20 @@ Template::ob_to_block( 'body' );
 
 	<!-- CENTER PANE -->
 	<section id="center_pane" dojoType="dijit.layout.ContentPane" region="center">
-		<h2 id="depatrment_name">Все сотрудики</h2>
-		<div style="overflow: hidden; padding: 4px 0px 12px 0px;">
-			<?php if ( Auth::$acl->employee_add ): ?>
-				<a class="a-button" href="<?= WEBURL .'org/employee/new' ?>">Новый сотрудник</a>
-			<?php endif; ?>
-			<div style="float: right; width: 50%; text-align: right; padding: 2px;">
-				<form id="staff_search" action="<?= WEBURL .'service/staff/search/' ?>" method="POST">
-					Поиск&nbsp;<input name="name" type="text" class="common" style="display: inline-block; width:200px; margin:0px; padding:0px;" />
-				</form>
+		<section id="tabs_container" data-dojo-type="">
+			<h2 id="depatrment_name">Все сотрудики</h2>
+			<div style="overflow: hidden; padding: 4px 0px 12px 0px;">
+				<?php if ( Auth::$acl->employee_add ): ?>
+					<a class="a-button" href="<?= WEBURL .'org/employee/new' ?>">Новый сотрудник</a>
+				<?php endif; ?>
+				<div style="float: right; width: 50%; text-align: right; padding: 2px;">
+					<form id="staff_search" action="<?= WEBURL .'service/staff/search/' ?>" method="POST">
+						Поиск&nbsp;<input name="name" type="text" class="common" style="display: inline-block; width:200px; margin:0px; padding:0px;" />
+					</form>
+				</div>
 			</div>
-		</div>
-		<div id="staff_grid"></div>
+			<div id="staff_grid"></div>
+		</section>
 	</section>
 </div>
 
@@ -76,5 +75,3 @@ Template::ob_to_block( 'body' );
 		<td>{{department}}</td>
 	</tr>
 </script>
-
-<?php Template::ob_end(); ?>

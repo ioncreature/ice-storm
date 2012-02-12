@@ -19,6 +19,7 @@
 	<!-- Libraries -->
 	<script type="text/javascript" src="<?= WEBURL ?>js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="<?= WEBURL ?>js/jquery.form.js"></script>
+	<script type="text/javascript" src="<?= WEBURL ?>js/ICanHaz.js"></script>
 <?= Template::block( 'scripts' ) ?>
 
 	<!-- Module scripts -->

@@ -24,10 +24,10 @@ try {
 		case "acl":
 			switch ( $r->get(1) ){
 				case "groups":
-					$response->send_controller( new \Controller\acl\Groups($r, 'acl/groups') );
+					$response->send_controller( new \Controller\acl\Groups($r, 'acl/groups/') );
 					die;
 				case "users":
-					$response->send_controller( new \Controller\acl\Users( $r, 'acl/users' ) );
+					$response->send_controller( new \Controller\acl\Users($r, 'acl/users/') );
 					die;
 				case "usersingroups":
 					include "protected/modules/acl/usersingroups.module.php";
@@ -40,12 +40,10 @@ try {
 		case "service":
 			switch ( $r->get(1) ){
 				case "department":
-					$service = new \Service\Departments( $r, 'service/department' );
-					$response->send_controller( $service );
+					$response->send_controller( new \Service\Departments($r, 'service/department/') );
 					die;
 				case "staff":
-					$service = new \Service\Staff( $r, 'service/staff' );
-					$response->send_controller( $service );
+					$response->send_controller( new \Service\Staff($r, 'service/staff/') );
 					die;
 				default:
 					redirect( WEBURL );
@@ -97,7 +95,7 @@ try {
 					include "protected/modules/edu/student.module.php";
 					break;
 				case "teachers":
-					$response->send_controller( new \Controller\edu\Teachers($r, 'edu/teachers') );
+					$response->send_controller( new \Controller\edu\Teachers($r, 'edu/teachers/') );
     			default:
 					redirect( WEBURL );
 			}
@@ -120,11 +118,13 @@ try {
 					include "protected/modules/org/departments.module.php";
 					break;
 				case "staff":
-					include "protected/modules/org/staff.module.php";
-					break;
+//					include "protected/modules/org/staff.module.php";
+
+					$response->send_controller( new \Controller\edu\Teachers($r, 'edu/teachers/') );
+					die;
 				case "employee":
-					$c = new \Controller\org\Employee( $r, 'org/employee/' );
-					die( $c->run() );
+					$response->send_controller( new \Controller\org\Employee($r, 'org/employee/') );
+					die();
 				default:
 					redirect( WEBURL );
 			}

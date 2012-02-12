@@ -9,13 +9,24 @@
 		/**
 		 * Dojo config
 		 */
-		var djConfig = {
+		var dojoConfig = {
+			async: true,
+			baseUrl: "<?= WEBURL ?>js/",
+			tlmSiblingOfDojo: false,
+			packages: [
+				{ name: "dojo", location: "dojo" },
+				{ name: "dijit", location: "dijit" },
+				{ name: "dojox", location: "dojox" },
+				{ name: "app", location: "app", main: "app" }
+			],
 			parseOnLoad: true,
-			isDebug: true,
+			has: {
+				"dojo-firebug": true,
+				"dojo-debug-messages": true
+			},
 			gfxRenderer: "svg,silverlight,vml",
 			locale: 'ru'
 		};
-		var dojoConfig = djConfig;
 
 		/**
 		 * Application config

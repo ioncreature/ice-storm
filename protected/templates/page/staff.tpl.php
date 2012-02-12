@@ -9,9 +9,6 @@
 Template::add_css( WEBURL .'js/dijit/themes/claro/claro.css' );
 Template::add_js(  WEBURL .'js/dojo/dojo.js' );
 Template::add_js(  WEBURL .'js/app/page/Staff.js' );
-
-// OUTPUT
-Template::ob_to_block( 'body' );
 ?>
 <div
 	dojoType="dijit.layout.BorderContainer"
@@ -76,5 +73,3 @@ Template::ob_to_block( 'body' );
 		<td>{{department}}</td>
 	</tr>
 </script>
-
-<?php Template::ob_end(); ?>

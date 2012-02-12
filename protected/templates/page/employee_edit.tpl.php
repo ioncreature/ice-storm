@@ -4,19 +4,34 @@
  *         January 2012
  */
 
-Template::add_js(  WEBURL .'js/dojo/dojo.js');
-Template::add_js(  WEBURL .'js/app/init.js');
-Template::add_css( WEBURL .'js/dijit/themes/dijit.css' );
 Template::add_css( WEBURL .'js/dijit/themes/claro/claro.css' );
-Template::add_to_block( 'js', 'dojo.require("app.widget.Form");' );
-Template::add_to_block( 'js', 'dojo.require("dijit.form.Form");' );
-Template::add_to_block( 'js', 'dojo.require("dijit.form.DateTextBox");' );
-Template::add_to_block( 'js', 'dojo.require("dijit.form.TextBox");' );
-Template::add_to_block( 'js', 'dojo.require("dijit.form.Button");' );
-Template::add_to_block( 'js', 'dojo.require("dijit.form.CheckBox");' );
-Template::add_to_block( 'js', 'dojo.require("dijit.form.ValidationTextBox");' );
-Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
+Template::add_css( WEBURL .'js/dijit/themes/dijit.css' );
+Template::add_js(  WEBURL .'js/dojo/dojo.js');
 ?>
+
+<script type="text/javascript">
+require([
+	'dojo/parser',
+	'dojo/domReady!',
+	'app/init',
+	'app/widget/Form',
+	'dijit/form/DateTextBox',
+	'dijit/form/TextBox',
+	'dijit/form/Button',
+	'dijit/form/CheckBox',
+	'dijit/form/ValidationTextBox',
+	'dijit/form/Select'
+], function( parser ){
+	parser.parse( document.body );
+	console.log( dijit.byId( 'employee_form' ) );
+	dijit.byId( 'employee_form' ).onSubmit = function(){
+		if ( $( 'input[name=human_source]:checked' ).val() === 'existing' )
+			return this.validate( 'post' );
+		else
+			return this.validate();
+	};
+});
+</script>
 
 
 <!-- FORM -->
@@ -135,14 +150,3 @@ Template::add_to_block( 'js', 'dojo.require("dijit.form.Select");' );
 	<br/>
 	<input type="submit" data-dojo-type="dijit.form.Button" label="<?= isset($data['edit']) && $data['edit'] ? 'Редактировать' : 'Добавить' ?>" />
 </form>
-
-<script type="text/javascript">
-dojo.ready( function(){
-	dijit.byId( 'employee_form' ).onSubmit = function(){
-		if ( $( 'input[name=human_source]:checked' ).val() === 'existing' )
-			return this.validate( 'post' );
-		else
-			return this.validate();
-	};
-});
-</script>

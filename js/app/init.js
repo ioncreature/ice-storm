@@ -1,12 +1,12 @@
-dojo.provide( 'app.init' );
+define([
+	'dijit/layout/BorderContainer',
+	'dijit/layout/TabContainer',
+	'dijit/layout/ContentPane',
+	'dijit/Tree',
+	'dojox/charting/widget/Chart2D',
+	'dojox/charting/themes/Claro'
+], function(){
+	return { status: true };
+});
 
-dojo.registerModulePath( 'app',   '../app' );
-dojo.registerModulePath( 'dijit', '../dijit' );
-dojo.registerModulePath( 'dojox', '../dojox' );
 
-dojo.require( 'dijit.layout.BorderContainer' );
-dojo.require( 'dijit.layout.TabContainer' );
-dojo.require( 'dijit.layout.ContentPane' );
-dojo.require( 'dijit.Tree' );
-dojo.require( 'dojox.charting.widget.Chart2D' );
-dojo.require( 'dojox.charting.themes.Claro' );

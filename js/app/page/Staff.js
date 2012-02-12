@@ -4,22 +4,20 @@
  * November 2011
  */
 
-dojo.provide( 'app.page.Staff' );
-
-dojo.require( 'app.store.Departments' );
-dojo.require( 'app.page.Staff' );
-dojo.require( 'dojo.data.ItemFileReadStore' );
-dojo.require( 'dojox.grid.DataGrid' );
-dojo.require( 'dojo.data.ObjectStore' );
-dojo.require( 'dojo.on' );
-dojo.require( 'dijit.Tree' );
-dojo.require( 'dijit.TitlePane' );
-dojo.require( 'dijit.form.ValidationTextBox' );
-dojo.require( 'dojo.store.Observable' );
-
-
-// Applying to page content
-dojo.ready( function(){
+require( 'app/page/Staff', [
+	'app/store/Departments',
+	'app/page/Staff',
+	'dojo/data/ItemFileReadStore',
+	'dojox/grid/DataGrid',
+	'dojo/data/ObjectStore',
+	'dojo/on',
+	'dijit/Tree',
+	'dijit/TitlePane',
+	'dijit/form/ValidationTextBox',
+	'dojo/store/Observable',
+	'dojo/domReady!',
+	'app/init'
+], function(){
 
 	/**
 	 * Departments tree
@@ -45,6 +43,7 @@ dojo.ready( function(){
 			.then( app.page.Staff.parse_table );
 	};
 
+
 	/**
 	 * Renders staff table
 	 * @param data
@@ -53,7 +52,6 @@ dojo.ready( function(){
 		var staff = { staff: dojo.fromJson( data ) };
 		$( '#staff_grid' ).html( ich.t_staff_table(staff) );
 	};
-
 	// get staff from root node
 	app.page.Staff.update_staff_list();
 
@@ -67,4 +65,6 @@ dojo.ready( function(){
 
 		return false;
 	});
+
+	return app.page.Staff;
 });

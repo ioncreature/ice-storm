@@ -3,43 +3,47 @@
  * December 2011
  */
 
-dojo.provide( 'app.store.Departments' );
-dojo.require( 'dojo.store.JsonRest' );
 
-(function(){
-    app.store.Departments = new dojo.store.JsonRest({
-        target: app.config.service.department,
+define( 'app/store/Departments', [
+	'dojo/store/JsonRest',
+	'dojo/domReady!'
+], function( JsonRest ){
 
-        mayHaveChildren: function(){
-            return true;
-        },
+app.store.Departments = new JsonRest({
+	target: app.config.service.department,
 
-        getChildren: function( object, onComplete, onError ){
-            this
-                .get( object.id )
-                .then( function( fullObject ){
-                    object.children = fullObject.children;
-                    onComplete( fullObject.children );
-                }, onError );
-        },
+	mayHaveChildren: function(){
+		return true;
+	},
 
-        getRoot: function( onItem, onError ){
-			var self = this;
-			if ( !this.rootElement )
-				this.get( "" ).then( function( result ){
-					onItem( result );
-					self.rootElement = result;
-				}, onError );
-			else
-				onItem( this.rootElement );
-        },
+	getChildren: function( object, onComplete, onError ){
+		this
+			.get( object.id )
+			.then( function( fullObject ){
+				object.children = fullObject.children;
+				onComplete( fullObject.children );
+			}, onError );
+	},
 
-		query: function(){
-			return this.inherited( arguments );
-		},
+	getRoot: function( onItem, onError ){
+		var self = this;
+		if ( !this.rootElement )
+			this.get( "" ).then( function( result ){
+				onItem( result );
+				self.rootElement = result;
+			}, onError );
+		else
+			onItem( this.rootElement );
+	},
 
-        getLabel: function( department ){
-            return department.name;
-        }
-    });
-})();
+	query: function(){
+		return this.inherited( arguments );
+	},
+
+	getLabel: function( department ){
+		return department.name;
+	}
+});
+
+return app.store.Departments;
+});
