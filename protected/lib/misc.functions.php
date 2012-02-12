@@ -70,24 +70,26 @@ function mb_trim( $string, $chars = "", $chars_array = array() ){
 
 /**
  * строит дерево из списка
- * @param array $list	список подразделений
- * @return array
+ * @param array $list
+ * @param int $did
+ * @param int $depth
+ * @return array|bool
  */
 function get_departments_tree( array &$list, $did = 0, $depth = 10 ){
 	if ( empty($list) )
-	return array();
+		return array();
 	if ( $depth === 0 )
-	return false;
+		return false;
 
 	$childs = array();
 	foreach ( $list as $k => $dep )
-	if ( $dep['parent_id'] == $did ){
-		$childs[] = $dep;
-		unset( $list[$k] );
-	}
+		if ( $dep['parent_id'] == $did ){
+			$childs[] = $dep;
+			unset( $list[$k] );
+		}
 
 	foreach ( $childs as $k => $c )
-	$childs[$k]['children'] = get_departments_tree( $list, $c['id'], $depth-- );
+		$childs[$k]['children'] = get_departments_tree( $list, $c['id'], --$depth );
 
 	return $childs;
 }

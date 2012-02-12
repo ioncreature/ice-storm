@@ -41,7 +41,7 @@ abstract class AbstractModel implements \I\Exportable {
 	protected $exists = false;
 
 	/**
-	 * @var I
+	 * @var \I\SqlDb
 	 */
 	protected $db;
 

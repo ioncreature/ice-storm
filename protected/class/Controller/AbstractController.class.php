@@ -133,7 +133,7 @@ abstract class AbstractController {
 
 
 	public function redirect( $path ){
-
+		redirect( $path );
 	}
 
 

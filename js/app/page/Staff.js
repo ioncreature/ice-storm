@@ -43,7 +43,7 @@ dojo.ready( function(){
 		dojo
 			.xhrGet({ url: url })
 			.then( app.page.Staff.parse_table );
-	}
+	};
 
 	/**
 	 * Renders staff table
@@ -52,7 +52,7 @@ dojo.ready( function(){
 	app.page.Staff.parse_table = function( data ){
 		var staff = { staff: dojo.fromJson( data ) };
 		$( '#staff_grid' ).html( ich.t_staff_table(staff) );
-	}
+	};
 
 	// get staff from root node
 	app.page.Staff.update_staff_list();

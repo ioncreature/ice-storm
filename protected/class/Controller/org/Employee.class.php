@@ -14,7 +14,7 @@ class Employee extends Controller {
 			'new' => 'show_add_employee',
 			'::int' => 'show_employee',
 			'::int/success' => 'show_employee_added',
-			'::int/edit' => array(
+	 		'::int/edit' => array(
 				'permission' => 'employee_edit',
 				'method' => 'show_edit_employee'
 			)

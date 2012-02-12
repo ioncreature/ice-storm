@@ -128,8 +128,8 @@ foreach ( $departments as $k => $d ){
 	$a = array(
 		'id'		=> (int) $d['id'],
 		'parent_id' => (int) $d['parent_id'],
-		'data'		=> 'Группа '. $d['name'],
-		'attr'		=> array( 
+		'data'		=> ($d['rel'] === 'group' ? 'Группа ' : ''). $d['name'],
+		'attr'		=> array(
 			'department_id' => (int) $d['id'],
 			'rel' => $d['rel']
 		)
