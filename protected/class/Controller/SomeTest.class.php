@@ -44,6 +44,6 @@ class SomeTest extends Controller {
 	}
 
 	public function run_redirect(){
-		$this->redirect( WEBURL . 'some_test' );
+		$this->redirect( 'some_test' );
 	}
 }

@@ -4,11 +4,6 @@
  *         January 2012
  */
 
-Template::add_to_block( 'js', 'dojo.require( "dijit.form.ValidationTextBox" );' );
-Template::add_to_block( 'js', 'dojo.require( "dijit.form.DateTextBox" );' );
-Template::add_to_block( 'js', 'dojo.require( "dojox.validate.regexp" );' );
-Template::add_to_block( 'js', 'dojo.require( "dijit.form.Button" );' );
-Template::add_css( WEBURL .'js/dojox/form/resources/FileInput.css' );
 ?>
 <label>
 	<span>Фамилия</span>

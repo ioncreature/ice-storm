@@ -50,6 +50,12 @@ class Employee extends Controller {
 	}
 
 
+	/**
+	 * Показывает страницу с данными сотрудника
+	 * TODO: нарисовать красивый диз этой страницы, сделать его типовым
+	 * @param int $id
+	 * @return array
+	 */
 	public function show_employee( $id ){
 		$employee = new \Model\Employee( $id );
 		$this->view->set_template( 'page/employee_show' );
@@ -69,6 +75,10 @@ class Employee extends Controller {
 	}
 
 
+	/**
+	 * Показывает форму добавления нового сотрудника
+	 * @return array
+	 */
 	public function show_add_employee(){
 		$employee = new \Model\Employee();
 		return array(
@@ -81,12 +91,19 @@ class Employee extends Controller {
 	}
 
 
+	/**
+	 * Добавление сотрудника
+	 * @return array
+	 * @throws \Exception\SQL|\Exception\Validate
+	 */
 	public function add_employee(){
 		$r = $this->request->export_array();
 		$employee = new \Model\Employee();
 		$db = \Fabric::get( 'db' );
+		// форма сотрудника
 		$form = new \Form\Employee( WEBURL . $this->get_path(), 'POST', array(), $employee );
 		$form->fetch( $r );
+		// подформа персональных данных
 		$human_form = new \Form\Human( WEBURL . $this->get_path(), 'POST', array(), $employee->Human );
 		$human_form->fetch( $r );
 
@@ -126,10 +143,15 @@ class Employee extends Controller {
 			return array( 'msg' => $e->getMessage() );
 		}
 
-		$this->redirect( WEBURL . $this->get_path() . $employee->id .'/success' );
+		$this->redirect( $this->get_path() . $employee->id .'/success' );
 	}
 
 
+	/**
+	 * Редактирование данных сотрудника
+	 * @param $id
+	 * @return array
+	 */
 	public function edit_employee( $id ){
 		$out = $this->show_edit_employee( $id );
 		$form = $out['form'];
@@ -139,41 +161,28 @@ class Employee extends Controller {
 		if ( $form->validate() ){
 			$employee->apply( $employee->filter($form->export_array()) );
 			$employee->save();
-			$this->redirect( WEBURL . $this->get_path() . $employee->id .'/success' );
+			$this->redirect( $this->get_path() . $employee->id .'/success' );
 		}
 		else
 			return $out;
 	}
 
 
+	/**
+	 * Показывает форму редактирования сотрудника
+	 * @param $id
+	 * @return array
+	 */
 	public function show_edit_employee( $id ){
 		$employee = new \Model\Employee( $id );
 		$form = new \Form\Employee( WEBURL . $this->get_path() . $id, 'POST' );
 		$form->fetch( $employee->export_array() );
 		return array(
-			'edit'          => true,
-			'employee'      => $employee,
-			'human'         => $employee->Human,
-			'department'    => $employee->Department,
-			'personal_data' => $employee->Human->export_array(),
-			'form'			=> $form
+			'edit'       => true,
+			'employee'   => $employee,
+			'human'      => $employee->Human,
+			'department' => $employee->Department,
+			'form'		 => $form
 		);
-	}
-
-
-	/**
-	 * @param array $r
-	 * @return string|true
-	 */
-	public function validate( array &$r ){
-		if ( isset($r['post'], $r['department_id'], $r['adoption_date'], $r['work_rate']) ){
-			if ( strtotime($r['adoption_date']) === -1 or strtotime($r['adoption_date']) > time() )
-				return 'Incorrect adoption date';
-
-			$r['adoption_date'] = date( 'Y-m-d', strtotime($r['adoption_date']) );
-		}
-		else
-			return 'Required fields are not received';
-		return true;
 	}
 }

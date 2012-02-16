@@ -8,14 +8,6 @@
 
 <script type="text/javascript">
 require([
-	'app/widget/Form',
-	'dijit/form/DateTextBox',
-	'dijit/form/TextBox',
-	'dijit/form/Button',
-	'dijit/form/CheckBox',
-	'dijit/form/ValidationTextBox',
-	'dijit/form/Select',
-	'dojo/domReady!',
 	'app/init'
 ], function( parser ){
 	dijit.byId( 'student_form' ).onSubmit = function(){
@@ -59,7 +51,7 @@ require([
 
 			<!-- NEW PERSONALIA -->
 			<div id="new_personalia" style="display:none;">
-				<?= Template::show( 'include/personal_data_subform', $data['human_form'] ) ?>
+				<?= Template::show( 'form/human', $data['human_form'] ) ?>
 			</div>
 
 			<script type="text/javascript">

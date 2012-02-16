@@ -127,7 +127,7 @@ require([
 
 		<!-- NEW PERSONALIA -->
 		<div id="new_personalia" style="display:none;">
-			<?= Template::show( 'include/personal_data_subform', $data['human_form'] ) ?>
+			<?= Template::show( 'form/human', $data['human_form'] ) ?>
 		</div>
 
 		<script type="text/javascript">
