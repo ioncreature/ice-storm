@@ -11,14 +11,6 @@ Template::add_js(  WEBURL .'js/dojo/dojo.js');
 
 <script type="text/javascript">
 require([
-	'app/widget/Form',
-	'dijit/form/DateTextBox',
-	'dijit/form/TextBox',
-	'dijit/form/Button',
-	'dijit/form/CheckBox',
-	'dijit/form/ValidationTextBox',
-	'dijit/form/Select',
-	'dojo/domReady!',
 	'app/init'
 ], function( parser ){
 	dijit.byId( 'employee_form' ).onSubmit = function(){

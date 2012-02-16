@@ -11,11 +11,12 @@ define([
 	'dijit/form/CheckBox',
 	'dijit/form/ValidationTextBox',
 	'dijit/form/Select',
-	'dojox/charting/widget/Chart2D',
 	'dojox/charting/themes/Claro',
+	'dojox/charting/widget/Chart2D',
 	'dojox/validate/regexp',
 	'dojo/domReady!'
 ], function( parser ){
+	console.log( 'init.js :: DOM Ready' );
 	parser.parse( document.body );
 	return { status: true };
 });

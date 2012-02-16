@@ -12,14 +12,16 @@
 //Template::add_js( '/js/dojo/dojo.js', array( 'djConfig' => 'parseOnLoad: true, isDebug: true' ));
 //Template::add_js( 'https://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js',
 //				  array( 'djConfig' => 'parseOnLoad: true, isDebug: true, gfxRenderer: "svg,silverlight,vml"' ));
-Template::add_js(  WEBURL .'js/dojo/dojo.js' );
-Template::add_js(  WEBURL .'js/app/init.js' );
 Template::add_css( WEBURL .'js/dijit/themes/claro/claro.css' );
+Template::add_css( WEBURL .'js/dijit/themes/dijit.css' );
+Template::add_js ( WEBURL .'js/dojo/dojo.js');
+
 Template::top();
 ?>
 
 
 <script type="text/javascript">
+	require(['app/init']);
 	// x and y coordinates used for easy understanding of where they should display
 	// Data represents website visits over a week period
 	chartData = [
