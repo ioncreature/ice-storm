@@ -2,8 +2,8 @@
 -- Host:                         localhost
 -- Server version:               5.1.51-community - MySQL Community Server (GPL)
 -- Server OS:                    Win32
--- HeidiSQL version:             6.0.0.4018
--- Date/time:                    2012-01-17 23:14:38
+-- HeidiSQL version:             7.0.0.4053
+-- Date/time:                    2012-02-16 22:14:19
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;

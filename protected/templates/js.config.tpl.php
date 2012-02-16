@@ -17,7 +17,7 @@
 				{ name: "dojo", location: "dojo" },
 				{ name: "dijit", location: "dijit" },
 				{ name: "dojox", location: "dojox" },
-				{ name: "app", location: "app", main: "app" }
+				{ name: "app", location: "app", main: "init" }
 			],
 			parseOnLoad: false,
 			has: {
