@@ -122,6 +122,7 @@
 		name="human_vkcom"
 		value="<?= $data->val( 'human_vkcom' ) ?>"
 		class="common_input"
+		data-dojo-type="dijit.form.ValidationTextBox"
 		data-dojo-props="required: false"
 		promptMessage="Ссылка на страницу ВКонтакте, например <i>vkontakte.ru/id1</i> или <i>http://vkontakte.ru/durov</i>"
 	/>
