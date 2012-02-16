@@ -11,19 +11,16 @@ Template::add_js(  WEBURL .'js/dojo/dojo.js');
 
 <script type="text/javascript">
 require([
-	'dojo/parser',
-	'dojo/domReady!',
-	'app/init',
 	'app/widget/Form',
 	'dijit/form/DateTextBox',
 	'dijit/form/TextBox',
 	'dijit/form/Button',
 	'dijit/form/CheckBox',
 	'dijit/form/ValidationTextBox',
-	'dijit/form/Select'
+	'dijit/form/Select',
+	'dojo/domReady!',
+	'app/init'
 ], function( parser ){
-	parser.parse( document.body );
-	console.log( dijit.byId( 'employee_form' ) );
 	dijit.byId( 'employee_form' ).onSubmit = function(){
 		if ( $( 'input[name=human_source]:checked' ).val() === 'existing' )
 			return this.validate( 'post' );

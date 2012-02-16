@@ -16,7 +16,7 @@ abstract class AbstractController {
 	protected $request;
 
 	/**
-	 * @var \View\AbstractView
+	 * @var \View\AbstractView|\View\WebPage|\View\Html|\View\Json
 	 */
 	protected $view;
 

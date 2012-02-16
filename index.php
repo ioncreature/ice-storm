@@ -89,13 +89,11 @@ try {
 					include "protected/modules/edu/group.module.php";
 					break;
 				case "students":
-					include "protected/modules/edu/students.module.php";
-					break;
-				case "student":
-					include "protected/modules/edu/student.module.php";
-					break;
+					$response->send_controller( new \Controller\edu\Students($r, 'edu/students/') );
+					die;
 				case "teachers":
 					$response->send_controller( new \Controller\edu\Teachers($r, 'edu/teachers/') );
+					die;
     			default:
 					redirect( WEBURL );
 			}
@@ -118,9 +116,7 @@ try {
 					include "protected/modules/org/departments.module.php";
 					break;
 				case "staff":
-//					include "protected/modules/org/staff.module.php";
-
-					$response->send_controller( new \Controller\edu\Teachers($r, 'edu/teachers/') );
+					$response->send_controller( new \Controller\org\Staff($r, 'org/staff/') );
 					die;
 				case "employee":
 					$response->send_controller( new \Controller\org\Employee($r, 'org/employee/') );

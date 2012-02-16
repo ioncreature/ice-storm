@@ -19,7 +19,7 @@
 				{ name: "dojox", location: "dojox" },
 				{ name: "app", location: "app", main: "app" }
 			],
-			parseOnLoad: true,
+			parseOnLoad: false,
 			has: {
 				"dojo-firebug": true,
 				"dojo-debug-messages": true
@@ -41,7 +41,8 @@
 			},
 
 			page: {
-				employee: '<?= WEBURL . 'org/employee/' ?>'
+				employee: '<?= WEBURL . 'org/employee/' ?>',
+				students: '<?= WEBURL . 'edu/students/' ?>'
 			}
 		};
 	</script>

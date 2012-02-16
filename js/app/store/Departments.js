@@ -9,7 +9,7 @@ define( 'app/store/Departments', [
 	'dojo/domReady!'
 ], function( JsonRest ){
 
-app.store.Departments = new JsonRest({
+var Departments = new JsonRest({
 	target: app.config.service.department,
 
 	mayHaveChildren: function(){
@@ -45,5 +45,5 @@ app.store.Departments = new JsonRest({
 	}
 });
 
-return app.store.Departments;
+return Departments;
 });

@@ -11,29 +11,29 @@ Template::add_js ( WEBURL .'js/app/page/Students.js' );
 ?>
 
 <div
-	dojoType="dijit.layout.BorderContainer"
+	data-dojo-type="dijit.layout.BorderContainer"
 	gutters="true"
 	design="sidebar"
 	style="min-height: 760px;">
 
 	<!-- LEFT PANE -->
-	<section id="left_pane" dojoType="dijit.layout.ContentPane" region="left" style="width: 35%; min-width: 350px; padding: 0px;">
-		<div dojoType="dijit.layout.BorderContainer" gutters="false">
-			<div dojoType="dijit.layout.ContentPane" region="top">
+	<section id="left_pane" data-dojo-type="dijit.layout.ContentPane" region="left" style="width: 35%; min-width: 350px; padding: 0px;">
+		<div data-dojo-type="dijit.layout.BorderContainer" gutters="false">
+			<div data-dojo-type="dijit.layout.ContentPane" region="top">
 				<h1>Подразделения</h1>
 			</div>
 
 			<!-- DEPARTMENTS TREE -->
-			<div dojoType="dijit.layout.ContentPane" region="center">
+			<div data-dojo-type="dijit.layout.ContentPane" region="center">
 				<div id="staff_departments_tree" style="height:100%"></div>
 			</div>
 		</div>
 	</section>
 
 	<!-- CENTER PANE -->
-	<section id="center_pane" dojoType="dijit.layout.ContentPane" region="center">
-		<section id="tabs_container" data-dojo-type="">
-			<h2 id="depatrment_name">Все сотрудики</h2>
+	<section id="center_tabs" data-dojo-type="dijit.layout.TabContainer" region="center">
+
+		<section id="students_list" data-dojo-type="dijit.layout.ContentPane" title="Все">
 			<div style="overflow: hidden; padding: 4px 0px 12px 0px;">
 				<?php if ( Auth::$acl->employee_add ): ?>
 					<a class="a-button" href="<?= WEBURL .'org/employee/new' ?>">Новый сотрудник</a>
@@ -45,7 +45,12 @@ Template::add_js ( WEBURL .'js/app/page/Students.js' );
 				</div>
 			</div>
 			<div id="staff_grid"></div>
+			<button id="test"></button>
 		</section>
+
+		<section id="new_student" data-dojo-type="dijit.layout.ContentPane" title="Новый студент">
+		</section>
+
 	</section>
 </div>
 

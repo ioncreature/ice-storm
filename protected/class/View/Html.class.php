@@ -10,7 +10,7 @@ use \Template as Template;
 
 class Html extends View {
 
-	public $template;
+	protected $template;
 
 	public function set_template( $template_name ){
 		$this->template = $template_name;
@@ -18,7 +18,7 @@ class Html extends View {
 
 
 	public function render(){
-		if ( !$this->template_name )
+		if ( !$this->template )
 			throw new \LogicException( __CLASS__ ."::render() : undefined template name" );
 
 		return Template::template_to_block( '__temp_block', $this->template, $this->get_view_data() );
