@@ -16,6 +16,13 @@ class Students extends Controller {
 				'method' => 'show_new_student_form',
 				'permission' => 'employee_add',
 				'view' => '\View\Html'
+			),
+			'::int' => 'show_student'
+		),
+		'POST' => array(
+			'' => array(
+				'method' => 'add_student',
+				'permission' => 'student_edit'
 			)
 		)
 	);
@@ -29,8 +36,8 @@ class Students extends Controller {
 	public function show_new_student_form(){
 		$this->view->set_template( 'form/student' );
 
-		$student = new \Model\Employee( $id );
-		$form = new \Form\Employee( WEBURL . $this->get_path(), 'POST' );
+		$student = new \Model\Student();
+		$form = new \Form\Student( $this->get_full_path(), 'POST' );
 		$form->fetch( $student->export_array() );
 		return array(
 			'form'     => $form,
@@ -39,6 +46,14 @@ class Students extends Controller {
 			'group'    => $student->Department,
 			'action'   => 'add'
 		);
+	}
+
+
+	public function add_student(){
+	}
+
+
+	public function show_student( $id ){
 	}
 
 }

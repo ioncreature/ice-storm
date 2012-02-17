@@ -90,7 +90,7 @@ class Validator {
 
 
 	public static function date( $value ){
-		return !!strtotime( $value );
+		return strtotime( $value ) !== false;
 	}
 
 	public function in_array( $value, array $array ){

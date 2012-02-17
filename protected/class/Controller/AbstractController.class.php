@@ -131,6 +131,15 @@ abstract class AbstractController {
 	}
 
 
+	/**
+	 * Return full path to controller(including domain name)
+	 * @return string
+	 */
+	public function get_full_path(){
+		return WEBURL . $this->get_path();
+	}
+
+
 
 	public function redirect( $path ){
 		redirect( $path );
