@@ -11,7 +11,7 @@ use \Template as Template;
 
 class WebPage extends View {
 
-	public $layout = 'layout/base';
+	public $layout = DEFAULT_LAYOUT;
 	public $template = 'page/not_found';
 
 

@@ -110,9 +110,14 @@ try {
 			break;
 
 		case 'admin':
-			$response->send_controller( new \Controller\admin\Main($r, 'admin/') );
-			die;
-		
+			switch ( $r->get(1) ){
+				case "main":
+					$response->send_controller( new \Controller\admin\Main($r, 'admin/main') );
+					die;
+				default:
+					redirect( WEBURL . 'admin/main' );
+			}
+
 		// Структура учреждения
 		case "org":
 			switch ( $r->get(1) ){

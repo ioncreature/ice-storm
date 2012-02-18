@@ -43,8 +43,8 @@ abstract class AbstractResponse {
 
 	public function send_controller( \Controller\AbstractController $c ){
 		$this
-			->set_status( $c->get_status() )
 			->set_response( $c->run() )
+			->set_status( $c->get_status() )
 			->send();
 	}
 

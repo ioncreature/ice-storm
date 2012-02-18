@@ -24,7 +24,11 @@ if ( isset($_SERVER['ENV']) and ($_SERVER['ENV'] == "muchacho_home" or $_SERVER[
 	define( 'TEMPLATES_PATH', PROTECTED_PATH .'templates/' );
 
 	define( 'ADMIN_EMAIL', 'admin@ice' );
-	
+
+	// View
+	define( 'DEFAULT_VIEW', '\View\WebPage' );
+	define( 'DEFAULT_LAYOUT', 'layout/base' );
+
 	define( 'IS_DEBUG', true );
 	error_reporting( E_ALL );
 	ini_set( "display_errors", true );
@@ -56,6 +60,9 @@ else {
 	
 	define( 'ADMIN_EMAIL', 'admin@spvi.vv' );
 
+	// View
+	define( 'DEFAULT_VIEW', '\View\WebPage' );
+	define( 'DEFAULT_LAYOUT', 'layout/base' );
 
 	define( 'IS_DEBUG', true );
 	error_reporting( E_ALL );

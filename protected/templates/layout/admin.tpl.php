@@ -38,7 +38,7 @@
 		<div class="h_wrapper">
 			<span class="logo"><a class="transition_all_03" href="<?= WEBURL ?>">Ice Storm</a></span>
 			<!-- TOP MENU -->
-			<?= Template::show( 'include/menu' ) ?>
+			<?= Template::show( 'include/admin_menu' ) ?>
 			<div class="left_section transition_all_03">
 				<div class="ls_wrapper">
 				<!--AUTH FORM -->

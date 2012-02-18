@@ -23,7 +23,7 @@ abstract class AbstractController {
 	/**
 	 * @var string - view class name
 	 */
-	protected $default_view = '\View\WebPage';
+	protected $default_view = DEFAULT_VIEW;
 
 	/**
 	 * List of routes from root $path
@@ -39,10 +39,18 @@ abstract class AbstractController {
 	 *              'method' => 'method_name',
 	 *              'permission' => 'permission_name',
 	 * 				'view' => '\View\Json'
-	 *          )
+	 *          ),
 	 * 		),
-	 *      'PUT' => ...,
-	 *      'DELETE' => ...
+	 *      'DELETE' => array(
+	 * 			'all' => array(
+	 * 				'method' => 'remove_all',
+	 * 				'view' => array(
+	 * 					'type' => '\View\WebPage',
+	 * 					'layout' => 'layout/admin',
+	 * 					'template' => 'page/remove'
+	 * 				)
+	 * 			)
+	 *		),
 	 * )
 	 * @var array
 	 */
@@ -79,19 +87,7 @@ abstract class AbstractController {
 				$path = ($this->root_path ? $this->root_path .'/' : '') . $route;
 				$params = $this->request->equal( $path, true );
 				if ( $params and $this->request->method() === mb_strtoupper($method) ){
-
-					if ( is_array($fn) ){
-						// проверка прав доступа
-						if ( isset($fn['permission']) and !\Auth::$acl->{$fn['permission']} )
-							$this->set_status( Response::STATUS_FORBIDDEN );
-						// проверка view
-						if ( isset($fn['view']) )
-							$this->view = new $fn['view'];
-						$this->callback = $fn['method'];
-					}
-					else
-						$this->callback = $fn;
-
+					$this->parse_route( $fn );
 					$this->params = is_array( $params ) ? $params : $this->params;
 					break;
 				}
@@ -101,6 +97,36 @@ abstract class AbstractController {
 		if ( !$this->view and $this->default_view )
 			$this->view = new $this->default_view;
 		$this->init();
+	}
+
+
+	/**
+	 * Парсит один роут, устанавливает всё что там есть в конфиге
+	 * @param array $fn
+	 */
+	private function parse_route( array $fn ){
+		if ( is_array($fn) ){
+
+			// парсинг прав доступа
+			if ( isset($fn['permission']) and !\Auth::$acl->{$fn['permission']} )
+				$this->set_status( Response::STATUS_FORBIDDEN );
+
+			// парсинг view
+			if ( isset($fn['view']) ){
+				if ( is_array($fn['view']) ){
+					$this->view = new $fn['view']['type'];
+					unset( $fn['view']['type'] );
+					foreach ( $fn['view'] as $method => $params )
+						$this->view->{'set_'.$method}( $params );
+				}
+				else
+					$this->view = new $fn['view'];
+			}
+
+			$this->callback = $fn['method'];
+		}
+		else
+			$this->callback = $fn;
 	}
 
 

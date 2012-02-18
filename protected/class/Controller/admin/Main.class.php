@@ -13,7 +13,12 @@ class Main extends AbstractController {
 		'GET' => array(
 			'' => array(
 				'method' => 'show',
-//				'permission' => 'admin_show_main'
+				'permission' => 'admin_main',
+				'view' => array(
+					'type' => '\View\WebPage',
+					'layout' => 'layout/admin',
+					'template' => 'page/admin/main'
+				),
 			)
 		)
 	);
@@ -21,7 +26,7 @@ class Main extends AbstractController {
 
 	public function show(){
 		$this->view->set_template( 'page/admin/main' );
-		$this->set_status( \Response\AbstractResponse::STATUS_FORBIDDEN );
+		$this->set_status( \Response\AbstractResponse::STATUS_ERROR );
 
 		return array(
 			'test' => 'man!',
