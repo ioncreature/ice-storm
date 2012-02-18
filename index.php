@@ -108,6 +108,10 @@ try {
 					redirect( WEBURL );
 			}
 			break;
+
+		case 'admin':
+			$response->send_controller( new \Controller\admin\Main($r, 'admin/') );
+			die;
 		
 		// Структура учреждения
 		case "org":
