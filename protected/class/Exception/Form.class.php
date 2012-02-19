@@ -6,4 +6,4 @@
 
 namespace Exception;
 
-class Form extends AbstractException {}
+class Form extends Base {}

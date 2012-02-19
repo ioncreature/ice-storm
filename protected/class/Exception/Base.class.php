@@ -6,6 +6,6 @@
 
 namespace Exception;
 
-class AbstractException extends \Exception {
+class Base extends \Exception {
 	protected $log = false;
 }

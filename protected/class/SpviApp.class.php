@@ -7,20 +7,34 @@
 /**
  * Single application entry point
  */
-class Application {
+class SpviApp extends \Base\AbstractApplication {
 
-	protected $request;
+	/**
+	 * @var \Request\Pasrer
+	 */
+	public static $request;
 
-	protected $response;
+	/**
+	 * @var \Response\AbstractResponse
+	 */
+	public static $response;
+
 
 	protected $user;
 
+
 	protected $session;
+
 
 	public function __construct( \Request\Parser $r, array $config ){
 	}
 
+
 	public function __destruct(){
 	}
 
+
+	public function get_user(){
+
+	}
 }

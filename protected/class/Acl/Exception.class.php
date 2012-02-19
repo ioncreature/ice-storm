@@ -7,4 +7,4 @@
 
 namespace Acl;
 
-class Exception extends \Exception\AbstractException {}
+class Exception extends \Exception\Base {}

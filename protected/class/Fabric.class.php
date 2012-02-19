@@ -15,7 +15,7 @@ class Fabric {
 			
 		else switch ( mb_strtolower($key) ){
 			case 'db':
-				$obj = new DB_MySQL2( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+				$obj = new \Db\MySql( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
 				break;
 			
 			case 'mongo':
@@ -27,7 +27,7 @@ class Fabric {
 					"password" => MONGO_PASSWORD
 				);
 				
-				$mongo_conn = new Mongo( 'mongodb://'.MONGO_HOST.':'.MONGO_PORT, $auth); 
+				$mongo_conn = new \Mongo( 'mongodb://'.MONGO_HOST.':'.MONGO_PORT, $auth);
 				$obj = $mongo_conn->selectDB( MONGO_NAME );
 				break;
 			

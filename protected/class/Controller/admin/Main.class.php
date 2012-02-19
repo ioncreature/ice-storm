@@ -19,14 +19,18 @@ class Main extends AbstractController {
 					'layout' => 'layout/admin',
 					'template' => 'page/admin/main'
 				),
-			)
+			),
+			'someaction' => 'some_method',
+			'someajaxaction' => array(
+				'method' => 'ajax_action',
+				'view' => '\View\Json'
+			),
 		)
 	);
 
 
 	public function show(){
 		$this->view->set_template( 'page/admin/main' );
-		$this->set_status( \Response\AbstractResponse::STATUS_ERROR );
 
 		return array(
 			'test' => 'man!',

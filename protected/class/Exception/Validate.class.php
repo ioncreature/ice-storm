@@ -6,4 +6,4 @@
 
 namespace Exception;
 
-class Validate extends AbstractException{}
+class Validate extends Base{}

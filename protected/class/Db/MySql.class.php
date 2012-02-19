@@ -9,7 +9,9 @@
 	использование класса для выборок более чем 1000 строк за раз.
 */
 
-class DB_MySQL2 implements \I\SqlDb {
+namespace Db;
+
+class MySql implements \I\SqlDb {
 
 
 	protected 			$connection		= null;

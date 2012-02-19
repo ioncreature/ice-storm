@@ -6,4 +6,4 @@
 
 namespace Exception;
 
-class SQL extends AbstractException {}
+class SQL extends Base {}
