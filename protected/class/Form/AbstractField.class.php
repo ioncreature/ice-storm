@@ -9,8 +9,6 @@ namespace Form;
 
 abstract class AbstractField extends \Html\Element {
 
-	protected $value;
-
 	/**
 	 * @var string
 	 */
@@ -21,11 +19,11 @@ abstract class AbstractField extends \Html\Element {
 	 */
 	protected $constraints = array();
 
-	protected $error_message;
+	protected $value;
 
-	protected $data_source;
+	protected $default_value;
 
-	protected $empty = false;
+	protected $error_message = 'Введено некорректное значение';
 
 
 	/**
@@ -37,11 +35,9 @@ abstract class AbstractField extends \Html\Element {
 	 */
 	public function __construct( $name, $value = null, array $constraints = array(), array $attributes = array() ){
 		$this->set_name( $name );
-		$this->set_value( $value );
+		$this->set_value( $value === null ? $value : $this->get_default_value() );
 		$this->set_constraints( $constraints );
-
 		parent::__construct( $this->tag_name, $attributes );
-
 		$this->init();
 	}
 
@@ -72,11 +68,6 @@ abstract class AbstractField extends \Html\Element {
 	}
 
 
-	public function set_data_source( /*Some Class*/ $ds ){
-		$this->data_source = $ds;
-	}
-
-
 	/**
 	 * Adds error message
 	 * @param $msg
@@ -96,16 +87,31 @@ abstract class AbstractField extends \Html\Element {
 	}
 
 
-	public function set_empty_value(){
-		$this->empty = true;
-	}
-
-
 	/**
+	 * Check field value on constraints
 	 * @return boolean
 	 */
 	public function validate(){
 		// make validation
-		return \Helper\Validator::validate( $this->value, $this->constraints );
+		$res = \Helper\Validator::validate( $this->value, $this->constraints );
+		if ( !$res )
+			$this->set_error( $this->error_message );
+
+		return $res;
+	}
+
+
+	public function reset(){
+		$this->set_value( $this->get_default_value() );
+	}
+
+
+	public function get_default_value(){
+		return $this->default_value;
+	}
+
+
+	public function set_default_value( $value ){
+		$this->default_value = $value;
 	}
 }

@@ -112,12 +112,34 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 
 
 	/**
+	 * Возвращает массив полей формы
+	 * @return AbstractField[]
+	 */
+	public function get_fields(){
+		return $this->_fields;
+	}
+
+
+	/**
 	 * Fetch fields values from $values
 	 * @param array $values
+	 * @return AbstractForm
 	 */
 	public function fetch( array $values ){
 		foreach ( $this->fields as $name => $params )
 			$this->_fields[$name]->set_value( isset($values[$name]) ? $values[$name] : null );
+		return $this;
+	}
+
+
+	/**
+	 * Reset field values
+	 * @return AbstractForm
+	 */
+	public function reset(){
+		foreach ( $this->get_fields() as $f )
+			$f->reset();
+		return $this;
 	}
 
 
@@ -126,12 +148,18 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 	 * @return bool
 	 */
 	public function validate(){
-		$valid = true;
-		foreach ( $this->_fields as $name => $field ){
+		foreach ( $this->_fields as $field ){
 			if ( !$field->validate() )
-				$valid = false;
+				return false;
 		}
-		return $valid;
+		return true;
+	}
+
+
+	public function export_errors(){
+		$errors = array();
+
+
 	}
 
 
@@ -159,6 +187,15 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 			return $this->_fields[$name]->get_error();
 		else
 			throw new \Exception\Form( "Field $name is not set" );
+	}
+
+
+	/**
+	 * @param $field_name
+	 * @return string|null
+	 */
+	public function error( $field_name ){
+		return $this->get_field( $field_name )->get_error();
 	}
 
 
