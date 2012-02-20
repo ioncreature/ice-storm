@@ -46,6 +46,7 @@ class Student extends AbstractForm {
 
 	public function init(){
 		// TODO: установить список групп
+
 	}
 
 }

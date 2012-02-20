@@ -87,6 +87,7 @@ abstract class AbstractController {
 				$path = ($this->root_path ? $this->root_path .'/' : '') . $route;
 				$params = $this->request->equal( $path, true );
 				if ( $params and $this->request->method() === mb_strtoupper($method) ){
+					var_dump( $fn );
 					$this->parse_route( $fn );
 					$this->params = is_array( $params ) ? $params : $this->params;
 					break;
@@ -102,9 +103,9 @@ abstract class AbstractController {
 
 	/**
 	 * Парсит один роут, устанавливает всё что там есть в конфиге
-	 * @param array $fn
+	 * @param array|string $fn
 	 */
-	private function parse_route( array $fn ){
+	private function parse_route( $fn ){
 		if ( is_array($fn) ){
 
 			// парсинг прав доступа

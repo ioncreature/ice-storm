@@ -15,7 +15,6 @@ class Human extends AbstractModel {
 		'birth_date', 'photo', 'phone', 'email', 'skype', 'icq', 'facebook', 'vkcom'
 	);
 	protected $primary_key = 'id';
-	protected $model_name = __CLASS__;
 
 
 	public function before_save(){

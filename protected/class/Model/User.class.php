@@ -9,20 +9,20 @@ namespace Model;
 
 class User extends AbstractModel{
 	
-	protected $table = 'auth_users';
-	protected $fields = array(
-		'id', 'login', 'password', 'email',
-		'active' => 'yes',
-		'human_id' => array(
-			'type' => 'int',
-			'default' => 0,
-			'foreign_key' => 'id',
-			'model' => 'Human',
-			'namespace' => 'Model'
-		)
-	);
-	protected $model_name = 'User';
-	protected $primary_key = 'id';
+	protected static
+		$table = 'auth_users',
+		$primary_key = 'id',
+		$fields = array(
+			'id', 'login', 'password', 'email',
+			'active' => 'yes',
+			'human_id' => array(
+				'type' => 'int',
+				'default' => 0,
+				'foreign_key' => 'id',
+				'model' => 'Human',
+				'namespace' => 'Model'
+			)
+		);
 
 	
 	public function get_by_login_password( $login, $password ){

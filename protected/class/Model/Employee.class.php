@@ -9,8 +9,8 @@ use \Model\AbstractModel as Model;
 
 class Employee extends Model {
 
-	protected $table = 'org_staff';
-	protected $fields = array(
+	protected static $table = 'org_staff';
+	protected static $fields = array(
 		'id', 'state', 'chief', 'work_rate',
 		'post', 'phone', 'adoption_date', 'leave_date',
 		'human_id' => array(
@@ -24,7 +24,7 @@ class Employee extends Model {
 			'namespace' => 'Model'
 		)
 	);
-	protected $primary_key = 'id';
+	protected static $primary_key = 'id';
 
 
 	/**

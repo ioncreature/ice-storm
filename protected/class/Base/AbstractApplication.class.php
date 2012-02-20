@@ -4,6 +4,8 @@
  *         February 2012
  */
 
+// TODO: придумать, блеать, всю эту куету с классом приложения
+
 abstract class AbstractApplication {
 
 	/**

@@ -113,7 +113,7 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 
 	/**
 	 * Возвращает массив полей формы
-	 * @return AbstractField[]
+	 * @return array|AbstractField[]
 	 */
 	public function get_fields(){
 		return $this->_fields;
@@ -223,4 +223,3 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 		return $this->get_attribute( 'action' );
 	}
 }
-

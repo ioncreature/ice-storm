@@ -6,14 +6,20 @@
 
 namespace Model;
 
-class Groups extends \Model\AbstractModel {
+class Group extends \Model\AbstractModel {
 
-	protected $table = 'org_groups';
-	protected $fields = array(
-		'id', 'name', 'department_id',
-		'start_date', 'end_date', 'state'
-	);
-	protected $primary_key = 'id';
+	protected static
+		$table = 'org_groups',
+		$primary_key = 'id',
+		$fields = array(
+			'id',
+			'name',
+			'department_id' => array(
+				'foreign_key' => 'id',
+				'model' => '\Model\Department',
+			),
+			'start_date', 'end_date', 'state'
+		);
 
 
 	public function get_groups_and_departments(){

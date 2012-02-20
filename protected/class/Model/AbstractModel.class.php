@@ -7,13 +7,11 @@
 
 namespace Model;
 
+/**
+ * Класс модели. Моя реализация Active Record
+ * TODO: добавить Class Table Inheritance
+ */
 abstract class AbstractModel implements \I\Exportable {
-
-	// ----------
-	// fields for redefining in descendant classes
-	
-	protected $table = '';
-	protected $primary_key = 'id';
 
 	/**
 	 * List of fields like: array(
@@ -21,24 +19,25 @@ abstract class AbstractModel implements \I\Exportable {
 	 * 		'name' => 'default value',
 	 * 		'field_name' => array(
 	 * 			'foreign_key' => 'foreign_field_name',
-	 * 			'model' => 'ModelClassName',
+	 * 			'model' => '\Model\ClassName',
 	 * 			'default' => 0,
 	 * 			'type' => 'int'
 	 * 		)
 	 *	)
 	 * @var array
 	 */
-	protected $fields = array();
+	protected static $fields = array();
+	protected static $table = '';
+	protected static $primary_key = 'id';
 
-	// fields for redefining in descendant classes
-	// ----------
 
-	
-	protected $data = array();
-	protected $orig_data = array();
-	protected $models = array();
-	protected $modified = false;
-	protected $exists = false;
+	// inner params
+	protected
+		$data = array(),
+		$orig_data = array(),
+		$models = array(),
+		$modified = false,
+		$exists = false;
 
 	/**
 	 * @var \I\SqlDb
@@ -47,21 +46,28 @@ abstract class AbstractModel implements \I\Exportable {
 
 
 	public function __construct( $object_id = false ){
-		foreach ( $this->fields as $key => $val ){
+		// Парсим поля
+		foreach ( static::$fields as $key => $val ){
 			$field = is_int($key) ? $val : $key;
+
 			// 1. Простое поле
+			if ( is_int($key) )
+				$default = null;
+
 			// 2. Поле с указанием дефолтного значения
-			if ( !is_array($val) )
-				$default = is_int($key) ? false : $val;
+			elseif ( is_string($key) and !is_array($val) )
+				$default = $val;
 
 			// 3. Поле с указанием списка параметров
 			else {
 				$default = isset($val['default']) ? $val['default'] : false;
-				if ( isset($val['model']) )
-					$this->models[$val['model']] = array(
+				if ( isset($val['model']) ){
+					$class_name = $this->parse_class_name( $val['model'] );
+					$this->models[$class_name] = array(
 						'fk' => $field,
-						'namespace' => isset($val['namespace']) ? $val['namespace'] : __NAMESPACE__
+						'model' => $val['model']
 					);
+				}
 				// TODO: добавить обработку типов полей
 			}
 
@@ -69,6 +75,12 @@ abstract class AbstractModel implements \I\Exportable {
 		}
 		if ( $object_id !== false )
 			$this->get_by_id( $object_id );
+	}
+
+
+	private function parse_class_name( $name ){
+		$chunks = explode( '\\', $name );
+		return array_pop( $chunks );
 	}
 
 
@@ -118,7 +130,7 @@ abstract class AbstractModel implements \I\Exportable {
 	public function __sleep(){
 		return array(
 			'data', 'orig_data', 'exists', 'table',
-			'fields', 'model_name', 'primary_key', 'models'
+			'fields', 'primary_key', 'models'
 		);
 	}
 
@@ -133,8 +145,8 @@ abstract class AbstractModel implements \I\Exportable {
 		$object_id = (int) $object_id;
 		$this->db_connect();
 		// TODO: сделать загрузку полей только из списка $this->fields
-		$this->orig_data = $this->db->fetch_query("
-			SELECT * FROM {$this->table} WHERE `{$this->primary_key}` = '$object_id' LIMIT 1
+		$this->orig_data = $this->db->fetch_query('
+			SELECT * FROM `'. static::$table .'` WHERE `'. static::$primary_key ."` = '$object_id' LIMIT 1
 		");
 		if ( $this->orig_data )
 			$this->exists = true;
@@ -145,7 +157,7 @@ abstract class AbstractModel implements \I\Exportable {
 
 	// Сохраняет изменения в БД
 	public function save(){
-		// сохраняем измнения в связанных моделях
+		// сохраняем изменения в связанных моделях
 		foreach ( $this->models as $name => &$m )
 			if ( isset($m['instance']) )
 				$m['instance']->save();
@@ -158,26 +170,26 @@ abstract class AbstractModel implements \I\Exportable {
 		$this->before_save();
 		// Добавляем новую запись
 		if ( !$this->exists ){
-			$data = array_diff_key( $this->data, array($this->primary_key => true) );
-			$this->data[ $this->primary_key ] = $this->db->insert( $this->table, $data );
+			$data = array_diff_key( $this->data, array(static::$primary_key => true) );
+			$this->data[ static::$primary_key ] = $this->db->insert( static::$table, $data );
 			$this->exists = true;
-			return $this->data[ $this->primary_key ];
+			return $this->data[ static::$primary_key ];
 		}
 
 		// Обновляем существующую запись
 		$set = '';
 		foreach( $this->data as $key => $value )
-			if ( $this->data[$key] !== $this->orig_data[$key] and $key !== $this->primary_key )
+			if ( $this->data[$key] !== $this->orig_data[$key] and $key !== static::$primary_key )
 				$set .= "`$key` = '". $this->db->safe( $this->data[$key] ) ."',";
 		$set = substr( $set, 0, -1 );
 
 		if ( $set )
 			$this->db->query("
-				UPDATE {$this->table}
 				SET $set
-				WHERE `{$this->primary_key}` = '". $this->db->safe( $this->orig_data[$this->primary_key] ) ."'
+				UPDATE `". static::$table ."`
+				WHERE `". static::$primary_key ."` = '". $this->db->safe( $this->orig_data[static::$primary_key] ) ."'
 			");
-		return $this->orig_data[ $this->primary_key ];
+		return $this->orig_data[ static::$primary_key ];
 	}
 
 
@@ -207,7 +219,7 @@ abstract class AbstractModel implements \I\Exportable {
 	public function apply( array $data ){
 		// TODO: добавить валидацию полей
 		foreach ( $data as $field => $value )
-			$this->$field = $value;
+			$this->$field = $value; // use of magic __get
 		return $this;
 	}
 
@@ -217,7 +229,7 @@ abstract class AbstractModel implements \I\Exportable {
 	 * @return \Model\AbstractModel
 	 */
 	public function update(){
-		$this->get_by_id( $this->{$this->primary_key} );
+		$this->get_by_id( $this->{static::$primary_key} );
 		return $this;
 	}
 
@@ -236,11 +248,12 @@ abstract class AbstractModel implements \I\Exportable {
 
 
 	public function get_model( $name ){
-		if ( isset($this->models[$name]) ){
+		$class_name = $this->parse_class_name( $name );
+
+		if ( isset($this->models[$class_name]) ){
 			$m =& $this->models[$name];
 			if ( !isset($m['instance']) ){
-				$class_name = ('\\'. $m['namespace'] ? $m['namespace'] .'\\' : '') . $name;
-				$m['instance'] = new $class_name( $this->{$m['fk']} );
+				$m['instance'] = new $m['model']( $this->{$m['fk']} );
 			}
 			return isset($m['instance']) ? $m['instance'] : false;
 		}
@@ -265,7 +278,7 @@ abstract class AbstractModel implements \I\Exportable {
 	 */
 	public function filter( $array, $key_prefix = null ){
 		$out = array();
-		foreach ( $this->fields as $k => $v ){
+		foreach ( static::$fields as $k => $v ){
 			$field = is_array($v) ? $k : $v;
 			$default = is_array($v) ? (isset($v['default']) ? $v['default'] : null) : null;
 			$out[$field] = isset( $array[$key_prefix.$field] ) ? $array[$key_prefix . $field] : $default;

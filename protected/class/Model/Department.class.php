@@ -9,12 +9,12 @@ use \Model\AbstractModel as Model;
 
 class Department extends Model {
 
-	protected $table = 'org_departments';
-	protected $fields = array(
+	protected static $table = 'org_departments';
+	protected static $fields = array(
 		'id', 'name', 'state', 'parent_id',
 		'create_date', 'edit_date', 'close_date'
 	);
-	protected $primary_key = 'id';
+	protected static $primary_key = 'id';
 
 	public function get_all(){
 		$this->db_connect();
