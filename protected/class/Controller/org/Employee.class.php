@@ -10,7 +10,7 @@ use \Controller\AbstractController as Controller;
 class Employee extends Controller {
 	public $routes = array(
 		'GET' => array(
-			'' => 'redirect',
+			'' => 'show_list',
 			'new' => 'show_add_employee',
 			'::int' => 'show_employee',
 			'::int/success' => 'show_employee_added',
@@ -184,5 +184,10 @@ class Employee extends Controller {
 			'department' => $employee->Department,
 			'form'		 => $form
 		);
+	}
+
+
+	public function show_list(){
+		$this->view->set_template( 'page/staff' );
 	}
 }

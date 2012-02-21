@@ -124,9 +124,6 @@ try {
 				case "departments":
 					include "protected/modules/org/departments.module.php";
 					break;
-				case "staff":
-					$response->send_controller( new \Controller\org\Staff($r, 'org/staff/') );
-					die;
 				case "employee":
 					$response->send_controller( new \Controller\org\Employee($r, 'org/employee/') );
 					die();
@@ -163,10 +160,10 @@ try {
 catch ( CacheException $e ){
 	echo "Ошибка кеширования: ". $e->getMessage();
 }
-catch ( \Exception\SQL $e ){
-	echo "Ошибка БД: ". $e->getMessage();
-}
-catch ( Exception $e ){
-	echo "Неизвестная ошибка: ". $e->getMessage();
-}
+//catch ( \Exception\SQL $e ){
+//	echo "Ошибка БД: ". $e->getMessage();
+//}
+//catch ( Exception $e ){
+//	echo "Неизвестная ошибка: ". $e->getMessage();
+//}
 ?>

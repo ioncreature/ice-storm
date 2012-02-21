@@ -23,7 +23,7 @@
 	</li>
 	<li><span class="a">Структура учреждения</span>
 		<ul class="v_menu">
-			<li><a href="<?= WEBURL .'org/staff' ?>">Сотрудники</a></li>
+			<li><a href="<?= WEBURL .'org/employee' ?>">Сотрудники</a></li>
 			<li><a href="<?= WEBURL .'org/departments' ?>">Подразделения</a></li>
 		</ul>
 	</li>
