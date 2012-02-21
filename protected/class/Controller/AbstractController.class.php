@@ -87,7 +87,6 @@ abstract class AbstractController {
 				$path = ($this->root_path ? $this->root_path .'/' : '') . $route;
 				$params = $this->request->equal( $path, true );
 				if ( $params and $this->request->method() === mb_strtoupper($method) ){
-					var_dump( $fn );
 					$this->parse_route( $fn );
 					$this->params = is_array( $params ) ? $params : $this->params;
 					break;

@@ -15,13 +15,11 @@ class Employee extends Model {
 		'post', 'phone', 'adoption_date', 'leave_date',
 		'human_id' => array(
 			'foreign_key' => 'id',
-			'model' => 'Human',
-			'namespace' => 'Model'
+			'model' => '\Model\Human',
 		),
 		'department_id' => array(
 			'foreign_key' => 'id',
-			'model' => 'Department',
-			'namespace' => 'Model'
+			'model' => '\Model\Department',
 		)
 	);
 	protected static $primary_key = 'id';

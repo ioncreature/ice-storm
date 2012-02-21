@@ -19,8 +19,7 @@ class User extends AbstractModel{
 				'type' => 'int',
 				'default' => 0,
 				'foreign_key' => 'id',
-				'model' => 'Human',
-				'namespace' => 'Model'
+				'model' => '\Model\Human',
 			)
 		);
 

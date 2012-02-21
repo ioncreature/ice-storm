@@ -9,12 +9,14 @@ namespace Model;
 
 class Human extends AbstractModel {
 	
-	protected $table = 'org_humans';
-	protected $fields = array(
-		'id', 'first_name', 'middle_name', 'last_name', 'full_name',
-		'birth_date', 'photo', 'phone', 'email', 'skype', 'icq', 'facebook', 'vkcom'
-	);
-	protected $primary_key = 'id';
+	protected static
+		$table = 'org_humans',
+		$primary_key = 'id',
+		$fields = array(
+			'id', 'first_name', 'middle_name', 'last_name',
+			'full_name', 'birth_date', 'photo',
+			'phone', 'email', 'skype', 'icq', 'facebook', 'vkcom'
+		);
 
 
 	public function before_save(){

@@ -58,7 +58,7 @@ interface SqlDb {
 	public function fetch();
 
 
-	public function fetch_query();
+	public function fetch_query( $query );
 
 
 	// Возвращает двумерный массив - результат последнего запроса

@@ -253,6 +253,7 @@ abstract class AbstractModel implements \I\Exportable {
 		if ( isset($this->models[$class_name]) ){
 			$m =& $this->models[$name];
 			if ( !isset($m['instance']) ){
+//				var_dump($m['model']);
 				$m['instance'] = new $m['model']( $this->{$m['fk']} );
 			}
 			return isset($m['instance']) ? $m['instance'] : false;
