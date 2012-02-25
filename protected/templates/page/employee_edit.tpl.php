@@ -49,7 +49,7 @@ require([
 		<span>Подразделение</span>
 		<select
 			name="department_id"
-			data-dojo-type="dijit.form.Select"
+			data-dojo-type="dijit.form.FilteringSelect"
 			style="width: 300px;"
 			class="common_input"
 			requred="true"
@@ -93,7 +93,7 @@ require([
 
 	<label>
 		<span>Руководитель подразделения</span>
-		<?= $data['form']->get_field('chief')->render() ?>
+		<?= $data['form']->render_field( 'chief' ) ?>
 	</label>
 
 <?php if ( !isset($data['edit']) or !$data['edit'] ): ?>
@@ -110,7 +110,7 @@ require([
 
 		<!-- EXISTING PERSONALIA -->
 		<div id="exisiting_personalia">
-			<select name="human_id" data-dojo-type="dijit.form.Select" style="width: 350px;">
+			<select name="human_id" data-dojo-type="dijit.form.FilteringSelect" style="width: 350px;">
 				<?php foreach( $data['human']->get_all() as $h ): ?>
 					<option value="<?= $h['id'] ?>"><?= $h['name'] ?></option>
 				<?php endforeach; ?>

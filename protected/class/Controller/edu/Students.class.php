@@ -12,11 +12,6 @@ class Students extends Controller {
 	public $routes = array(
 		'GET' => array(
 			'' => 'show_students',
-			'new' => array(
-				'method' => 'show_new_student_form',
-				'permission' => 'employee_add',
-				'view' => '\View\Html'
-			),
 			'::int' => 'show_student'
 		),
 		'POST' => array(
@@ -30,21 +25,26 @@ class Students extends Controller {
 
 	public function show_students(){
 		$this->view->set_template( 'page/students' );
+		return array(
+			'new_student' => $this->show_new_student_form()
+		);
 	}
 
 
 	public function show_new_student_form(){
-		$this->view->set_template( 'form/student' );
-
 		$student = new \Model\Student();
+
 		$form = new \Form\Student( $this->get_full_path(), 'POST' );
 		$form->fetch( $student->export_array() );
+
+		$human_form = new \Form\Human( $this->get_full_path() );
+		$human_form->fetch( $student->Human->export_array() );
+
 		return array(
-			'form'     => $form,
-			'employee' => $student,
-			'human'    => $student->Human,
-			'group'    => $student->Department,
-			'action'   => 'add'
+			'form'       => $form,
+			'employee'   => $student,
+			'human_form' => $human_form,
+			'action'     => 'add',
 		);
 	}
 

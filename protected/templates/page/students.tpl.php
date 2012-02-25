@@ -35,9 +35,6 @@ Template::add_js ( WEBURL .'js/app/page/Students.js' );
 
 		<section id="students_list" data-dojo-type="dijit.layout.ContentPane" title="Все">
 			<div style="overflow: hidden; padding: 4px 0px 12px 0px;">
-				<?php if ( Auth::$acl->employee_add ): ?>
-					<a class="a-button" href="<?= WEBURL .'org/employee/new' ?>">Новый сотрудник</a>
-				<?php endif; ?>
 				<div style="float: right; width: 50%; text-align: right; padding: 2px;">
 					<form id="staff_search" action="<?= WEBURL .'service/staff/search/' ?>" method="POST">
 						Поиск&nbsp;<input name="name" type="text" class="common" style="display: inline-block; width:200px; margin:0px; padding:0px;" />
@@ -48,8 +45,11 @@ Template::add_js ( WEBURL .'js/app/page/Students.js' );
 			<button id="test"></button>
 		</section>
 
-		<section id="new_student" data-dojo-type="dijit.layout.ContentPane" title="Новый студент">
-		</section>
+		<?php if ( Auth::$acl->student_read ): ?>
+			<section id="new_student" data-dojo-type="dijit.layout.ContentPane" title="Новый студент">
+				<?= Template::show( 'form/student', $data['new_student'] ) ?>
+			</section>
+		<?php endif; ?>
 
 	</section>
 </div>

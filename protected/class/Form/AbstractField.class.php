@@ -6,7 +6,6 @@
 
 namespace Form;
 
-
 abstract class AbstractField extends \Html\Element {
 
 	/**
@@ -72,12 +71,12 @@ abstract class AbstractField extends \Html\Element {
 	 * Adds error message
 	 * @param $msg
 	 */
-	public function set_error( $msg ){
+	public function set_error_message( $msg ){
 		$this->error_message .= \Helper\Html::encode( $msg );
 	}
 
 
-	public function get_error(){
+	public function get_error_message(){
 		return $this->error_message;
 	}
 
@@ -113,5 +112,10 @@ abstract class AbstractField extends \Html\Element {
 
 	public function set_default_value( $value ){
 		$this->default_value = $value;
+	}
+
+
+	public function set_required( $req ){
+		$this->required = true;
 	}
 }

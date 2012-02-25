@@ -11,6 +11,7 @@ define([
 	'dijit/form/CheckBox',
 	'dijit/form/ValidationTextBox',
 	'dijit/form/Select',
+	'dijit/form/FilteringSelect',
 	'dojox/charting/themes/Claro',
 	'dojox/charting/widget/Chart2D',
 	'dojox/validate/regexp',
