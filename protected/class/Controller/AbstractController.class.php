@@ -26,7 +26,7 @@ abstract class AbstractController {
 	protected $default_view = DEFAULT_VIEW;
 
 	/**
-	 * List of routes from root $path
+	 * List of routes from $root_path
 	 * This param must looks like:
 	 * array(
 	 * 		'GET' => array(
@@ -166,7 +166,9 @@ abstract class AbstractController {
 	}
 
 
-
+	/**
+	 * @param string $path
+	 */
 	public function redirect( $path ){
 		redirect( $path );
 	}
@@ -207,4 +209,10 @@ abstract class AbstractController {
 				return $v->render();
 		}
 	}
+
+	// events
+	// TODO: придумать как их красиво впихнуть
+	public function on_access_denied(){}
+	public function on_not_found(){}
+	public function on_error(){}
 }

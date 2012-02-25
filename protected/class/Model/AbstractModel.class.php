@@ -13,22 +13,22 @@ namespace Model;
  */
 abstract class AbstractModel implements \I\Exportable {
 
-	/**
-	 * List of fields like: array(
-	 * 		'id',
-	 * 		'name' => 'default value',
-	 * 		'field_name' => array(
-	 * 			'foreign_key' => 'foreign_field_name',
-	 * 			'model' => '\Model\ClassName',
-	 * 			'default' => 0,
-	 * 			'type' => 'int'
-	 * 		)
-	 *	)
-	 * @var array
-	 */
-	protected static $fields = array();
-	protected static $table = '';
-	protected static $primary_key = 'id';
+	protected static
+		$table = '',
+		$primary_key = 'id',
+		/**
+		 * List of fields like: array(
+		 * 		'field_name1',
+		 * 		'field_name2' => 'default value',
+		 * 		'field_name3' => array(
+		 * 			'foreign_key' => 'foreign_field_name',
+		 * 			'model' => '\Model\ClassName',
+		 * 			'default' => 0,
+		 * 		)
+		 *	)
+		 * @var array
+		 */
+		$fields = array();
 
 
 	// inner params
@@ -47,6 +47,7 @@ abstract class AbstractModel implements \I\Exportable {
 
 	public function __construct( $object_id = false ){
 		// Парсим поля
+		// TODO: в связи с переходом на статические $table, $fields, $primary_key парсить только один раз
 		foreach ( static::$fields as $key => $val ){
 			$field = is_int($key) ? $val : $key;
 
@@ -128,10 +129,7 @@ abstract class AbstractModel implements \I\Exportable {
 
 
 	public function __sleep(){
-		return array(
-			'data', 'orig_data', 'exists', 'table',
-			'fields', 'primary_key', 'models'
-		);
+		return array( 'data', 'orig_data', 'exists', 'models', 'modified' );
 	}
 
 
