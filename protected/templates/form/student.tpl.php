@@ -75,7 +75,7 @@ require([
 			value="<?= $data['form']->val('dismissal_date') ?>"
 			class="common_input"
 			data-dojo-type="dijit.form.DateTextBox"
-			data-dojo-props="constraints: { max: '<?= date('Y-m-d') ?>', datePattern: 'yyyy.MM.dd' }"
+			data-dojo-props="constraints: { max: '<?= date('Y-m-d', time()+24*3600*15) ?>', datePattern: 'yyyy.MM.dd' }"
 		></div>
 		<span class="error_msg"><?= $data['form']->error('dismissal_date') ?></span>
 	</label>

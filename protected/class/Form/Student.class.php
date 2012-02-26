@@ -44,7 +44,6 @@ class Student extends AbstractForm {
 		),
 		'dismissal_order' => array(
 			'type' => '\Form\Field\Text',
-			'constraints' => array( 'not_empty' )
 		),
 		'dismissal_reason' => array(
 			'type' => '\Form\Field\Select',

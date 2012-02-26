@@ -148,11 +148,12 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 	 * @return bool
 	 */
 	public function validate(){
-		foreach ( $this->_fields as $field ){
+		$valid = true;
+		foreach ( $this->_fields as $field )
 			if ( !$field->validate() )
-				return false;
-		}
-		return true;
+				$valid = false;
+
+		return $valid;
 	}
 
 

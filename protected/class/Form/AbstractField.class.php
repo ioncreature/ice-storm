@@ -74,7 +74,7 @@ abstract class AbstractField extends \Html\Element {
 	 * @param $msg
 	 */
 	public function set_error_message( $msg ){
-		$this->error_message .= \Helper\Html::encode( $msg );
+		$this->error_message = \Helper\Html::encode( $msg );
 	}
 
 

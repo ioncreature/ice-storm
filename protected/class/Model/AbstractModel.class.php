@@ -278,8 +278,10 @@ abstract class AbstractModel implements \I\Exportable {
 	public function filter( $array, $key_prefix = null ){
 		$out = array();
 		foreach ( static::$fields as $k => $v ){
-			$field = is_array($v) ? $k : $v;
-			$default = is_array($v) ? (isset($v['default']) ? $v['default'] : null) : null;
+			$field = is_array($v) || is_string($k) ? $k : $v;
+			$default = is_array($v) ?
+				(isset($v['default']) ? $v['default'] : null) :
+				(is_string($k) ? $v : null);
 			$out[$field] = isset( $array[$key_prefix.$field] ) ? $array[$key_prefix . $field] : $default;
 		}
 		return $out;
