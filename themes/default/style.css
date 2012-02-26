@@ -209,6 +209,11 @@ div.success {
 	padding: 3px;
 	border-radius: 4px;
 }
+span.error_msg {
+	color: #C55;
+	/*font-weight: bold;*/
+	display: inline;
+}
 
 
 /* AUTH FORM */
@@ -419,7 +424,7 @@ span.loader div{
 	margin: 1px 0;
 	vertical-align: text-top;
 }
-.common_form label > span {
+.common_form label > span.label {
 	display: inline-block;
 	width: 250px;
 	max-width: 250px;

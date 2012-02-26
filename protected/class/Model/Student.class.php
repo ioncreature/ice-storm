@@ -25,6 +25,7 @@ class Student extends \Model\AbstractModel {
 			'enrollment_date',
 			'enrollment_order',
 			'dismissal_date',
-			'dismissal_order'
+			'dismissal_order',
+			'dismissal_reason' => 'none'
 		);
 }

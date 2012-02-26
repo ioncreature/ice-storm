@@ -4,14 +4,16 @@
 	Marenin Alex
 	2011
 */
-// The factory method
+
+namespace Db;
+
 class Fabric {
 	
 	protected static $obj = array();
 		
 	public static function get( $key, $new = false ){
-		if ( isset( Fabric::$obj[$key] ) and !$new )
-			return Fabric::$obj[$key];
+		if ( isset( static::$obj[$key] ) and !$new )
+			return static::$obj[$key];
 			
 		else switch ( mb_strtolower($key) ){
 			case 'db':
@@ -31,16 +33,12 @@ class Fabric {
 				$obj = $mongo_conn->selectDB( MONGO_NAME );
 				break;
 			
-			case 'session':
-//				$obj = new SessionStorage();
-				break;
-			
 			default:
 				throw new Exception( "Class type \"$key\" not found" );
 		}
 		
 		if ( !$new )
-			Fabric::$obj[$key] = $obj;
+			static::$obj[$key] = $obj;
 		
 		return $obj;
 	}

@@ -99,12 +99,12 @@ class Employee extends Controller {
 	public function add_employee(){
 		$r = $this->request->export_array();
 		$employee = new \Model\Employee();
-		$db = \Fabric::get( 'db' );
+		$db = \Db\Fabric::get( 'db' );
 		// форма сотрудника
-		$form = new \Form\Employee( WEBURL . $this->get_path(), 'POST', array(), $employee );
+		$form = new \Form\Employee( $this->get_full_path(), 'POST', array(), $employee );
 		$form->fetch( $r );
 		// подформа персональных данных
-		$human_form = new \Form\Human( WEBURL . $this->get_path(), 'POST', array(), $employee->Human );
+		$human_form = new \Form\Human( $this->get_full_path(), 'POST', array(), $employee->Human );
 		$human_form->fetch( $r );
 
 		try {

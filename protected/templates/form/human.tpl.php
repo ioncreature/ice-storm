@@ -6,7 +6,7 @@
 
 ?>
 <label>
-	<span>Фамилия</span>
+	<span class="label">Фамилия</span>
 	<input
 		type="text"
 		name="human_last_name"
@@ -18,7 +18,7 @@
 </label>
 
 <label>
-	<span>Имя</span>
+	<span class="label">Имя</span>
 	<input
 		type="text"
 		name="human_first_name"
@@ -30,7 +30,7 @@
 </label>
 
 <label>
-	<span>Отчество</span>
+	<span class="label">Отчество</span>
 	<input
 		type="text"
 		name="human_middle_name"
@@ -57,7 +57,7 @@
 -->
 
 <label>
-	<span>Дата рождения</span>
+	<span class="label">Дата рождения</span>
 	<input
 		name="human_birth_date"
 		value="<?= $data->val( 'human_birth_date' ) ?>"
@@ -68,7 +68,7 @@
 </label>
 
 <label>
-	<span>Мобильный телефон</span>
+	<span class="label">Мобильный телефон</span>
 	<input
 		type="text"
 		name="human_phone"
@@ -80,7 +80,7 @@
 </label>
 
 <label>
-	<span>Email</span>
+	<span class="label">Email</span>
 	<input
 		type="text"
 		name="human_email"
@@ -92,7 +92,7 @@
 </label>
 
 <label>
-	<span>Skype-аккаунт</span>
+	<span class="label">Skype-аккаунт</span>
 	<input
 		type="text"
 		name="human_skype"
@@ -104,7 +104,7 @@
 </label>
 
 <label>
-	<span>ICQ-аккаунт</span>
+	<span class="label">ICQ-аккаунт</span>
 	<input
 		type="text"
 		name="human_icq"
@@ -116,7 +116,7 @@
 </label>
 
 <label>
-	<span>Адрес страницы во vkontakte.ru</span>
+	<span class="label">Адрес страницы во vkontakte.ru</span>
 	<input
 		type="text"
 		name="human_vkcom"
@@ -129,7 +129,7 @@
 </label>
 
 <label>
-	<span>Адрес страницы в facebook.com</span>
+	<span class="label">Адрес страницы в facebook.com</span>
 	<input
 		type="text"
 		name="human_facebook"

@@ -7,7 +7,7 @@
 */
 
 $r = \Request\Parser::get_instance();
-$db = Fabric::get('db');
+$db = \Db\Fabric::get('db');
 $i = 0;
 
 

@@ -6,7 +6,7 @@
 */
 
 $r = \Request\Parser::get_instance();
-$db = Fabric::get('db');
+$db = \Db\Fabric::get('db');
 
 
 // идентификатор учебного плана 'edu/curriculum/::course_id'

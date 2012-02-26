@@ -6,7 +6,7 @@
 */
 
 $r = \Request\Parser::get_instance();
-$db = Fabric::get('db');
+$db = \Db\Fabric::get('db');
 
 
 // возвращает список вложеннх подразделений
@@ -204,8 +204,7 @@ $("#departments_tree")
 		crrm: {},
 		core: {}
 	})
-	
-	
+
 	// Создание
 	.bind( 'create.jstree', function( e, data ){
 		console.log('create.jstree: ' + data.rslt.name);	

@@ -24,6 +24,8 @@ abstract class AbstractField extends \Html\Element {
 
 	protected $error_message = 'Введено некорректное значение';
 
+	protected $has_error = false;
+
 
 	/**
 	 * Constructor
@@ -77,7 +79,7 @@ abstract class AbstractField extends \Html\Element {
 
 
 	public function get_error_message(){
-		return $this->error_message;
+		return $this->has_error ? $this->error_message : null;
 	}
 
 
@@ -94,7 +96,7 @@ abstract class AbstractField extends \Html\Element {
 		// make validation
 		$res = \Helper\Validator::validate( $this->value, $this->constraints );
 		if ( !$res )
-			$this->set_error( $this->error_message );
+			$this->has_error = true;
 
 		return $res;
 	}
@@ -112,10 +114,5 @@ abstract class AbstractField extends \Html\Element {
 
 	public function set_default_value( $value ){
 		$this->default_value = $value;
-	}
-
-
-	public function set_required( $req ){
-		$this->required = true;
 	}
 }

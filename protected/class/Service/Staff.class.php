@@ -25,7 +25,7 @@ class Staff extends AbstractService {
 
 
 	public function init(){
-		$this->db = \Fabric::get( 'db' );
+		$this->db = \Db\Fabric::get( 'db' );
 		$this->model = new \Model\Employee();
 	}
 

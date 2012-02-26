@@ -87,7 +87,7 @@ abstract class AbstractModel implements \I\Exportable {
 
 	protected function db_connect(){
 		if ( !$this->db )
-			$this->db = \Fabric::get( 'db' );
+			$this->db = \Db\Fabric::get( 'db' );
 	}
 
 

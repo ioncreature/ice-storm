@@ -45,6 +45,15 @@ class Student extends AbstractForm {
 		'dismissal_order' => array(
 			'type' => '\Form\Field\Text',
 			'constraints' => array( 'not_empty' )
+		),
+		'dismissal_reason' => array(
+			'type' => '\Form\Field\Select',
+			'value' => 'none',
+			'options' => array(
+				array( 'title' => ' - ', 'value' => 'none' ),
+				array( 'title' => 'Окончание учебы', 'value' => 'graduation' ),
+				array( 'title' => 'Неуспеваемость', 'value' => 'poor_progress' ),
+			)
 		)
 	);
 
