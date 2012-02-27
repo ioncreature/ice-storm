@@ -185,10 +185,11 @@ abstract class AbstractModel implements \I\Exportable {
 
 		if ( $set )
 			$this->db->query("
-				SET $set
 				UPDATE `". static::$table ."`
+				SET $set
 				WHERE `". static::$primary_key ."` = '". $this->db->safe( $this->orig_data[static::$primary_key] ) ."'
 			");
+//		var_dump( $this->data, $this->orig_data, $set, static::$table ); die;
 		return $this->orig_data[ static::$primary_key ];
 	}
 
@@ -253,7 +254,6 @@ abstract class AbstractModel implements \I\Exportable {
 		if ( isset($this->models[$class_name]) ){
 			$m =& $this->models[$name];
 			if ( !isset($m['instance']) ){
-//				var_dump($m['model']);
 				$m['instance'] = new $m['model']( $this->{$m['fk']} );
 			}
 			return isset($m['instance']) ? $m['instance'] : false;

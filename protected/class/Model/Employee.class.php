@@ -9,20 +9,21 @@ use \Model\AbstractModel as Model;
 
 class Employee extends Model {
 
-	protected static $table = 'org_staff';
-	protected static $fields = array(
-		'id', 'state', 'chief', 'work_rate',
-		'post', 'phone', 'adoption_date', 'leave_date',
-		'human_id' => array(
-			'foreign_key' => 'id',
-			'model' => '\Model\Human',
-		),
-		'department_id' => array(
-			'foreign_key' => 'id',
-			'model' => '\Model\Department',
-		)
-	);
-	protected static $primary_key = 'id';
+	protected static
+		$table = 'org_staff',
+		$primary_key = 'id',
+		$fields = array(
+			'id', 'state', 'chief', 'work_rate',
+			'post', 'phone', 'adoption_date', 'leave_date',
+			'human_id' => array(
+				'foreign_key' => 'id',
+				'model' => '\Model\Human',
+			),
+			'department_id' => array(
+				'foreign_key' => 'id',
+				'model' => '\Model\Department',
+			)
+		);
 
 
 	/**
