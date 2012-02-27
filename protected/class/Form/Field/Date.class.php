@@ -8,6 +8,6 @@ namespace Form\Field;
 
 class Date extends \Form\AbstractField {
 
-
+	protected $constraints = array( 'date' );
 
 }

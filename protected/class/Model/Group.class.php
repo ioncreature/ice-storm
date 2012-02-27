@@ -64,4 +64,13 @@ class Group extends \Model\AbstractModel {
 
 	}
 
+
+	public function get_all(){
+		$this->db_connect();
+		return $this->db->query("
+			SELECT *
+			FROM edu_groups
+			WHERE state = 'on'
+		", 'id' );
+	}
 }

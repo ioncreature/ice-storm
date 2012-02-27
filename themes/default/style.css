@@ -61,9 +61,9 @@ input[type=submit].common, input[type=button].common, button.common{
 }
 input[type="submit"].common:hover, input[type="button"].common:hover, button.common:hover{
 	background: -webkit-linear-gradient(top, #FFF, #BBC6E6);
-	background: -moz-linear-gradient(top, #FFF, #BBC6E6);
-	background: -o-linear-gradient(top, #FFF, #BBC6E6);
-	background: -ms-linear-gradient(top, #FFF, #BBC6E6);
+	background:    -moz-linear-gradient(top, #FFF, #BBC6E6);
+	background:     -ms-linear-gradient(top, #FFF, #BBC6E6);
+	background:      -o-linear-gradient(top, #FFF, #BBC6E6);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#BBC6E6');
 }
 /* COMMON FORMS STYLE */
@@ -99,6 +99,10 @@ div#header span.logo {
 div#header span.logo a {
     text-decoration: none;
     color: #B0C5E0;
+	-webkit-transition: color 0.5s;
+	   -moz-transition: color 0.5s;
+	     -o-transition: color 0.5s;
+	        transition: color 0.5s;
 }
 div#header span.logo a:hover {
     color: #EFF8FF;
@@ -204,6 +208,11 @@ div.success {
 	margin: 10px 0 5px 0;
 	padding: 3px;
 	border-radius: 4px;
+}
+span.error_msg {
+	color: #b04a4a;
+	/*font-weight: bold;*/
+	display: inline;
 }
 
 
@@ -415,7 +424,7 @@ span.loader div{
 	margin: 1px 0;
 	vertical-align: text-top;
 }
-.common_form label > span {
+.common_form label > span.label {
 	display: inline-block;
 	width: 250px;
 	max-width: 250px;

@@ -148,11 +148,12 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 	 * @return bool
 	 */
 	public function validate(){
-		foreach ( $this->_fields as $field ){
+		$valid = true;
+		foreach ( $this->_fields as $field )
 			if ( !$field->validate() )
-				return false;
-		}
-		return true;
+				$valid = false;
+
+		return $valid;
 	}
 
 
@@ -178,24 +179,21 @@ abstract class AbstractForm extends Element implements \I\Exportable {
 
 
 	/**
-	 * @param string $name field name
-	 * @return mixed
-	 * @throws \Exception\Form
+	 * @param strung $field_name
+	 * @return string|null
 	 */
-	public function msg( $name ){
-		if ( isset($this->_fields[$name]) )
-			return $this->_fields[$name]->get_error();
-		else
-			throw new \Exception\Form( "Field $name is not set" );
+	public function error( $field_name ){
+		return $this->get_field( $field_name )->get_error_message();
 	}
 
 
 	/**
+	 * Renders field
 	 * @param $field_name
-	 * @return string|null
+	 * @return string
 	 */
-	public function error( $field_name ){
-		return $this->get_field( $field_name )->get_error();
+	public function render_field( $field_name ){
+		return $this->get_field( $field_name )->render();
 	}
 
 

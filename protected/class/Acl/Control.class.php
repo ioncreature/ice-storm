@@ -15,7 +15,10 @@
 namespace Acl;
 
 class Control {
-	
+
+	/**
+	 * @var \Acl\Driver
+	 */
 	protected $driver;
 	
 	public function __construct( $driver_name = '\Acl\Driver\MySQL' ){
@@ -32,7 +35,7 @@ class Control {
 		if ( mb_ereg_match( '$[a-z0-9_]{1,50}^', $name ))
 			return $this->driver->add_permission( $name, $description );
 		else 
-			throw new \Acl\Exception( '\\Acl\\Control::add_permission : Incorrect permission name. Permission name must contain only small latin characters, digits and "_" symbol' );
+			throw new \Acl\Exception( '\Acl\Control::add_permission : Incorrect permission name. Permission name must contain only small latin characters, digits and "_" symbol' );
 	}
 	
 	

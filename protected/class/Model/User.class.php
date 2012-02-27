@@ -29,10 +29,10 @@ class User extends AbstractModel{
 		$login = $this->db->safe( $login );
 		$password =  $this->hash( $password );
 		$user = $this->db->fetch_query("
-			SELECT * 
-			FROM {$this->table} 
-			WHERE 
-				login = '$login' and 
+			SELECT *
+			FROM ". static::$table ."
+			WHERE
+				login = '$login' and
 				password = '$password'
 			LIMIT 1
 		");

@@ -31,11 +31,11 @@ require([
 	method="POST"
 	data-dojo-type="app.widget.Form"
 >
-	<?php if ( isset($data['employee']) and $data['employee']->id ): ?>
+	<?php if ( $data['action'] === 'add' ): ?>
 		<input type="hidden" name="employee_id" value="<?= $data['employee']->id ?>" />
 	<?php endif; ?>
 	<label>
-		<span>Должность</span>
+		<span class="label">Должность</span>
 		<input
 			value="<?= $data['form']->val( 'post' ); ?>"
 			name="post"
@@ -46,10 +46,10 @@ require([
 	</label>
 
 	<label>
-		<span>Подразделение</span>
+		<span class="label">Подразделение</span>
 		<select
 			name="department_id"
-			data-dojo-type="dijit.form.Select"
+			data-dojo-type="dijit.form.FilteringSelect"
 			style="width: 300px;"
 			class="common_input"
 			requred="true"
@@ -57,18 +57,18 @@ require([
 	</label>
 
 	<label>
-		<span>Рабочий телефон</span>
+		<span class="label">Рабочий телефон</span>
 		<input
 			data-dojo-type="dijit.form.ValidationTextBox"
 			value="<?= $data['form']->val( 'phone' ); ?>"
 			name="phone"
 			class="common_input"
 			data-dojo-props="required: false, regExp: '\\s*[\+]?[0-9 \(\)-]{2,20}\\s*'"
-			>
+		/>
 	</label>
 
 	<label>
-		<span>Дата приема на работу</span>
+		<span class="label">Дата приема на работу</span>
 		<div
 			name="adoption_date"
 			value="<?= $data['form']->val('adoption_date') ?>"
@@ -79,21 +79,19 @@ require([
 	</label>
 
 	<label>
-		<span>Ставка</span>
+		<span class="label">Ставка</span>
 		<select
 			name="work_rate"
 			data-dojo-type="dijit.form.Select"
 			style="width: 300px;"
 			class="common_input"
 			required="true"
-		>
-			<?= $data['form']->get_field( 'work_rate' )->render_body(); ?>
-		</select>
+		><?= $data['form']->get_field( 'work_rate' )->render_body(); ?></select>
 	</label>
 
 	<label>
-		<span>Руководитель подразделения</span>
-		<?= $data['form']->get_field('chief')->render() ?>
+		<span class="label">Руководитель подразделения</span>
+		<?= $data['form']->render_field( 'chief' ) ?>
 	</label>
 
 <?php if ( !isset($data['edit']) or !$data['edit'] ): ?>
@@ -110,7 +108,7 @@ require([
 
 		<!-- EXISTING PERSONALIA -->
 		<div id="exisiting_personalia">
-			<select name="human_id" data-dojo-type="dijit.form.Select" style="width: 350px;">
+			<select name="human_id" data-dojo-type="dijit.form.FilteringSelect" style="width: 350px;">
 				<?php foreach( $data['human']->get_all() as $h ): ?>
 					<option value="<?= $h['id'] ?>"><?= $h['name'] ?></option>
 				<?php endforeach; ?>

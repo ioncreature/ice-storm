@@ -112,8 +112,18 @@ try {
 		case 'admin':
 			switch ( $r->get(1) ){
 				case "main":
-					$response->send_controller( new \Controller\admin\Main($r, 'admin/main') );
+					$response->send_controller( new \Controller\admin\Main($r, 'admin/main/') );
 					die;
+				case "acl":
+					switch ( $r->get(2) ){
+						case "users":
+							$response->send_controller( new \Controller\acl\Users($r, 'admin/acl/users/') );
+							die;
+						case "groups":
+							$response->send_controller( new \Controller\acl\Groups($r, 'admin/acl/groups/') );
+							die;
+					}
+
 				default:
 					redirect( WEBURL . 'admin/main' );
 			}
