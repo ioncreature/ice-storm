@@ -45,11 +45,6 @@ class Employee extends Controller {
 	}
 
 
-	public function redirect( $path = null ){
-		redirect( WEBURL . $path );
-	}
-
-
 	/**
 	 * Показывает страницу с данными сотрудника
 	 * TODO: нарисовать красивый диз этой страницы, сделать его типовым
@@ -143,7 +138,7 @@ class Employee extends Controller {
 			return array( 'msg' => $e->getMessage() );
 		}
 
-		$this->redirect( $this->get_path() . $employee->id .'/success' );
+		$this->redirect( $this->get_full_path() . $employee->id .'/success' );
 	}
 
 
@@ -155,13 +150,14 @@ class Employee extends Controller {
 	public function edit_employee( $id ){
 		$out = $this->show_edit_employee( $id );
 		$form = $out['form'];
+		/** @var \Model\Employee */
 		$employee = $out['employee'];
 
 		$form->fetch( $this->request->export_array() );
 		if ( $form->validate() ){
 			$employee->apply( $employee->filter($form->export_array()) );
 			$employee->save();
-			$this->redirect( $this->get_path() . $employee->id .'/success' );
+			$this->redirect( $this->get_full_path() . $employee->id .'/success' );
 		}
 		else
 			return $out;
