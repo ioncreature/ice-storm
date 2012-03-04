@@ -58,7 +58,7 @@ class Employee extends Controller {
 			'personal'	 => $employee->Human->export_array(),
 			'employee'   => $employee->export_array(),
 			'department' => $employee->Department->export_array(),
-			'edit'       => \Auth::$acl->employee_edit ? WEBURL . $this->get_path() . $id .'/edit' : false
+			'edit'       => \Auth::$acl->employee_edit ? $this->get_full_path() . $id .'/edit' : false,
 		);
 	}
 
@@ -80,8 +80,9 @@ class Employee extends Controller {
 			'employee'   => $employee,
 			'human'      => $employee->Human,
 			'department' => $employee->Department,
-			'form'       => new \Form\Employee( WEBURL . $this->get_path(), 'POST' ),
-			'human_form' => new \Form\Human( WEBURL . $this->get_path(), 'POST' ),
+			'form'       => new \Form\Employee( $this->get_full_path(), 'POST' ),
+			'human_form' => new \Form\Human( $this->get_full_path(), 'POST' ),
+			'action'     => 'add',
 		);
 	}
 
@@ -171,14 +172,14 @@ class Employee extends Controller {
 	 */
 	public function show_edit_employee( $id ){
 		$employee = new \Model\Employee( $id );
-		$form = new \Form\Employee( WEBURL . $this->get_path() . $id, 'POST' );
+		$form = new \Form\Employee( $this->get_full_path() . $id, 'POST' );
 		$form->fetch( $employee->export_array() );
 		return array(
-			'edit'       => true,
+			'action'     => 'edit',
 			'employee'   => $employee,
 			'human'      => $employee->Human,
 			'department' => $employee->Department,
-			'form'		 => $form
+			'form'		 => $form,
 		);
 	}
 

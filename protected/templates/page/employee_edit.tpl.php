@@ -23,6 +23,13 @@ require([
 </script>
 
 
+<?php if ( $data['action'] === 'add' ): ?>
+	<h2>Добавление сотрудника</h2>
+<?php else: ?>
+	<h2>Редактирование данных сотрудника</h2>
+	<h2><?= $data['human']->full_name ?></h2>
+<?php endif ?>
+
 <!-- FORM -->
 <form
 	class="common_form"
@@ -33,7 +40,8 @@ require([
 >
 	<?php if ( $data['action'] === 'add' ): ?>
 		<input type="hidden" name="employee_id" value="<?= $data['employee']->id ?>" />
-	<?php endif; ?>
+	<?php endif ?>
+
 	<label>
 		<span class="label">Должность</span>
 		<input
@@ -94,7 +102,7 @@ require([
 		<?= $data['form']->render_field( 'chief' ) ?>
 	</label>
 
-<?php if ( !isset($data['edit']) or !$data['edit'] ): ?>
+<?php if ( $data['action'] === 'add' ): ?>
 	<!-- PERSONAL DATA -->
 	<fieldset>
 		<legend>Персональные данные</legend>
@@ -135,5 +143,5 @@ require([
 	</fieldset>
 <?php endif; ?>
 	<br/>
-	<input type="submit" data-dojo-type="dijit.form.Button" label="<?= isset($data['edit']) && $data['edit'] ? 'Редактировать' : 'Добавить' ?>" />
+	<input type="submit" data-dojo-type="dijit.form.Button" label="<?= $data['action'] === 'edit' ? 'Редактировать' : 'Добавить' ?>" />
 </form>
