@@ -5,8 +5,11 @@
  */
 
 namespace Form;
+use \Html\Element;
+use \Helper\Validator;
+use \Helper\Html;
 
-abstract class AbstractField extends \Html\Element {
+abstract class AbstractField extends Element {
 
 	/**
 	 * @var string
@@ -74,7 +77,7 @@ abstract class AbstractField extends \Html\Element {
 	 * @param $msg
 	 */
 	public function set_error_message( $msg ){
-		$this->error_message = \Helper\Html::encode( $msg );
+		$this->error_message = Html::encode( $msg );
 	}
 
 
@@ -84,7 +87,7 @@ abstract class AbstractField extends \Html\Element {
 
 
 	public function set_constraints( array $c ){
-		$this->constraints = \Helper\Validator::merge_constraints( $this->constraints, $c );
+		$this->constraints = Validator::merge_constraints( $this->constraints, $c );
 	}
 
 
@@ -94,7 +97,7 @@ abstract class AbstractField extends \Html\Element {
 	 */
 	public function validate(){
 		// make validation
-		$res = \Helper\Validator::validate( $this->value, $this->constraints );
+		$res = Validator::validate( $this->value, $this->constraints );
 		if ( !$res )
 			$this->has_error = true;
 

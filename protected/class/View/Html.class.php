@@ -12,6 +12,10 @@ class Html extends View {
 
 	protected $template;
 
+
+	/**
+	 * @param string $template_name
+	 */
 	public function set_template( $template_name ){
 		$this->template = $template_name;
 	}

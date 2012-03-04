@@ -15,11 +15,17 @@ class WebPage extends View {
 	public $template = 'page/not_found';
 
 
+	/**
+	 * @param string $layout_name
+	 */
 	public function set_layout( $layout_name ){
 		$this->layout = $layout_name;
 	}
 
 
+	/**
+	 * @param string $template_name
+	 */
 	public function set_template( $template_name ){
 		$this->template = $template_name;
 	}

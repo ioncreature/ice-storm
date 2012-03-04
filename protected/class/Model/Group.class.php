@@ -9,7 +9,7 @@ namespace Model;
 class Group extends \Model\AbstractModel {
 
 	protected static
-		$table = 'org_groups',
+		$table = 'edu_groups',
 		$primary_key = 'id',
 		$fields = array(
 			'id',

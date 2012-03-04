@@ -37,7 +37,7 @@ class Departments extends Service {
 
 	public function get_department( $id ){
 		$id = (int) $id;
-		$dep = $this->model->get_by_id( $id );
+		$dep = $this->model->get_by_id( $id )->export_array();
 		if ( $dep )
 			$dep['children'] = $this->model->get_children();
 

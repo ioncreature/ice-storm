@@ -93,6 +93,10 @@ class Validator {
 		return strtotime( $value ) !== false;
 	}
 
+	public static function date_or_empty( $value ){
+		return empty( $value ) or strtotime( $value ) !== false;
+	}
+
 	public function in_array( $value, array $array ){
 		return in_array( $value, $array );
 	}

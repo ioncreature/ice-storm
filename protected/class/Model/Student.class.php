@@ -20,12 +20,19 @@ class Student extends \Model\AbstractModel {
 			),
 			'group_id' => array(
 				'foreign_key' => 'id',
-				'model' => '\Model\Group',
+				'model' => '\Model\Group'
 			),
-			'enrollment_date',
+			'enrollment_date' => null,
 			'enrollment_order',
 			'dismissal_date',
 			'dismissal_order',
 			'dismissal_reason' => 'none'
 		);
+
+	protected function before_save(){
+		$fields = array( 'dismissal_date', 'dismissal_order', 'dismissal_reason' );
+		foreach ( $fields as $f )
+			if ( empty($this->data[$f]) )
+				unset( $this->data[$f] );
+	}
 }

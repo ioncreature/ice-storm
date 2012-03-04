@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Marenin Alex
- *         January 2012
+ *         March 2012
  */
 
 namespace Controller\edu;
@@ -15,7 +15,9 @@ class Students extends Controller {
 				'method' => 'show_students',
 				'permission' => 'student_read'
 			),
+			'::int/edit' => 'show_edit_student',
 			'::int' => 'show_student',
+			'::int/success' => 'show_student',
 			'new' => 'show_add_student'
 		),
 		'POST' => array(
@@ -24,7 +26,7 @@ class Students extends Controller {
 				'permission' => 'student_edit'
 			),
 			'::int' => array(
-				'method' => 'add_student',
+				'method' => 'edit_student',
 				'permission' => 'student_edit'
 			)
 		)
@@ -123,5 +125,66 @@ class Students extends Controller {
 
 	public function show_student( $id ){
 		$this->view->set_template( 'page/student_show' );
+		$student = new \Model\Student( $id );
+		if ( !$student->exists() )
+			$this->set_status( \Response\AbstractResponse::STATUS_NOT_FOUND );
+		else
+			return array( 'student' => $student );
+	}
+
+
+	/**
+	 * Редактирование студента
+	 * @param int $id
+	 * @return bool
+	 */
+	public function edit_student( $id ){
+		$student = new \Model\Student( $id );
+		if ( !$student->exists() ){
+			$this->set_status( \Response\AbstractResponse::STATUS_NOT_FOUND );
+			return false;
+		}
+
+		$form = new \Form\Student( $this->get_full_path() . $id, 'POST', array(), $student );
+		$form->fetch( $this->request->get_http_post() );
+
+		// валидируем и сохраняем
+		if ( $form->validate() ){
+			$student->apply( $form->export_array() );
+			$student->save();
+			$this->redirect( $this->get_full_path() . $id );
+			return true;
+		}
+
+		// если форма не прошла валидацию, то показываем форму
+		return $this->show_edit_student( $id, $form, $student );
+	}
+
+
+	/**
+	 * Показать форму редактирвания студента
+	 * @param int $id
+	 * @param null|\Form\AbstractForm $form
+	 * @param null|\Form\AbstractForm $student
+	 * @return array
+	 */
+	public function show_edit_student( $id, $form = null, $student = null ){
+		if ( !$student ){
+			$student = new \Model\Student( $id );
+			if ( !$student->exists() ){
+				$this->set_status( \Response\AbstractResponse::STATUS_NOT_FOUND );
+				return false;
+			}
+		}
+
+		if ( !$form )
+			$form = new \Form\Student( $this->get_full_path() . $id, 'POST', array(), $student );
+
+		$this->view->set_template( 'page/student_edit' );
+		return array(
+			'form'       => $form,
+			'student'    => $student,
+			'action'     => 'edit',
+		);
 	}
 }

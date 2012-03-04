@@ -139,8 +139,8 @@ require([
 				<?= Template::show( 'form/human', $data['human_form'] ) ?>
 			</div>
 		</fieldset>
-	<?php endif; ?>
+	<?php endif ?>
 
 	<br/>
-	<input type="submit" data-dojo-type="dijit.form.Button" label="<?= isset($data['edit']) && $data['edit'] ? 'Редактировать' : 'Добавить' ?>" />
+	<input type="submit" data-dojo-type="dijit.form.Button" label="<?= $data['action'] === 'edit' ? 'Редактировать' : 'Добавить' ?>" />
 </form>

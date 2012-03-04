@@ -7,7 +7,7 @@
 namespace Request;
 
 /**
- * 
+ * TODO: добавить метод is_ajax (isXmlHttpRequest в Symfony2)
  */
 class Parser {
 
@@ -142,6 +142,20 @@ class Parser {
 		if ( isset($this->put_data) )
 			$this->put_data = file_get_contents( 'php://input' );
 		return $this->put_data;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get_http_post(){
+		return $_POST;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get_http_get(){
+		return $_GET;
 	}
 
 	/**

@@ -10,6 +10,7 @@ namespace Model;
 /**
  * Класс модели. Моя реализация Active Record
  * TODO: добавить Class Table Inheritance
+ * TODO: добавить параметр allow_null в свойствах поля
  */
 abstract class AbstractModel implements \I\Exportable {
 
@@ -149,7 +150,7 @@ abstract class AbstractModel implements \I\Exportable {
 		if ( $this->orig_data )
 			$this->exists = true;
 
-		return $this->export_array();
+		return $this;
 	}
 
 

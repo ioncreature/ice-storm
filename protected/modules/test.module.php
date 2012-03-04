@@ -9,7 +9,7 @@ elseif ( $r->is_delete() )
 	die( var_export($r, true) );
 
 // ВЫВОД
-Template::add_js( WEBURL .'js/dojo/dojo.js', array('djConfig' => 'parseOnLoad: true, isDebug: true') );
+Template::add_js( WEBURL .'js/dojo/dojo.js', array('djConfig' => 'parseOnLoad: true, isDebug: true, async: false') );
 Template::top();
 
 $r = \Request\Parser::get_instance();
@@ -50,14 +50,34 @@ paginator(array(
 </form>
 
 <script type="text/javascript">
+
+	var obj = {
+		_test: 100,
+		test: function(){
+			console.log( 'test' );
+			return this._test;
+		},
+		get val (){
+			return this.test();
+		},
+		set val( value ){
+			this._test = value;
+			console.log( value );
+		}
+	};
+
+	Object.defineProperty( obj, "some", {
+		enumerable: false
+	});
+	console.log( obj );
+
 	dojo
 		.xhrPut({
 			url: window.location.href,
 			content: { content_test: 100500 }
 		})
 		.then( function( response ){
-			console.error( 'PUT' );
-			console.log( response );
+			console.warn( 'PUT', response.substr(0, 100) );
 		});
 	dojo
 		.xhrDelete({
@@ -65,10 +85,8 @@ paginator(array(
 			content: { content_test: 100500 }
 		})
 		.then( function( response ){
-			console.error( 'DELETE' );
-			console.log( response );
+			console.warn( 'DELETE', response.substr(0, 100) );
 		});
-
 </script>
 
 <?= Template::bottom() ?>

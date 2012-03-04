@@ -9,9 +9,9 @@ require([
 	'dojo/domReady!',
 ], function( parser ){
 
+	/*
 	var tabs = dijit.byId( 'center_tabs' ),
 		tab_new = dijit.byId( 'new_student' );
-	/*
 	tabs.watch( 'selectedChildWidget', function( property, old_val, new_val ){
 		if ( new_val !== tab_new )
 			return;
