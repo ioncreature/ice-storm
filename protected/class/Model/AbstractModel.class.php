@@ -11,6 +11,7 @@ namespace Model;
  * Класс модели. Моя реализация Active Record
  * TODO: добавить Class Table Inheritance
  * TODO: добавить параметр allow_null в свойствах поля
+ * TODO: перейти на Доктрину
  */
 abstract class AbstractModel implements \I\Exportable {
 

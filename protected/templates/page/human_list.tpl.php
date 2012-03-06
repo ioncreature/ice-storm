@@ -8,14 +8,7 @@
 Template::add_css( WEBURL .'js/dijit/themes/claro/claro.css' );
 Template::add_js(  WEBURL .'js/dojo/dojo.js' );
 Template::add_js(  WEBURL .'js/app/init.js' );
-if ( $data['type'] === 'teacher' )
-	Template::add_js(  WEBURL .'js/app/page/Staff.js' );
-elseif ( $data['type'] === 'staff' )
-	Template::add_js(  WEBURL .'js/app/page/Staff.js' );
-elseif ( $data['type'] === 'students' )
-	Template::add_js(  WEBURL .'js/app/page/Staff.js' );
-
-Template::add_js(  WEBURL .'js/ICanHaz.js' );
+Template::add_js(  WEBURL .'js/app/page/Staff.js' );
 ?>
 
 <div

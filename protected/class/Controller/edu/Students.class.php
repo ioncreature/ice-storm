@@ -13,7 +13,7 @@ class Students extends Controller {
 		'GET' => array(
 			'' => array(
 				'method' => 'show_students',
-				'permission' => 'student_read'
+//				'permission' => 'student_read'
 			),
 			'::int/edit' => 'show_edit_student',
 			'::int' => 'show_student',

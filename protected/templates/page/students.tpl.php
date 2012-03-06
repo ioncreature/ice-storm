@@ -23,7 +23,6 @@ Template::add_js ( WEBURL .'js/app/page/Students.js' );
 			<div data-dojo-type="dijit.layout.ContentPane" region="top">
 				<h1>Подразделения</h1>
 			</div>
-
 			<!-- DEPARTMENTS TREE -->
 			<div data-dojo-type="dijit.layout.ContentPane" region="center">
 				<div id="staff_departments_tree" style="height:100%"></div>
@@ -45,7 +44,7 @@ Template::add_js ( WEBURL .'js/app/page/Students.js' );
 					</form>
 				</div>
 			</div>
-			<div id="staff_grid"></div>
+			<div id="student_grid"></div>
 		</section>
 
 	</section>
