@@ -2,8 +2,8 @@
 -- Host:                         localhost
 -- Server version:               5.1.51-community - MySQL Community Server (GPL)
 -- Server OS:                    Win32
--- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2012-02-16 22:14:19
+-- HeidiSQL version:             7.0.0.4058
+-- Date/time:                    2012-03-09 09:57:35
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -49,9 +49,9 @@ CREATE TABLE IF NOT EXISTS `auth_group_permissions` (
   KEY `auth_group_permissions_auth_permissions` (`permission_id`),
   CONSTRAINT `auth_group_permissions_auth_groups` FOREIGN KEY (`group_id`) REFERENCES `auth_groups` (`id`),
   CONSTRAINT `auth_group_permissions_auth_permissions` FOREIGN KEY (`permission_id`) REFERENCES `auth_permissions` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
--- Dumping data for table ice-storm.auth_group_permissions: ~18 rows (approximately)
+-- Dumping data for table ice-storm.auth_group_permissions: ~21 rows (approximately)
 /*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
 INSERT INTO `auth_group_permissions` (`id`, `group_id`, `permission_id`, `type`) VALUES
 	(4, 2, 3, 'allow'),
@@ -71,7 +71,10 @@ INSERT INTO `auth_group_permissions` (`id`, `group_id`, `permission_id`, `type`)
 	(22, 2, 1, 'allow'),
 	(23, 1, 3, 'allow'),
 	(24, 1, 2, 'allow'),
-	(25, 1, 1, 'allow');
+	(25, 1, 1, 'allow'),
+	(26, 1, 10, 'allow'),
+	(29, 1, 12, 'allow'),
+	(30, 1, 11, 'allow');
 /*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
 
 
@@ -82,9 +85,9 @@ CREATE TABLE IF NOT EXISTS `auth_permissions` (
   `name` varchar(50) NOT NULL,
   `description` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
--- Dumping data for table ice-storm.auth_permissions: ~9 rows (approximately)
+-- Dumping data for table ice-storm.auth_permissions: ~12 rows (approximately)
 /*!40000 ALTER TABLE `auth_permissions` DISABLE KEYS */;
 INSERT INTO `auth_permissions` (`id`, `name`, `description`) VALUES
 	(1, 'employee_edit', 'Редактирование данных сотрудников'),
@@ -95,7 +98,10 @@ INSERT INTO `auth_permissions` (`id`, `name`, `description`) VALUES
 	(6, 'department_edit', 'Добавление/изменение/удаление подразделений'),
 	(7, 'acl_read', 'Просмотр прав доступа'),
 	(8, 'acl_edit', 'Редактирование прав доступа'),
-	(9, 'acl_group_edit', 'Добавление/изменение/удаление групп доступа');
+	(9, 'acl_group_edit', 'Добавление/изменение/удаление групп доступа'),
+	(10, 'admin_main', 'Вход на главную страницу администрирования'),
+	(11, 'student_edit', 'Добавление/редактирование/удаление студентов'),
+	(12, 'student_read', 'Просмотр списка студентов и данных студента');
 /*!40000 ALTER TABLE `auth_permissions` ENABLE KEYS */;
 
 
@@ -470,18 +476,20 @@ CREATE TABLE IF NOT EXISTS `edu_students` (
   `enrollment_order` varchar(50) NOT NULL DEFAULT '' COMMENT 'Приказ о зачислении',
   `dismissal_date` date DEFAULT NULL COMMENT 'Дата отчисления',
   `dismissal_order` varchar(50) NOT NULL DEFAULT '' COMMENT 'Приказ об отчислении',
+  `dismissal_reason` enum('none','poor_progress','graduation') DEFAULT 'none',
   PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`),
   KEY `human_id` (`human_id`),
   CONSTRAINT `edu_students_edu_groups` FOREIGN KEY (`group_id`) REFERENCES `edu_groups` (`id`),
   CONSTRAINT `edu_students_org_humans` FOREIGN KEY (`human_id`) REFERENCES `org_humans` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Dumping data for table ice-storm.edu_students: ~2 rows (approximately)
+-- Dumping data for table ice-storm.edu_students: ~3 rows (approximately)
 /*!40000 ALTER TABLE `edu_students` DISABLE KEYS */;
-INSERT INTO `edu_students` (`id`, `human_id`, `group_id`, `enrollment_date`, `enrollment_order`, `dismissal_date`, `dismissal_order`) VALUES
-	(1, 1, 1, '2005-09-01', '1', NULL, ''),
-	(2, 2, 1, '2011-10-07', '1', NULL, '');
+INSERT INTO `edu_students` (`id`, `human_id`, `group_id`, `enrollment_date`, `enrollment_order`, `dismissal_date`, `dismissal_order`, `dismissal_reason`) VALUES
+	(1, 1, 1, '2005-09-01', '110010', NULL, '', 'none'),
+	(2, 2, 1, '2011-10-07', '1', NULL, '', 'none'),
+	(3, 4, 2, '2012-02-09', 'asdasdasd', '2012-02-16', '', 'none');
 /*!40000 ALTER TABLE `edu_students` ENABLE KEYS */;
 
 
@@ -581,7 +589,7 @@ INSERT INTO `org_staff` (`id`, `human_id`, `department_id`, `post`, `state`, `ch
 	(1, 1, 5, 'Линейный математик, проекционый геометр', 'active', 'no', 'full', '', '2011-11-14', NULL),
 	(2, 2, 6, 'Президент всея Руси', 'active', 'yes', 'full', '', '2011-12-19', NULL),
 	(3, 1, 4, 'Супер мозг', 'active', 'no', 'full', '143-234', '2012-01-09', NULL),
-	(4, 4, 3, 'Слесарь-типограф сталелитейного, чугуноварного и кофемольного комбината', 'active', 'no', 'full', '7800', '2012-01-09', NULL);
+	(4, 4, 3, 'Слесарь-типограф сталелитейного, чугуноварного и кофемольного комбината', 'active', 'yes', 'half', '7800766', '2012-01-09', NULL);
 /*!40000 ALTER TABLE `org_staff` ENABLE KEYS */;
 
 
