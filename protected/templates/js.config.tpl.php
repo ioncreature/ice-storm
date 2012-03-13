@@ -37,7 +37,8 @@
 
 			service: {
 				department: '<?= WEBURL . 'service/department/' ?>',
-				staff: '<?= WEBURL . 'service/staff/' ?>'
+				staff: '<?= WEBURL . 'service/staff/' ?>',
+				students: '<?= WEBURL . 'service/students/' ?>'
 			},
 
 			page: {

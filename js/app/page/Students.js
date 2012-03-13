@@ -25,11 +25,10 @@ require([
 
 	/**
 	 * Loads staff of department
-	 * @param department_id
+	 * @param {number?} group_id
 	 */
-	function update_staff_list( department_id ){
-		var url = app.config.service.staff + (department_id ? "department/" + department_id : '');
-//		Service.get( url ).then( parse_table );
+	function update_students_list( group_id ){
+		var url = app.config.page.students + "group/" + (group_id ? group_id : '');
 		dojo
 			.xhrGet({ url: url })
 			.then( parse_table );
@@ -41,28 +40,21 @@ require([
 	 * @param data
 	 */
 	function parse_table( data ){
-		var staff = { staff: dojo.fromJson( data ) };
-		$( '#student_grid' ).html( ich.t_staff_table(staff) );
+		var students = { students: dojo.fromJson( data ) };
+		console.log( students, ich.t_students_table(students) );
+		$( '#student_grid' ).html( ich.t_students_table(students) );
 	}
-	// get staff from root node
-	update_staff_list();
+	update_students_list();
 
 
-	$( '#student_search' ).submit( function( event ){
-		event.stopPropagation();
-		event.preventDefault();
+	$( '#student_search' ).submit( function( e ){
+		dojo.stopEvent( e );
 
-		dojo.xhrGet({ url: app.config.service.staff +'search/'+ dojo.formToObject(event.target).name })
-			.then( app.page.Staff.parse_table );
+		dojo.xhrGet({ url: app.config.page.students +'search/'+ dojo.formToObject(event.target).name })
+			.then( parse_table );
 
 		return false;
 	});
-
-	return {
-		tree: tree,
-		update_staff_list: update_staff_list,
-		parse_table: parse_table
-	};
 
 	/*
 	var tabs = dijit.byId( 'center_tabs' ),

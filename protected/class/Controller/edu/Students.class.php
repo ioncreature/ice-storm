@@ -13,12 +13,22 @@ class Students extends Controller {
 		'GET' => array(
 			'' => array(
 				'method' => 'show_students',
-//				'permission' => 'student_read'
+				'permission' => 'student_read'
 			),
 			'::int/edit' => 'show_edit_student',
 			'::int' => 'show_student',
 			'::int/success' => 'show_student',
-			'new' => 'show_add_student'
+			'new' => 'show_add_student',
+			'group/::int' => array(
+				'method' => 'get_group_students',
+				'permission' => 'student_read',
+				'view' => '\View\Json'
+			),
+			'group' => array(
+				'method' => 'get_all_students',
+				'permission' => 'student_read',
+				'view' => '\View\Json'
+			)
 		),
 		'POST' => array(
 			'new' => array(
@@ -186,5 +196,30 @@ class Students extends Controller {
 			'student'    => $student,
 			'action'     => 'edit',
 		);
+	}
+
+
+	public function get_group_students( $group_id ){
+		$student = new \Model\Student();
+		return $this->filter_students_array( $student->get_group_students($group_id) );
+	}
+
+
+	public function get_all_students(){
+		$student = new \Model\Student();
+		return $this->filter_students_array( $student->get_all_students() );
+	}
+
+
+	protected function filter_students_array( $students ){
+		$ka = array_fill_keys( array(
+			'full_name', 'group_id',
+			'birth_date', 'enrollment_date', 'enrollment_year',
+			'dismissal_date', 'id', 'group_name'
+		), true );
+		return array_map( function( $s ) use( $ka ){
+			$s['enrollment_year'] = date( 'Y', strtotime($s['enrollment_date']) );
+			return array_intersect_key( $s, $ka );
+		}, $students );
 	}
 }

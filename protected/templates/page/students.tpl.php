@@ -52,27 +52,27 @@ Template::add_js ( WEBURL .'js/app/page/Students.js' );
 
 
 <!-- JS TEMPLATES -->
-<script type="text/html" id="t_staff_table">
+<script type="text/html" id="t_students_table">
 	<table class="common staff">
 		<thead>
 			<tr>
 				<th width="30%">ФИО</th>
-				<th width="40%">Должность</th>
-				<th width="30%">Подразделение</th>
+				<th width="40%">Группа</th>
+				<th width="30%">Год поступления</th>
 			</tr>
 		</thead>
 		<tbody>
-		{{#staff}}{{>t_staff_rows}}{{/staff}}
-		{{^staff}}<tr><td colspan="3">Сотрудников нет</td></tr>{{/staff}}
+		{{#students}}{{>t_student_rows}}{{/students}}
+		{{^students}}<tr><td colspan="3">Сотрудников нет</td></tr>{{/students}}
 		</tbody>
 	</table>
 </script>
 
 
-<script type="text/html" id="t_staff_rows" class="partial">
+<script type="text/html" id="t_student_rows" class="partial">
 	<tr>
-		<td><a href="<?= WEBURL . 'org/employee/' ?>{{id}}">{{name}}</a></td>
-		<td>{{post}}</td>
-		<td>{{department}}</td>
+		<td><a href="<?= WEBURL . 'edu/students/' ?>{{id}}">{{full_name}}</a></td>
+		<td>{{group_name}}</td>
+		<td>{{enrollment_year}}</td>
 	</tr>
 </script>

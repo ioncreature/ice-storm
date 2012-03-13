@@ -45,6 +45,9 @@ try {
 				case "staff":
 					$response->send_controller( new \Service\Staff($r, 'service/staff/') );
 					die;
+				case "students":
+					$response->send_controller( new \Service\Students($r, 'service/students/') );
+					die;
 				default:
 					redirect( WEBURL );
 			}
