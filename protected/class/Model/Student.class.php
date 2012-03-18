@@ -74,4 +74,25 @@ class Student extends \Model\AbstractModel {
 			LIMIT 100
 		");
 	}
+
+
+	public function search_by_name( $name ){
+		$this->db_connect();
+		$name = $this->db->safe( $name );
+
+		return $this->db->query("
+			SELECT
+				edu_students.*,
+				org_humans.full_name,
+				org_humans.birth_date,
+				edu_groups.name as group_name
+			FROM
+				edu_students
+				LEFT JOIN org_humans ON edu_students.human_id = org_humans.id
+				LEFT JOIN edu_groups ON edu_students.group_id = edu_groups.id
+			WHERE
+				org_humans.full_name LIKE '%$name%'
+			LIMIT 100
+		");
+	}
 }

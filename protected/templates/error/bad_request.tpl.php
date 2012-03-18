@@ -14,7 +14,7 @@
 	}
 </style>
 <div class="access_denied">
-	<span>500 - Произошла внутренняя ошибка, сообщите администратору</span>
+	<span>400 - Bad Request</span>
 </div>
 
 <?php

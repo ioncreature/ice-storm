@@ -9,17 +9,19 @@ use \Controller\AbstractController as AbstractController;
 
 class Main extends AbstractController {
 
+	protected $default = array(
+		'permission' => 'admin_main',
+		'view' => array(
+			'type' => '\View\WebPage',
+			'layout' => 'layout/admin',
+			'template' => 'page/admin/main'
+		),
+	);
+
+
 	protected $routes = array(
 		'GET' => array(
-			'' => array(
-				'method' => 'show',
-				'permission' => 'admin_main',
-				'view' => array(
-					'type' => '\View\WebPage',
-					'layout' => 'layout/admin',
-					'template' => 'page/admin/main'
-				),
-			),
+			'' => 'show',
 			'someaction' => 'some_method',
 			'someajaxaction' => array(
 				'method' => 'ajax_action',

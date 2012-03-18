@@ -186,5 +186,6 @@ class Employee extends Controller {
 
 	public function show_list(){
 		$this->view->set_template( 'page/staff' );
+		return array( 'can_add' => \Auth::$acl->employee_add );
 	}
 }

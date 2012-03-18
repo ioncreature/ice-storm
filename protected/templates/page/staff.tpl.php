@@ -34,8 +34,8 @@ Template::add_js(  WEBURL .'js/app/page/Staff.js' );
 	<section id="center_pane" dojoType="dijit.layout.ContentPane" region="center">
 		<h2 id="depatrment_name">Все сотрудики</h2>
 		<div style="overflow: hidden; padding: 4px 0px 12px 0px;">
-			<?php if ( Auth::$acl->employee_add ): ?>
-				<a class="a-button" href="<?= WEBURL .'org/employee/new' ?>">Новый сотрудник</a>
+			<?php if ( $data['can_add'] ): ?>
+				<div data-dojo-type="dijit.form.Button" onclick="window.location.href='<?= WEBURL .'org/employee/new' ?>'">Новый сотрудник</div>
 			<?php endif; ?>
 			<div style="float: right; width: 50%; text-align: right; padding: 2px;">
 				<form id="staff_search" action="<?= WEBURL .'service/staff/search/' ?>" method="POST">

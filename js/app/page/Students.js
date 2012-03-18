@@ -44,7 +44,6 @@ var page = dojo.declare( 'app.page.Students', Page, {
 				return;
 
 			dojo.xhrGet({ url: app.config.page.students + 'new' }).then( function( resp ){
-				console.log( resp );
 				tab_new.containerNode.innerHTML = resp;
 				parser.parse( tab_new.containerNode );
 			});

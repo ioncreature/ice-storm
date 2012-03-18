@@ -42,4 +42,8 @@ class Html extends View {
 	public function render_error(){
 		return Template::template_to_block( 'body', 'error/error', $this->get_view_data() );
 	}
+
+	public function render_bad_request(){
+		return Template::template_to_block( 'body', 'error/bad_request', $this->get_view_data() );
+	}
 }

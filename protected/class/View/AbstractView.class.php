@@ -44,6 +44,16 @@ abstract class AbstractView {
 	}
 
 
+	// TODO: объединить все выводы ошибок в один метод render_error?
+
+
+	/**
+	 * @abstract
+	 * @return string
+	 */
+	abstract public function render_bad_request();
+
+
 	/**
 	 * @abstract
 	 * @return string

@@ -9,25 +9,34 @@ use \Controller\AbstractController as Controller;
 
 class Students extends Controller {
 
+	public $default = array(
+		'permission' => 'student_read',
+		'view' => array(
+			'type' => '\View\WebPage',
+			'layout' => 'layout/base',
+			'template' => 'page/admin/main'
+		),
+	);
+
 	public $routes = array(
 		'GET' => array(
-			'' => array(
-				'method' => 'show_students',
-				'permission' => 'student_read'
-			),
+			'' => 'show_students',
 			'::int/edit' => 'show_edit_student',
 			'::int' => 'show_student',
 			'::int/success' => 'show_student',
 			'new' => 'show_add_student',
 			'group/::int' => array(
 				'method' => 'get_group_students',
-				'permission' => 'student_read',
 				'view' => '\View\Json'
 			),
 			'group' => array(
 				'method' => 'get_all_students',
-				'permission' => 'student_read',
 				'view' => '\View\Json'
+			),
+			'search' => array(
+				'method' => 'search_students',
+				'view' => '\View\Json',
+				'query' => array( 'name' ),
 			)
 		),
 		'POST' => array(
@@ -139,7 +148,10 @@ class Students extends Controller {
 		if ( !$student->exists() )
 			$this->set_status( \Response\AbstractResponse::STATUS_NOT_FOUND );
 		else
-			return array( 'student' => $student );
+			return array(
+				'student' => $student,
+				'edit' => \Auth::$acl->student_edit
+			);
 	}
 
 
@@ -208,6 +220,11 @@ class Students extends Controller {
 	public function get_all_students(){
 		$student = new \Model\Student();
 		return $this->filter_students_array( $student->get_all_students() );
+	}
+
+
+	public function search_students(){
+
 	}
 
 

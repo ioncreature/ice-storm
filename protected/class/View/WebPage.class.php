@@ -53,4 +53,10 @@ class WebPage extends View {
 		Template::template_to_block( 'body', 'error/error', $this->get_view_data() );
 		return Template::tpl( $this->layout );
 	}
+
+
+	public function render_bad_request(){
+		Template::template_to_block( 'body', 'error/bad_request', $this->get_view_data() );
+		return Template::tpl( $this->layout );
+	}
 }

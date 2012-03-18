@@ -6,7 +6,12 @@
 
 ?>
 
+<?php if ( $data['edit'] ): ?>
+	<a class="a-button" style="float: right;" href="<?= WEBURL .'edu/students/new'. $data['student']->id ?>">редактировать</a>
+<?php endif; ?>
+
 <h2>Студент <?= $data['student']->Human->full_name ?></h2>
+
 <div style="overflow: hidden;">
 	<div style="float: left; width: 150px;">
 		<div style="height: 200px; background-color: rgba(192, 192, 192, 0.5);"></div>

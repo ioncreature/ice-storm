@@ -35,6 +35,12 @@ echo var_export( Auth::$acl, true );
 echo '</pre>';
 
 
+// merge test
+var_dump(array_merge_recursive_distinct(
+	array('a'=>10, 'b'=>array('c'=> 20,'e' => 60), 'd'=>100),
+	array('b'=>array('c'=>30, 'd'=>40), 'e'=>50, 'd'=>200) ));
+
+
 // Определяем текущую страницу
 $current_page = $r->is_int(1) ? $r->to_int(1) : 1;
 paginator(array(
