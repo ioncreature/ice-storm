@@ -135,8 +135,6 @@ abstract class AbstractController {
 		$fn = is_array($fn) ? $fn : array( 'method' => $fn );
 		if ( isset($this->default) )
 			$fn = array_merge_recursive_distinct( $this->default, $fn );
-		var_dump( $fn );
-		die;
 
 		// парсинг метода
 		$this->callback = $fn['method'];

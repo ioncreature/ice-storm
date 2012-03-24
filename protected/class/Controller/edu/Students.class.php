@@ -21,7 +21,12 @@ class Students extends Controller {
 	public $routes = array(
 		'GET' => array(
 			'' => 'show_students',
-			'::int/edit' => 'show_edit_student',
+			'::int/edit' => array(
+				'method' => 'show_edit_student',
+				'view' => array(
+					'template' => 'page/student_edit'
+				)
+			),
 			'::int' => 'show_student',
 			'::int/success' => 'show_student',
 			'new' => 'show_add_student',
