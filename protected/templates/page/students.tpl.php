@@ -39,7 +39,7 @@ Template::add_js ( WEBURL .'js/app/page/Students.js' );
 					<div data-dojo-type="dijit.form.Button" onclick="window.location.href='<?= WEBURL .'edu/students/new' ?>'">Новый студент</div>
 				<?php endif; ?>
 				<div style="float: right; width: 50%; text-align: right; padding: 2px;">
-					<form id="staff_search" action="<?= WEBURL .'service/staff/search/' ?>" method="POST">
+					<form id="students_search" action="<?= WEBURL .'service/staff/search/' ?>" method="GET">
 						Поиск&nbsp;<input name="name" type="text" class="common" style="display: inline-block; width:200px; margin:0px; padding:0px;" />
 					</form>
 				</div>
@@ -63,7 +63,7 @@ Template::add_js ( WEBURL .'js/app/page/Students.js' );
 		</thead>
 		<tbody>
 		{{#students}}{{>t_student_rows}}{{/students}}
-		{{^students}}<tr><td colspan="3">Сотрудников нет</td></tr>{{/students}}
+		{{^students}}<tr><td colspan="3">Студентов нет</td></tr>{{/students}}
 		</tbody>
 	</table>
 </script>

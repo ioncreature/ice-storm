@@ -14,7 +14,7 @@ class Students extends Controller {
 		'view' => array(
 			'type' => '\View\WebPage',
 			'layout' => 'layout/base',
-			'template' => 'page/admin/main'
+			'template' => 'page/students'
 		),
 	);
 
@@ -23,9 +23,7 @@ class Students extends Controller {
 			'' => 'show_students',
 			'::int/edit' => array(
 				'method' => 'show_edit_student',
-				'view' => array(
-					'template' => 'page/student_edit'
-				)
+				'view' => array( 'template' => 'page/student_edit' )
 			),
 			'::int' => 'show_student',
 			'::int/success' => 'show_student',
@@ -58,10 +56,7 @@ class Students extends Controller {
 
 
 	public function show_students(){
-		$this->view->set_template( 'page/students' );
-		return array(
-			'can_add' => \Auth::$acl->student_edit
-		);
+		return array( 'can_add' => \Auth::$acl->student_edit );
 	}
 
 
@@ -229,7 +224,9 @@ class Students extends Controller {
 
 
 	public function search_students(){
-
+		$name = $this->request->name;
+		$student = new \Model\Student();
+		return $this->filter_students_array( $student->search_by_name($name) );
 	}
 
 

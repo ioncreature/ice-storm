@@ -24,7 +24,13 @@ var page = dojo.declare( 'app.page.Students', Page, {
 		this.updateStudentsList();
 
 		// форма поиска
-		$( '#student_search' ).submit( util.hitch(this, this.onStudentSearch) );
+		dojo.query( '#students_search' ).on( 'submit', function( e ){
+			dojo.stopEvent( e );
+			dojo.xhrGet({
+				url: app.config.page.students +'search',
+				content: dojo.formToObject( this )
+			}).then( self.parseTable );
+		});
 
 		// Departments tree
 		new dijit.Tree({
@@ -35,7 +41,6 @@ var page = dojo.declare( 'app.page.Students', Page, {
 				self.updateStudentsList( department.id );
 			}
 		}, dojo.byId('staff_departments_tree') );
-
 
 		// обработка табов
 		var tabs = dijit.byId( 'center_tabs' );
@@ -48,11 +53,8 @@ var page = dojo.declare( 'app.page.Students', Page, {
 				parser.parse( tab_new.containerNode );
 			});
 		});
-
-		dojo.connect( dojo.byId('test'), 'onclick', function(){
-			tabs.selectChild( tab_new );
-		});
 	},
+
 
 	/**
 	 * Loads staff of department
@@ -65,6 +67,7 @@ var page = dojo.declare( 'app.page.Students', Page, {
 			.then( this.parseTable );
 	},
 
+
 	/**
 	 * Renders staff table
 	 * @param data
@@ -72,18 +75,9 @@ var page = dojo.declare( 'app.page.Students', Page, {
 	parseTable: function( data ){
 		var students = { students: dojo.fromJson( data ) };
 		$( '#student_grid' ).html( ich.t_students_table(students) );
-	},
-
-
-	onStudentSearch: function( e, self ){
-		dojo.stopEvent( e );
-		dojo.xhrGet({ url: app.config.page.students +'search/'+ dojo.formToObject(this).name })
-			.then( self.parseTable );
 	}
 
 });
 
-new page();
-
-return page;
+return new page();
 });
