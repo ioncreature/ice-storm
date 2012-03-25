@@ -33,14 +33,14 @@ var page = dojo.declare( 'app.page.Students', Page, {
 		});
 
 		// Departments tree
-		new dijit.Tree({
-			model: new dojo.store.Observable( Departments ),
-
-			onClick: function( department, self, event ){
-				dojo.byId( 'depatrment_name' ).innerHTML = department.name;
-				self.updateStudentsList( department.id );
-			}
-		}, dojo.byId('staff_departments_tree') );
+//		new dijit.Tree({
+//			model: new dojo.store.Observable( Departments ),
+//
+//			onClick: function( department, self, event ){
+//				dojo.byId( 'depatrment_name' ).innerHTML = department.name;
+//				self.updateStudentsList( department.id );
+//			}
+//		}, dojo.byId('staff_departments_tree') );
 
 		// обработка табов
 		var tabs = dijit.byId( 'center_tabs' );
@@ -57,7 +57,7 @@ var page = dojo.declare( 'app.page.Students', Page, {
 
 
 	/**
-	 * Loads staff of department
+	 * Loads students of group
 	 * @param {number?} group_id
 	 */
 	updateStudentsList: function( group_id ){
