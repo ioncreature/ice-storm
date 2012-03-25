@@ -1,6 +1,6 @@
 <?php
 $r = \Request\Parser::get_instance();
-$db = \Db\Fabric::get('db');
+$db = \Db\Factory::get('db');
 
 if ( isset( $r->user_id, $r->group_id, $r->stat ) ){
 	$user_id = (int) $r->user_id;

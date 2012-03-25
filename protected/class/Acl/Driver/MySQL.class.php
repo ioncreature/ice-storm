@@ -15,7 +15,7 @@ class MySQL extends \Acl\Driver{
 	protected $db = false;
 	
 	public function __construct(){
-		$this->db = \Db\Fabric::get('db');
+		$this->db = \Db\Factory::get('db');
 	}
 	
 	

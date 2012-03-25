@@ -6,7 +6,7 @@
 */
 
 $r = \Request\Parser::get_instance();
-$db = \Db\Fabric::get('db');
+$db = \Db\Factory::get('db');
 $i = 0;
 $error = '';
 

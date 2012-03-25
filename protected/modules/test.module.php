@@ -13,7 +13,7 @@ Template::add_js( WEBURL .'js/dojo/dojo.js', array('djConfig' => 'parseOnLoad: t
 Template::top();
 
 $r = \Request\Parser::get_instance();
-$db = \Db\Fabric::get('db');
+$db = \Db\Factory::get('db');
 $acl = \Auth::$acl;
 
 $u = new Model\User( 1 );

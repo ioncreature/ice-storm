@@ -34,7 +34,7 @@ class Users extends Controller {
 	protected $db = null;
 
 	public function init(){
-		$this->db = \Db\Fabric::get( 'db' );
+		$this->db = \Db\Factory::get( 'db' );
 	}
 
 

@@ -4,8 +4,6 @@ if ( isset($_SERVER['ENV']) and ($_SERVER['ENV'] == "muchacho_home" or $_SERVER[
 	// Application title
 	define( 'APP_TITLE', 'Ice Storm' );
 
-	define( 'APP_CHARSET', 'UTF-8' );
-
 	// Database
 	define( 'DB_HOST',		"localhost" );
 	define( 'DB_USER',		"root" );
@@ -30,16 +28,12 @@ if ( isset($_SERVER['ENV']) and ($_SERVER['ENV'] == "muchacho_home" or $_SERVER[
 	define( 'DEFAULT_LAYOUT', 'layout/base' );
 
 	define( 'IS_DEBUG', true );
-	error_reporting( E_ALL );
-	ini_set( "display_errors", true );
 }
 
 // PRODUCTION
 else {
 	// Application title
 	define( 'APP_TITLE', 'Ice Storm' );
-
-	define( 'APP_CHARSET', 'UTF-8' );
 
 	// Database
 	define( 'DB_HOST',		"localhost" );
@@ -65,13 +59,5 @@ else {
 	define( 'DEFAULT_LAYOUT', 'layout/base' );
 
 	define( 'IS_DEBUG', true );
-	error_reporting( E_ALL );
-	ini_set( "display_errors", true );
 }
-
-
-
-// КОНФИГУРАЦИЯ PHP-EXTENSIONS
-// MB_STRING
-mb_internal_encoding( APP_CHARSET );
 ?>

@@ -7,7 +7,7 @@
 */
 
 $r = \Request\Parser::get_instance();
-$db = \Db\Fabric::get('db');
+$db = \Db\Factory::get('db');
 
 $gid = $r->to_int(2);
 if ( !$gid )

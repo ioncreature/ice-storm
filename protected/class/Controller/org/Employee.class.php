@@ -95,7 +95,7 @@ class Employee extends Controller {
 	public function add_employee(){
 		$r = $this->request->export_array();
 		$employee = new \Model\Employee();
-		$db = \Db\Fabric::get( 'db' );
+		$db = \Db\Factory::get( 'db' );
 		// форма сотрудника
 		$form = new \Form\Employee( $this->get_full_path(), 'POST', array(), $employee );
 		$form->fetch( $r );

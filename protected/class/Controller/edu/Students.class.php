@@ -82,7 +82,7 @@ class Students extends Controller {
 	public function add_student(){
 		$r = $this->request->export_array();
 		$student = new \Model\Student();
-		$db = \Db\Fabric::get( 'db' );
+		$db = \Db\Factory::get( 'db' );
 		// форма студента
 		$form = new \Form\Student( $this->get_full_path() .'new', 'POST', array(), $student );
 		$form->fetch( $r );

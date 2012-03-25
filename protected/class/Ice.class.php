@@ -21,7 +21,7 @@ class Ice {
 	 * Application config lives here
 	 * @var array
 	 */
-	protected $config = array();
+	protected static $config = array();
 
 
 	/**
@@ -53,8 +53,27 @@ class Ice {
 	 * @static
 	 * @param string $name
 	 */
-	public static function cfg( $name ){
-		return self::$config[$name];
+	public static function config( $name ){
+		$res = self::$config;
+		foreach ( explode('.', $name) as $n )
+			$res = $res[$n];
+		return $res;
+	}
+
+
+	/**
+	 * @static
+	 * @param string $name
+	 */
+	public static function save_config( $cfg ){
+		static::$config = array_merge_recursive_distinct( static::$config, $cfg );
+	}
+
+
+
+	public static function load_config( $cfg_name ){
+		$cfg = include_once PROTECTED_PATH .'config/'. $cfg_name .'conf.php';
+		self::save_config( $cfg );
 	}
 
 

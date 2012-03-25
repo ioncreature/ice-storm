@@ -5,6 +5,9 @@
  * January 2012
  */
 
+
+namespace Db;
+
 /**
  * Простой класс для работы с Memcache/Memcached
  */
@@ -14,20 +17,24 @@ class Cache {
 	protected $engine = MMC_ENGINE;
 	protected $connected = false;
 	protected $last_status = false;
+	protected $host;
+	protected $port;
+
 
 	public $compress = false;
 	public $query_count = 0;
 	public $exec_time = 0;
+	public $start = 0;
 
 
-	// Singleton
-	private static $instance = null;
-    public static function get_instance() {
-        if( self::$instance == null )
-            self::$instance = new self;
-
-        return self::$instance;
-    }
+	/**
+	 * @param string $host
+	 * @param int $port
+	 */
+	public function __construct( $host, $port ){
+		$this->host = $host;
+		$this->port = $port;
+	}
 
 	
 	/**
@@ -39,7 +46,7 @@ class Cache {
 		try {
 			if ( !$this->connected ){
 				$this->mmc = new $this->engine;
-				$this->mmc->addServer( MMC_HOST, MMC_PORT );
+				$this->mmc->addServer( $this->host, $this->port );
 
 				$this->connected = true;
 			}
@@ -66,15 +73,13 @@ class Cache {
 	 * @param $key
 	 * @return mixed
 	 */
-	public function get( $key ) {
-		$start = microtime( true );
+	public function get( $key ){
+		$this->bm_start();
 		if ( !$this->connected )
 			$this->connect();
 		$res = $this->mmc->get( $key );
 
-		$this->last_status = !!$res;
-		$this->exec_time +=  microtime( true ) - $start;
-		$this->query_count ++;
+		$this->bm_end( $status );
 		return $res;
 	}
 	
@@ -87,7 +92,7 @@ class Cache {
 	 * @return boolean
 	 */
 	public function set( $key, $val, $expire ){
-		$start = microtime( true );
+		$this->bm_start();
 		if ( !$this->connected )
 			$this->connect();
 
@@ -96,9 +101,7 @@ class Cache {
 		else
 			$status = $this->mmc->set( $key, $val, $expire );
 
-		$this->last_status = $status;
-		$this->exec_time +=  microtime( true ) - $start;
-		$this->query_count ++;
+		$this->bm_end( $status );
 		return $status;
 	}
 
@@ -118,23 +121,21 @@ class Cache {
 	 * @param int $time - The amount of time the server will wait to delete the item.
 	 * @return boolean
 	 */
-	public function delete( $key, $time = 0 ) {
-		$start = microtime( true );
+	public function delete( $key, $time = 0 ){
+		$this->bm_start();
 		if ( !$this->connected )
 			$this->connect();
 
 		$status = $this->mmc->delete( $key, $time );
 
-		$this->last_status = $status;
-		$this->exec_time +=  microtime( true ) - $start;
-		$this->query_count ++;
+		$this->bm_end( $status );
 		return $status;
 	}
 
 
 
 	public function replace( $key, $val, $expire ){
-		$start = microtime( true );
+		$this->bm_start();
 		if ( !$this->connected )
 			$this->connect();
 
@@ -143,9 +144,18 @@ class Cache {
 		else
 			$status = $this->mmc->replace( $key, $val, $expire );
 
-		$this->last_status = $status;
-		$this->exec_time +=  microtime( true ) - $start;
-		$this->query_count ++;
+		$this->bm_end( $status );
 		return $status;
+	}
+
+
+	private function bm_start(){
+		$this->start = microtime( true );
+	}
+
+	private function bm_end( $status ){
+		$this->last_status = $status;
+		$this->exec_time += microtime( true ) - $this->start;
+		$this->query_count ++;
 	}
 }
