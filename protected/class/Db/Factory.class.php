@@ -55,8 +55,11 @@ class Factory {
 	 * @return \Db\MySql
 	 */
 	public static function getSqlDb(){
-		if ( !static::exists('db') )
-			static::saveObj( 'db', new \Db\MySql(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) );
+		if ( !static::exists('db') ){
+			$provider = \Ice::config( 'sql.provider' );
+			$cfg = \Ice::config( 'sql.'. $provider );
+			static::saveObj( 'db', new \Db\MySql($cfg['host'], $cfg['user'], $cfg['pass'], $cfg['name']) );
+		}
 		return static::getObj( 'db' );
 	}
 
@@ -66,8 +69,11 @@ class Factory {
 	 * @return \Db\Cache
 	 */
 	public static function getCache(){
-		if ( !static::exists('cache') )
-			static::saveObj( 'cache', new Cache(MMC_HOST, MMC_PORT) );
+		if ( !static::exists('cache') ){
+			$provider = \Ice::config( 'cache.provider' );
+			$cfg = \Ice::config( 'cache.'. $provider );
+			static::saveObj( 'cache', new Cache($cfg['host'], $cfg['port']) );
+		}
 		return static::getObj( 'cache' );
 	}
 

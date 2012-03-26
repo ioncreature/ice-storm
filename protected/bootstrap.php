@@ -1,4 +1,8 @@
 <?php
+// additional includes
+include 'lib/misc.functions.php';
+
+
 // class autoloading
 function __autoload( $name ){
 	$path = 'class/'. str_replace('\\', '/', $name) .'.class.php';
@@ -31,5 +35,3 @@ ini_set( "display_errors", Ice::config('is_debug') );
 mb_internal_encoding( APP_CHARSET ); // MB_STRING
 
 
-// additional includes
-include 'lib/misc.functions.php';

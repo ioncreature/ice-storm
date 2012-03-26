@@ -7,12 +7,9 @@ try {
 	$acl = Auth::$acl;
 	
 	// обработка запроса
-	$r = new Request\Parser();
+	$r = new \Request\Parser();
 	define( "APP_HASH", $r->get_hash() );	
-
-	Template::title( APP_TITLE );
 	$response = new \Response\Http();
-	// usleep(500*1000);
 
 	// -------
 	//  ВЫВОД

@@ -27,7 +27,7 @@ class Template {
 		if ( $title )
 			static::$title = $title;
 		else
-			return htmlspecialchars( static::$title ? static::$title : APP_TITLE );
+			return htmlspecialchars( static::$title ? static::$title : \Ice::config('app_title') );
 	}
 
 
