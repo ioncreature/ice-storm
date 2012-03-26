@@ -11,8 +11,14 @@ use \Template as Template;
 
 class WebPage extends View {
 
-	public $layout = DEFAULT_LAYOUT;
+	public $layout;
 	public $template = 'page/not_found';
+
+
+	public function __construct( array $view_data = array() ){
+		parent::__construct( $view_data );
+		$this->layout = \Ice::config( 'view.default.layout' );
+	}
 
 
 	/**

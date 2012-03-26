@@ -14,7 +14,7 @@ abstract class AbstractView {
 	protected $view_data = array();
 
 
-	public function __construct( $view_data = null ){
+	public function __construct( array $view_data = array() ){
 		if ( $view_data )
 			$this->add( $view_data );
 	}

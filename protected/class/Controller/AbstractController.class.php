@@ -44,7 +44,7 @@ abstract class AbstractController {
 	/**
 	 * @var string - view class name
 	 */
-	protected $default_view = DEFAULT_VIEW;
+	protected $default_view;
 
 	/**
 	 * List of routes from $root_path
@@ -120,8 +120,10 @@ abstract class AbstractController {
 			}
 		}
 
-		if ( !$this->view and $this->default_view )
-			$this->view = new $this->default_view;
+		if ( !$this->view ){
+			$view = \Ice::config('view.default.type');
+			$this->view = new $view;
+		}
 		$this->init();
 	}
 
