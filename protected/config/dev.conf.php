@@ -48,4 +48,14 @@ return array(
 			'type' => '\View\Json',
 		),
 	),
+
+
+	// TODO: додумать и реализовать
+	'component' => array(
+		'auth' => '',
+		'session' => '',
+		'cache' => '',
+		'request' => '',
+		'response' => '',
+	),
 );

@@ -272,8 +272,10 @@ abstract class AbstractController {
 		}
 	}
 
+
 	// events
 	// TODO: придумать как их красиво впихнуть
+	public function on_bad_request(){}
 	public function on_access_denied(){}
 	public function on_not_found(){}
 	public function on_error(){}

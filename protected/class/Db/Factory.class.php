@@ -72,7 +72,7 @@ class Factory {
 		if ( !static::exists('cache') ){
 			$provider = \Ice::config( 'cache.provider' );
 			$cfg = \Ice::config( 'cache.'. $provider );
-			static::saveObj( 'cache', new Cache($cfg['host'], $cfg['port']) );
+			static::saveObj( 'cache', new Cache($cfg['host'], $cfg['port'], $provider) );
 		}
 		return static::getObj( 'cache' );
 	}
