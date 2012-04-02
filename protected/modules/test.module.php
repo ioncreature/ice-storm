@@ -24,10 +24,11 @@ $u->save();
 
 // phpinfo();
 // Memcache(d)
-echo 'Cache class';
-$cache = new \Cache;
+echo '<h3>Cache class test:</h3>';
+$cache = \Db\Factory::getCache();
 $cache->set( 'mydata', 'my super long string', 10 );
 var_dump( $cache->get( 'mydata' ) );
+echo '<br />';
 
 
 echo '<pre>';

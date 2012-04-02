@@ -8,32 +8,40 @@
 
 namespace Db;
 
+// TODO: добавить методы add и cas
+
 /**
  * Простой класс для работы с Memcache/Memcached
  */
 class Cache {
 
-	protected $mmc = null;
-	protected $engine = MMC_ENGINE;
-	protected $connected = false;
-	protected $last_status = false;
-	protected $host;
-	protected $port;
+	const
+		KEY_TTL = 600; // 10 min
+
+	protected
+		$mmc = null,
+		$engine,
+		$connected = false,
+		$last_result = false,
+		$host,
+		$port;
 
 
-	public $compress = false;
-	public $query_count = 0;
-	public $exec_time = 0;
-	public $start = 0;
+	public
+		$compress = false,
+		$query_count = 0,
+		$exec_time = 0,
+		$start = 0;
 
 
 	/**
 	 * @param string $host
 	 * @param int $port
 	 */
-	public function __construct( $host, $port ){
+	public function __construct( $host, $port, $engine ){
 		$this->host = $host;
 		$this->port = $port;
+		$this->engine = mb_strtolower( $engine );
 	}
 
 	
@@ -69,6 +77,16 @@ class Cache {
 	}
 
 
+	public function is_memcache(){
+		return $this->engine === 'memcache';
+	}
+
+
+	public function is_memcached(){
+		return $this->engine === 'memcached';
+	}
+
+
 	/**
 	 * @param $key
 	 * @return mixed
@@ -79,7 +97,7 @@ class Cache {
 			$this->connect();
 		$res = $this->mmc->get( $key );
 
-		$this->bm_end( $status );
+		$this->bm_end( $res );
 		return $res;
 	}
 	
@@ -91,12 +109,12 @@ class Cache {
 	 * @param int $expire	- Expiration time of the item. От 0 и до 2592000 (30 дней)
 	 * @return boolean
 	 */
-	public function set( $key, $val, $expire ){
+	public function set( $key, $val, $expire = KEY_TTL ){
 		$this->bm_start();
 		if ( !$this->connected )
 			$this->connect();
 
-		if ( $this->engine === 'Memcache' )
+		if ( $this->is_memcache() )
 			$status = $this->mmc->set( $key, $val, $this->compress, $expire );
 		else
 			$status = $this->mmc->set( $key, $val, $expire );
@@ -111,7 +129,7 @@ class Cache {
 	 * @return bool
 	 */
 	public function is_success(){
-		return $this->engine === 'Memcache' ? $this->last_status : $this->mmc->getResultCode() === 0;
+		return $this->is_memcache() ? $this->last_result : $this->mmc->getResultCode() === 0;
 	}
 
 
@@ -133,13 +151,18 @@ class Cache {
 	}
 
 
-
-	public function replace( $key, $val, $expire ){
+	/**
+	 * @param string $key
+	 * @param mixed $val
+	 * @param int $expire
+	 * @return mixed
+	 */
+	public function replace( $key, $val, $expire = KEY_TTL ){
 		$this->bm_start();
 		if ( !$this->connected )
 			$this->connect();
 
-		if ( $this->engine === 'Memcache' )
+		if ( $this->is_memcache() )
 			$status = $this->mmc->replace( $key, $val, $this->compress, $expire );
 		else
 			$status = $this->mmc->replace( $key, $val, $expire );
@@ -149,12 +172,19 @@ class Cache {
 	}
 
 
+	/**
+	 * Simple benchmark start
+	 */
 	private function bm_start(){
 		$this->start = microtime( true );
 	}
 
+	/**
+	 * Simple benchmark end
+	 * @param mixed $status
+	 */
 	private function bm_end( $status ){
-		$this->last_status = $status;
+		$this->last_result = $status;
 		$this->exec_time += microtime( true ) - $this->start;
 		$this->query_count ++;
 	}
