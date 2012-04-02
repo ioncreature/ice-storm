@@ -17,8 +17,23 @@ class Http extends Response {
 		self::STATUS_ERROR       => 'HTTP/1.1 500 Internal Server Error'
 	);
 
+	protected $headers = array();
+
+
 	public function send(){
-		header( $this->http_status[$this->get_status()] );
+		$this->add_header( $this->http_status[$this->get_status()] );
+		$this->send_headers();
 		echo $this->response_data;
+	}
+
+
+	public function add_header( $entry ){
+		$this->headers[] = $entry;
+	}
+
+
+	public function send_headers(){
+		foreach ( $this->headers as $header )
+			header( $header );
 	}
 }

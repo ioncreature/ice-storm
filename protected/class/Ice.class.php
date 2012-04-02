@@ -82,9 +82,23 @@ class Ice {
 	 */
 	protected static $components = array(
 		'auth' => '',
+		'acl' => '',
+		'user' => '',
 		'session' => '',
 		'cache' => '',
 		'request' => '',
 		'response' => '',
+		'router' => '',
 	);
+
+
+	public static function registry( $component_name ){
+
+	}
+
+
+	public static function set_component(){
+
+	}
+
 }
