@@ -67,20 +67,27 @@ class User {
 	
 	
 	/**
-	 * основной метод - возвращает true|false в зависимости
-	 * от того, есть ли разрешение с именем $name
-	 * @param $name
+	 * Шоткат для метода check
+	 * @param string $name
 	 * @return bool
 	 */
 	public function __get( $name ){
-		return isset($this->permissions[$name]) ? $this->permissions[$name] : false;
+		return $this->check( $name );
 	}
-	
-	
+
+
 	public function __sleep(){
 		return array( 'permissions', 'driver_name' );
 	}
-	
-	
-	public function __wakeup(){}
+
+
+	/**
+	 * Основной метод - возвращает true|false в зависимости
+	 * от того, есть ли разрешение с именем $name
+	 * @param string $name
+	 * @return bool
+	 */
+	public function check( $name ){
+		return isset($this->permissions[$name]) ? $this->permissions[$name] : false;
+	}
 }
