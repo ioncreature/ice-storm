@@ -52,7 +52,10 @@ return array(
 
 	// TODO: додумать и реализовать
 	'component' => array(
-		'auth' => '',
+		'auth' => array(
+			'class' => '\Auth\Base',
+
+		),
 		'session' => '',
 		'cache' => '',
 		'request' => '',

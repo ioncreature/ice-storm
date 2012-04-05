@@ -37,11 +37,12 @@ class Cache {
 	/**
 	 * @param string $host
 	 * @param int $port
+	 * @param string $engine
 	 */
 	public function __construct( $host, $port, $engine ){
 		$this->host = $host;
 		$this->port = $port;
-		$this->engine = mb_strtolower( $engine );
+		$this->engine = ucfirst( mb_strtolower($engine) );
 	}
 
 	

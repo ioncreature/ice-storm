@@ -7,7 +7,7 @@
 /**
  * Хелпер для приложения
  * В дальнейшем возьмёт на себя функции автолоадера,
- * хранителя конфигов и фабрики для компонентов (\Base\AbstractComponent)
+ * хранителя конфигов и registry компонентов (\Base\AbstractComponent)
  */
 class Ice {
 
@@ -36,7 +36,7 @@ class Ice {
 
 	public static function create_application( $appName, $config ){
 		static::$app = new $appName();
-		return static::cfg( 'weburl' );
+		return static::config( 'weburl' );
 	}
 
 
@@ -52,6 +52,7 @@ class Ice {
 	/**
 	 * @static
 	 * @param string $name
+	 * @return array
 	 */
 	public static function config( $name ){
 		$res = self::$config;
@@ -68,7 +69,6 @@ class Ice {
 	public static function save_config( $cfg ){
 		static::$config = array_merge_recursive_distinct( static::$config, $cfg );
 	}
-
 
 
 	public static function load_config( $cfg_name ){
