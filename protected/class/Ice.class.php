@@ -34,9 +34,8 @@ class Ice {
 	}
 
 
-	public static function create_application( $appName, $config ){
-		static::$app = new $appName();
-		return static::config( 'weburl' );
+	public static function create_application( $appName ){
+		static::$app = new $appName( static::$config );
 	}
 
 
@@ -74,6 +73,7 @@ class Ice {
 	public static function load_config( $cfg_name ){
 		$cfg = include_once PROTECTED_PATH .'config/'. $cfg_name .'conf.php';
 		self::save_config( $cfg );
+		return static::$config;
 	}
 
 

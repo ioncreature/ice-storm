@@ -20,33 +20,39 @@ abstract class AbstractApplication extends \Base\AbstractComponent {
 	 */
 	protected $config = array();
 
+
 	/**
-	 * Возващает компонент или null
+	 * Here app lifecycle
+	 * @param array $config
+	 */
+	public function __construct( array $config = array() ){
+		$this->set_config( $config );
+		$this->init();
+	}
+
+
+	/**
+	 * Фабрика компонентов с ленивой загрузкой
 	 * @param string $name
 	 * @return StdClass|null
 	 */
 	public function __get( $name ){
-		if ( isset($this->components[$name])
+		if ( isset($this->components[$name]) )
 			return $this->components[$name];
 		elseif ( isset($this->config['components'][$name]) ){
-			$this->create_component( $this->config['components'][$name] );
+			$this->create_component( $name, $this->config['components'][$name] );
 		}
 		else
 			return null;
-
-		if ( $this->config['components']  ){
-			$components = $this->config['components'];
-
-			foreach ( $components as $c ){
-				if (  )
-			}
-		}
 	}
 
 
-	public function create_component( $config ){
+	public function create_component( $name, $config ){
 		$class = $config['class'];
+		unset( $config['class'] );
 
+		$this->components[$name] = new $config['class'];
+		// TODO: сделать передачу параметров в конструктор
 	}
 
 
@@ -65,14 +71,6 @@ abstract class AbstractApplication extends \Base\AbstractComponent {
 	}
 
 
-	/**
-	 * Here app lifecycle
-	 * @param array $config
-	 */
-	public function __construct( array $config = array() ){
-		$this->set_config( $config );
-		$this->init();
-	}
 
 
 	/**

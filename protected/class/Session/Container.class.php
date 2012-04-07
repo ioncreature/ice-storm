@@ -60,10 +60,20 @@ class Container implements \I\Exportable {
 	}
 
 
+	public function __isset( $key ){
+		return isset( $_SESSION[$this->namespace][$key] );
+	}
+
+
 	/**
 	 * @return array
 	 */
-	function export_array(){
+	public function export_array(){
 		return $_SESSION[$this->get_namespace()];
+	}
+
+
+	public function reset(){
+		unset( $_SESSION[$this->get_namespace()] );
 	}
 }

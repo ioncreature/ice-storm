@@ -2,6 +2,8 @@
 require "protected/bootstrap.php";
 
 try {
+	\Ice::create_application( '\SpviApp' );
+
 	// проверка авторизации
 	$a = Auth::get_instance();
 	$acl = Auth::$acl;

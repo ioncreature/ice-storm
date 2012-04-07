@@ -66,6 +66,6 @@ abstract class DbUserIdentity implements \Auth\IUserIdentity {
 
 
 	public function is_authenticated(){
-		return !!$this->authenticated;
+		return $this->authenticated;
 	}
 }

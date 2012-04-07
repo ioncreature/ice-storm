@@ -50,11 +50,10 @@ return array(
 	),
 
 
-	// TODO: додумать и реализовать
 	'component' => array(
 		'auth' => array(
-			'class' => '\Auth\Base',
-
+			'class' => '\Auth\User',
+			'resources' => array()
 		),
 		'session' => '',
 		'cache' => '',
