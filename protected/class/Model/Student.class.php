@@ -95,4 +95,23 @@ class Student extends \Model\AbstractModel {
 			LIMIT 100
 		");
 	}
+
+
+	public function load_by_human_id( $id ){
+		$this->db_connect();
+		$id = (int) $id;
+
+		$student_info = $this->db->fetch_query("
+			SELECT
+				*
+			FROM
+				edu_students
+			WHERE
+				edu_students.human_id = '$id'
+		");
+
+		if ( $student_info )
+			$this->load( $student_info );
+		return !!$student_info;
+	}
 }

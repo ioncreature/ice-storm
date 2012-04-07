@@ -40,6 +40,7 @@ abstract class AbstractApplication extends \Base\AbstractComponent {
 		if ( isset($this->components[$name]) )
 			return $this->components[$name];
 		elseif ( isset($this->config['components'][$name]) ){
+			\Ice::create_component(  );
 			$this->create_component( $name, $this->config['components'][$name] );
 		}
 		else

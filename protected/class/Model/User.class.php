@@ -57,5 +57,19 @@ class User extends AbstractModel{
 	protected function hash( $val ){
 		return md5( sha1($val) .'salt' );
 	}
+
+
+	public function get_users(){
+		$this->db_connect();
+		return $this->db->query("
+			SELECT
+				auth_users.id,
+				auth_users.login,
+				org_humans.full_name
+			FROM
+				auth_users
+				LEFT JOIN org_humans ON org_humans.id = auth_users.human_id
+		");
+	}
 }
 ?>

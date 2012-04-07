@@ -116,6 +116,9 @@ try {
 				case "main":
 					$response->send_controller( new \Controller\admin\Main($r, 'admin/main/') );
 					die;
+				case "users":
+					$response->send_controller( new \Controller\admin\Users($r, 'admin/users/') );
+					die;
 				case "acl":
 					switch ( $r->get(2) ){
 						case "users":

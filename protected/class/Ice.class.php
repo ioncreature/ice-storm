@@ -101,4 +101,9 @@ class Ice {
 
 	}
 
+
+	public static function create_component( $config ){
+
+	}
+
 }
