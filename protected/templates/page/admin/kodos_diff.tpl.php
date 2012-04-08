@@ -38,7 +38,7 @@
 			data: {value: value, field: field},
 			dataType: 'json'
 		})
-		,then( function( json ){
+		.then( function( json ){
 			if ( json.status )
 				alert( 'Поле сохранилось, сейчас я его скрою' );
 			else
