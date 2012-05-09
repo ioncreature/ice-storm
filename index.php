@@ -10,7 +10,6 @@ try {
 	
 	// обработка запроса
 	$r = new \Request\Parser();
-	define( "APP_HASH", $r->get_hash() );	
 	$response = new \Response\Http();
 
 	// -------
